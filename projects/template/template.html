@@ -5,12 +5,8 @@
 	<title>COG WebGL Template</title>
 	<link rel="stylesheet" type="text/css" href="../../css/webGL.css">
 	
-	<script type="text/javascript" src="../../util/glMatrix.js"></script>
-	<script type="text/javascript" src="../../util/matrices.js"></script>
-	<script type="text/javascript" src="../../util/shader.js"></script>
-	
-	<script type="text/javascript" src="../../scene/nodes.js"></script>
-	<script type="text/javascript" src="../../scene/scene.js"></script>
+	<!-- IMPORTANT IMPORT.JS -->
+	<script type="text/javascript" src="../../util/import.js"></script>
 	
 	<script type="text/javascript" src="template.js"></script>
 </head>
@@ -21,7 +17,11 @@
 	<div class="canvas">
 		<canvas id="canvas"></canvas>
 	</div>
-	<div id="debug"></div>
+	<div style="text-align:center;">
+		<button onclick="startScene()">Start</button>
+		<button onclick="stopScene()">Stop</button><br>
+		<p>Tasten [&uarr;] [&darr;] zum Beschleunigen order Abbremsen des rotierenden Rechtecks.</p>
+	</div>
 	
 
 <script id="shader-vs" type="x-shader/x-vertex"> 
