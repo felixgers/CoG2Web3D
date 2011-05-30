@@ -6,39 +6,27 @@
 
 
 /**
- * 
+ * Base node
  * @returns {Node}
  */
 function Node() {
+	this.cameraFlag = false;
+	this.rootFlag = false;
+	this.groupFlag = false;
 	this.draw = function(gl, pMatrix, mvMatrix, time) {};
 }
+
 
 /**
  * 
  * @returns {Group}
  */
 function Group() {
+	this.groupFlag = true;
 	this.children = new Array();
 	this.addChild = function(child) {
 		this.children.push(child);
 	};
-	
-	this.draw = function(gl, pMatrix, mvMatrix, time) {
-		var children = this.children;
-		for(var i=0; i<children.length; i++) {
-			children[i].draw(gl, pMatrix, mvMatrix, time);
-		}
-	};
-}
-Group.prototype = new Node;
-
-
-/**
- * Separator. Group node which separates all transforms.  
- * @returns {Separator}
- */
-function Separator() {
-	this.children = new Array();
 	
 	this.draw = function(gl, pMatrix, mvMatrix, time) {
 		var tempPMatrix = new glMatrixArrayType(16);
@@ -47,17 +35,14 @@ function Separator() {
 		// Store values in temp matrices.
 		mat4.set(pMatrix, tempPMatrix);
 		mat4.set(mvMatrix, tempMvMatrix);
+		
 		var children = this.children;
 		for(var i=0; i<children.length; i++) {
-			children[i].draw(gl, pMatrix, mvMatrix, time);
+			children[i].draw(gl, tempPMatrix, tempMvMatrix, time);
 		}
-		
-		// Restore values to matrices.
-		mat4.set(tempPMatrix, pMatrix);
-		mat4.set(tempMvMatrix, mvMatrix);
 	};
 }
-Separator.prototype = new Group;
+Group.prototype = new Node;
 
 
 /**
@@ -183,4 +168,30 @@ function Triangle(gl, width, height)
 }
 Triangle.prototype = new Shape;
 
+
+
+/**
+ * Simple perspective campera 
+ * 
+ * @param verticalFieldOfView
+ * @param aspectratio
+ * @returns {PerspectiveCamera}
+ */
+function PerspectiveCamera(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
+{
+	this.cameraFlag = true;
+	this.verticalFieldOfView = verticalFieldOfView;
+	this.aspectratio = aspectratio;
+	this.nearClipPlane = nearClipPlane;
+	this.farClipPlane = farClipPlane;
+	
+	this.draw = function(gl, pMatrix, mvMatrix, time) {
+		var fov = this.verticalFieldOfView;
+		var ar = this.aspectratio;
+		var nc = this.nearClipPlane;
+		var fc = this.farClipPlane;
+		mat4.perspective(fov, ar, nc, fc, pMatrix);
+	};
+}
+PerspectiveCamera.prototype = new Node;
 
