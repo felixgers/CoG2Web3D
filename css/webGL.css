@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+* { 
+	margin: 0px; 
+	padding:0px;
+	font-family:Arial, sans-serif;
+	font-weight:normal;
+	font-size:12px;
+	line-height:16px; 
+}
+
+body {
+	margin: 20px; 
+}
+
+h1,h2,h3,h4,h5 {
+	font-weight:bold;
+}
+
+h1 {
+	font-size:18px;
+	line-height:24px;
+	margin-top:12pt;
+}
+h2 {
+	font-size:16px;
+	line-height:20px;
+	margin-top:10pt;
+}
+
+div.canvas {
+	text-align: center;
+}

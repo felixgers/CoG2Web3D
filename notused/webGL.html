@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>COG WebGL</title>
+<link rel="stylesheet" type="text/css" href="webGL.css">
+<script type="text/javascript" src="glMatrix.js"></script>
+<script type="text/javascript" src="utility.js"></script> 
+<script type="text/javascript" src="matrices.js"></script> 
+<script type="text/javascript" src="shader.js"></script> 
+<script type="text/javascript" src="buffer.js"></script> 
+<script type="text/javascript" src="scene.js"></script> 
+<script type="text/javascript" src="event.js"></script> 
+<script type="text/javascript" src="main.js"></script> 
+</head>
+<body onload="webGLStart();">
+	<div class="canvas">
+		<canvas id="canvas"></canvas>
+	</div>
+
+
+<!-- lesson 02 -->
+
+<script id="shader-vs" type="x-shader/x-vertex"> 
+	attribute vec3 aVertexPosition;
+	attribute vec4 aVertexColor;
+ 
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+	
+	varying vec4 vColor;
+ 
+	void main(void) {
+    	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    	vColor = aVertexColor;
+  	}
+</script> 
+
+<script id="shader-fs" type="x-shader/x-fragment">
+   	#ifdef GL_ES
+    	precision highp float;
+    #endif
+    
+    varying vec4 vColor;
+    
+    void main(void) {
+        gl_FragColor = vColor;
+    }
+</script> 
+
+<!-- lesson 01 -->
+
+<script id="shader-vs-01" type="x-shader/x-vertex"> 
+	attribute vec3 aVertexPosition;
+ 
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+ 
+	void main(void) {
+    	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+  	}
+</script> 
+	
+<script id="shader-fs-01" type="x-shader/x-fragment">
+   	#ifdef GL_ES
+    	precision highp float;
+    #endif
+    void main(void) {
+        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+</script> 
+
+</body>
+</html>
