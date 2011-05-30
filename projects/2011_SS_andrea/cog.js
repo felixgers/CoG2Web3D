@@ -18,38 +18,38 @@ function startScene() {
 	// Create scene
 	var scene = new Scene(gl, sceneGraph, canvas, verticalFieldOfView, framerate);	
 	
-	var sep1 = new Separator();
+	var sep1 = new Group();
 	sep1.addChild(new Translation(-2.8, 1, -20));
     sep1.addChild(new RotorY(1.0));	
 	var myModel=new Model('cube.json',gl);
 	sep1.addChild(myModel);
 	
-	var sep2 = new Separator();
+	var sep2 = new Group();
 	sep2.addChild(new Translation(-3, 2, -15));	
 	sep2.addChild(new RotateX(30));
 	var cone=new Model('cone.json',gl);
 	sep2.addChild(cone);
 	
-	var sep3 = new Separator();
+	var sep3 = new Group();
 	var cone1=new Model('cube.json',gl);
 	sep3.addChild(new Translation(3, 1, -15));
 	sep3.addChild(new RotateX(30));
 	sep3.addChild(cone1);
 	
-	var sep4 = new Separator();
+	var sep4 = new Group();
 	var monkey=new Model('monkey.json',gl);
 	sep4.addChild(new Translation(1, 1, -16));
 	sep4.addChild(new RotorY(1));
 	sep4.addChild(monkey);
 	
-	var sep5 = new Separator();
+	var sep5 = new Group();
 	var sphere=new Model('sphere.json',gl);
 	sep5.addChild(new Translation(0, 3, -16));
 	sep5.addChild(new RotorY(1));
 	sep5.addChild(sphere);
 	
 	
-	var sep6 = new Separator();
+	var sep6 = new Group();
 	var sphere2=new Model('sphere.json',gl);
 	sep6.addChild(new Translation(0, 3, -13));
 	sep6.addChild(new RotorY(-1));
@@ -57,7 +57,7 @@ function startScene() {
 	sep6.addChild(sphere2);
 	
 	
-	var sep7 = new Separator();
+	var sep7 = new Group();
 	var cylinder=new Model('cylinder.json',gl);
 	sep7.addChild(new Translation(-2, 6, -16));
 	sep7.addChild(new RotorY(-1));
