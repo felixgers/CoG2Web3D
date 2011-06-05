@@ -2,7 +2,7 @@
 
 function startScene() {
 
-	var verticalFieldOfView = 45;
+	//var verticalFieldOfView = 45;
 	var framerate = 30.0;
 	var canvas = document.getElementById("canvas");
 	canvas.width = 800;
@@ -16,7 +16,7 @@ function startScene() {
 	
 	
 	// Create scene
-	var scene = new Scene(gl, sceneGraph, canvas, verticalFieldOfView, framerate);	
+	var scene = new Scene(gl, sceneGraph, canvas, framerate);	
 	
 	var sep1 = new Group();
 	sep1.addChild(new Translation(-2.8, 1, -20));
