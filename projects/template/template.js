@@ -8,8 +8,8 @@ import("../../util/shader.js");
 import("../../scene/scene.js");
 import("../../scene/nodes.js");
 
-import("templateevent.js"); // MySpecializedEventManager
-import("templaterotor.js"); // RotorXMutableSpeed
+import("event.js"); // MySpecializedEventManager
+import("nodes.js"); // RotorXMutableSpeed and PositionCamera
 
 
 /**
@@ -54,7 +54,7 @@ function initScene()
 	// Create some special Nodes
 	var sceneGraph = new Group();
 	var speedRotor = new RotorXMutableSpeed(0.5);
-	var camera = new PerspectiveCamera(verticalViewAngle, 1.0, 1, 100);
+	var camera = new PositionCamera(verticalViewAngle, 1.0, 1, 1000);
 	
 	// Create 1st group with rectangle
 	var g1 = new Group();
@@ -75,7 +75,7 @@ function initScene()
 
 
 	// Create event manager with objects
-	var eventManager = new MySpecializedEventManager(canvas, speedRotor, acceleration);
+	var eventManager = new MySpecializedEventManager(canvas, camera, speedRotor, acceleration);
 	
 	// Create scene
 	var localScene = new Scene(gl, sceneGraph, canvas, framerate);

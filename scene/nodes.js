@@ -101,7 +101,7 @@ function Shape() {
 	this.beginMode = 0;
 
 	this.draw = function(gl, pMatrix, mvMatrix, time) {
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);		
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);	
 		gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.itemSize, gl.FLOAT, false, 0, 0);
 
 		// Push the modified matrices into the the shader program,
@@ -194,4 +194,6 @@ function PerspectiveCamera(verticalFieldOfView, aspectratio, nearClipPlane, farC
 	};
 }
 PerspectiveCamera.prototype = new Node;
+
+
 

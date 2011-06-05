@@ -1461,7 +1461,7 @@ mat4.str = function(mat) {
 /*
  * quat4 - Quaternions 
  */
-quat4 = {};
+var quat4 = {};
 
 /*
  * quat4.create

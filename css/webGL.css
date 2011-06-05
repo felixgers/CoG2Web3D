@@ -20,14 +20,27 @@ h1,h2,h3,h4,h5 {
 h1 {
 	font-size:18px;
 	line-height:24px;
-	margin-top:12pt;
+	margin-top:12px;
+	margin-bottom:12px;
 }
 h2 {
 	font-size:16px;
 	line-height:20px;
-	margin-top:10pt;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+h3 {
+	font-size:14px;
+	line-height:16px;
+	margin-top:8px;
+	margin-bottom:8px;
 }
 
 div.canvas {
 	text-align: center;
+}
+
+ul, ol {
+	padding-left:20px;
 }

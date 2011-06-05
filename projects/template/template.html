@@ -4,6 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>COG WebGL Template</title>
 	<link rel="stylesheet" type="text/css" href="../../css/webGL.css">
+	<link rel="stylesheet" type="text/css" href="template.css">
 	
 	<!-- IMPORTANT IMPORT.JS -->
 	<script type="text/javascript" src="../../util/import.js"></script>
@@ -13,14 +14,38 @@
 
 <body onload="startScene();">
 
-	<h1 style="text-align:center">COG WebGL Template</h1>
-	<div class="canvas">
-		<canvas id="canvas"></canvas>
-	</div>
-	<div style="text-align:center;">
-		<button onclick="startScene()">Start</button>
+	<h1>COG WebGL Template</h1>
+	
+	<div class="part">
+		<h3>Keys:</h3>
+		Rectangle<br>
+		<div class="key"><span class="key">+</span></div> Increase rotation speed<br>
+		<div class="key"><span class="key">-</span></div> Decrease rotation speed<br>
+		Camera<br>
+		<div class="key"><span class="key">&larr;</span></div> Shift left<br>
+		<div class="key"><span class="key">&rarr;</span></div> Shift right<br>
+		<div class="key"><span class="key">&uarr;</span></div> Fly forward<br>
+		<div class="key"><span class="key">&darr;</span></div> Fly backward<br>
+		<br>
+		
+		<h3>Start & stop time:</h3>
+		<button onclick="startScene()">Start</button><br>
 		<button onclick="stopScene()">Stop</button><br>
-		<p>Tasten [&uarr;] [&darr;] zum Beschleunigen order Abbremsen des rotierenden Rechtecks.</p>
+		<br>
+		
+		<h3>Mouse:</h3>
+		Move left, right, up and down for<br>
+		changing your view direction.
+	</div>
+	&nbsp;&nbsp;&nbsp;
+	<div class="part">
+		<div class="canvas">
+			<canvas id="canvas"></canvas>
+		</div>
+	</div>
+	
+	<div>
+		<a href="../../index.html">Back to main page</a>
 	</div>
 	
 
