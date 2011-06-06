@@ -24,7 +24,7 @@ function initGL(canvas) {
  * @param framerate
  * @returns {Scene}
  */
-function Scene(gl, sceneGraph, canvas, framerate) 
+function Scene(gl, sceneGraph, canvas, framerate, shader) 
 {
 	// Variables used in the draw method.
 	this.gl = gl;
@@ -33,7 +33,14 @@ function Scene(gl, sceneGraph, canvas, framerate)
 	this.framerate = framerate;
 	
 	this.matrices = new Matrices();
-	this.shader = new Shader(gl, "shader-vs", "shader-fs");
+	
+	if(shader!= null) {
+		this.shader = shader;
+	} else {
+		// For compatibility reasons try to load shaders old style
+		this.shader = new Shader(gl, "shader-vs", "shader-fs");
+	}
+	
 	this.intervalTimer = null;
 	
 	this.startTime = 0.0; 

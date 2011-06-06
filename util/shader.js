@@ -35,16 +35,28 @@ function getShaderSourceCode(id) {
 }
 
 
-function Shader(gl, vertexShaderId, fragmentShaderId) {	
+
+function Shader(gl, vertexShader, fragmentShader) {	
 	// Public variables.
 	this.shaderProgram;
 	this.vertexShader;
 	this.fragmentShader;
     
 	// Load source code and initialize vertex an fragment shader.
-    var vertexShaderSourceCode = getShaderSourceCode("shader-vs");
+    var vertexShaderSourceCode = getShaderSourceCode(vertexShader);
+    
+    // Insert file load and keep compatibility, too!
+    if(vertexShaderSourceCode==null) {
+    	vertexShaderSourceCode = syncLoadFile(vertexShader, "text/plain");
+    }
+    
 	vertexShader = initShader(gl, gl.VERTEX_SHADER, vertexShaderSourceCode);
-	var fragmentShaderSourceCode = getShaderSourceCode("shader-fs");
+	var fragmentShaderSourceCode = getShaderSourceCode(fragmentShader);
+	
+    // Insert file load and keep compatibility, too!
+    if(fragmentShaderSourceCode==null) {
+    	fragmentShaderSourceCode = syncLoadFile(fragmentShader, "text/plain");
+    }
 	fragmentShader = initShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
 
 	// Create shader program.

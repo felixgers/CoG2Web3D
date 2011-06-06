@@ -1,5 +1,6 @@
 // First import all required js modules
 // Therefore the html document must add the script util/import.js before
+import("../../util/fileloader.js");
 import("../../util/event.js");
 import("../../util/glMatrix.js");
 import("../../util/matrices.js");
@@ -10,6 +11,7 @@ import("../../scene/nodes.js");
 
 import("event.js"); // MySpecializedEventManager
 import("nodes.js"); // RotorXMutableSpeed and PositionCamera
+
 
 
 /**
@@ -77,8 +79,11 @@ function initScene()
 	// Create event manager with objects
 	var eventManager = new MySpecializedEventManager(canvas, camera, speedRotor, acceleration);
 	
+	// Create Shader
+	var shader = new Shader(gl, "../../shaders/simple.vertex", "../../shaders/white.fragment");
+	
 	// Create scene
-	var localScene = new Scene(gl, sceneGraph, canvas, framerate);
+	var localScene = new Scene(gl, sceneGraph, canvas, framerate, shader);
 	
 	return localScene;
 }

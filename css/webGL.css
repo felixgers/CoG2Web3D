@@ -44,3 +44,23 @@ div.canvas {
 ul, ol {
 	padding-left:20px;
 }
+
+pre, code {
+	font-family:Menlo, Courier, monospace;
+	font-size:11px;
+	font-weight:bold;
+}
+pre {
+	padding:6px;
+	border:1px solid #9ab;
+	background-color:#def;
+}
+
+b * {
+	font-weight:bold;
+}
+
+i * {
+	font-style:italic;
+}
+

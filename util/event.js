@@ -14,8 +14,8 @@ function KeyEventManager(keyCallback, keyUpCallback) {
 	document.onkeydown = function(event){thisEM.handleKeyDown(event);};
 	document.onkeyup = function(event){thisEM.handleKeyUp(event);};
 	
+	
 	this.handleKeyDown = function(event) {
-		
 		var code = -1;
 		if (!event)
 			event = window.event;
