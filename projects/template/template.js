@@ -81,7 +81,8 @@ function initScene()
 	var eventManager = new MySpecializedEventManager(canvas, camera, speedRotor, acceleration);
 	
 	// Create Shader
-	var shader = new Shader(gl, "../../shaders/simple.vertex", "../../shaders/white.fragment");
+	// var shader = new Shader(gl, "../../shaders/simple.vertex", "../../shaders/white.fragment");
+	var shader = new Shader(gl, "shader-vs", "shader-fs");
 	
 	// Create scene
 	var localScene = new Scene(gl, sceneGraph, canvas, framerate, shader);
