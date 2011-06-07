@@ -4,22 +4,93 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>COG WebGL SS 2011 - Christoph</title>
 	<link rel="stylesheet" type="text/css" href="../../css/webGL.css" />
+	
+	<script type="text/javascript" src="../../util/event.js"></script>
+	<script type="text/javascript" src="../../util/fileloader.js"></script>
+	<script type="text/javascript" src="index.js"></script>
 </head>
 
 <body>
 	<h1>COG WebGL SS 2011 - Christoph</h1>
 
-	<p>Semester duties:</p>
+	<h3>Semester duties:</h3>
 	<ul>
 		<li>Create a scene graph system with basic nodes: 
 		<a href="../../scene/scene.js">scene/scene.js</a>
 		<a href="../../scene/nodes.js">scene/nodes.js</a></li>
+		
 		<li>Create an interactive camera, with which one can sufficiently 
-		navigate in the 3D space.</li>
-		<li>Make shaders loadable from distinct shader code files.</li>
-		<li>Create a <a href="../template/template.html">template scene</a>, 
+		navigate in the 3D space.<br>Defined in: 
+		<a href="../template/nodes.js">projects/template/nodes.js</a></li>
+		
+		<li>Make shaders loadable from distinct shader code files.<br>Defined in: 
+		<a href="../../util/fileloader.js">util/fileloader.js</a>
+		</li>
+		
+		<li>Create a <b><a href="../template/template.html">template scene</a></b>, 
 		which shows basic features and structure of the BeuthGameEngine.</li>
+		
+		<li>Stop and continue WebGL animation when blur and focus the window.</li>
+		
 		<li>...</li>
 	</ul>
+	<br>
+	
+	<h3>Key Code Test For Camera Navigation</h3>
+	<p>
+		Hit a key on the keyboard:<br>
+		hit count: <span id="count">0</span><br>
+		key code: <span id="key">-1</span><br>
+	</p>
+	<br>
+	
+	<h3>Test: Loading of Shader as Simple Text File</h3>
+	<p>If one wants to write pure shader code into a file being loaded in js,
+	one must explicitly load it as mimetype "text/plain". For this reason I
+	used an own lib <a href="../../util/fileloader.js">util/fileloader.js</a>
+	instead of <a href="../../util/jquery.js">util/jquery.js</a>.</p>
+	<br>
+	<button onclick="load('../../shaders/simple.vertex')">Load</button>
+	<a href="../../shaders/simple.vertex" type="text/plain">shaders/simple.vertex</a> (asynchronous request)<br>
+	
+	<button onclick=" loadSync('../../shaders/white.fragment')">Load</button>
+	<a href="../../shaders/white.fragment" type="text/plain">shaders/white.fragment</a> (synchronous request)<br>
+	<br>
+	<p id="url"> </p>
+	<pre id="pre">
+	</pre>
+	
+	
+	<script type="text/javascript">
+		var key = document.getElementById("key");
+		var count = document.getElementById("count");
+		var c = 0;
+		function keyCode(keyCode) {
+			key.innerHTML = keyCode;
+			count.innerHTML = ++c;
+		}
+		var em = new KeyEventManager(keyCode, function(e){});
+		
+		
+		var pre = document.getElementById("pre");
+		var urlel = document.getElementById("url");
+		var urltemp = null;
+		var fileloader = null;
+		
+		function loaded(content) {
+			urlel.innerHTML = urltemp;
+			pre.innerHTML = content;
+		}
+		function load(url) {
+			urltemp = url;
+			fileloader = new FileLoader(url, "text/plain");
+			fileloader.load(loaded);
+		}
+		function loadSync(url) {
+			urlel.innerHTML = url;
+			pre.innerHTML = syncLoadFile(url, "text/plain");
+		}
+	</script>
+	
 </body>
 </html>
