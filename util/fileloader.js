@@ -104,7 +104,7 @@ function syncLoadFile(url, mimeType) {
 	if(mimeType!= null) {
 		req.overrideMimeType(mimeType);
 	}
-	req.open("GET", url, false);
+	req.open("GET", url, false); // Do not open asynchronously, thus wait for the response.
 	req.send(null);
 	var s = 200;
 	if(mimeType="text/plain") {

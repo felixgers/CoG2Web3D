@@ -31,7 +31,7 @@ function startScene()
 		scene = initScene();
 	}
 	// Start running the scene
-	// scene.start();
+	scene.start();
 }
 
 /**

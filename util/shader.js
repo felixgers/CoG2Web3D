@@ -2,26 +2,16 @@
  * Load shader source code and init shaders and shader program.
  */
 
+function Shader(gl, vertexShader, fragmentShader) {	
+	// Public variables.
+	this.gl = gl;
+	this.shaderProgram;
+//	this.vertexShader;
+//	this.fragmentShader;
 
-function getShaderSourceCode(id) {
-	var shaderScript = document.getElementById(id);
-	if (!shaderScript) {
-		return null;
-	}
+	this.loadShaders(vertexShader, fragmentShader);
+};
 
-	var str = "";
-	var k = shaderScript.firstChild;
-	while (k) {
-		if (k.nodeType == 3) {
-			str += k.textContent;
-		}
-		k = k.nextSibling;
-	}
-	return str;
-}
-
-
-<<<<<<< HEAD
 Shader.prototype.initShader = function(type, shaderSourceCode) {
 	var shader = this.gl.createShader(type);
 
@@ -29,7 +19,7 @@ Shader.prototype.initShader = function(type, shaderSourceCode) {
 	this.gl.compileShader(shader);
 
 	if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
-		alert(this.gl.getShaderInfoLog(shader));
+		alert("Could not compile shader: "+this.gl.getShaderInfoLog(shader));
 		return null;
 	}
 	return shader;
@@ -37,37 +27,10 @@ Shader.prototype.initShader = function(type, shaderSourceCode) {
 
 
 Shader.prototype.initShaderProgram = function(vertexShader, fragmentShader) {	
-	//document.write("initShaderProgram:");
 	var gl = this.gl;
-	var shaderProgram = this.shaderProgram;
-=======
-
-function Shader(gl, vertexShader, fragmentShader) {	
-	// Public variables.
-	this.shaderProgram;
-	this.vertexShader;
-	this.fragmentShader;
-    
-	// Load source code and initialize vertex an fragment shader.
-    var vertexShaderSourceCode = getShaderSourceCode(vertexShader);
-    
-    // Insert file load and keep compatibility, too!
-    if(vertexShaderSourceCode==null) {
-    	vertexShaderSourceCode = syncLoadFile(vertexShader, "text/plain");
-    }
-    
-	vertexShader = initShader(gl, gl.VERTEX_SHADER, vertexShaderSourceCode);
-	var fragmentShaderSourceCode = getShaderSourceCode(fragmentShader);
-	
-    // Insert file load and keep compatibility, too!
-    if(fragmentShaderSourceCode==null) {
-    	fragmentShaderSourceCode = syncLoadFile(fragmentShader, "text/plain");
-    }
-	fragmentShader = initShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
->>>>>>> 4ad84d1f3ab684436adaa883dda355caf839f08f
 
 	// Create shader program.
-	shaderProgram = gl.createProgram();
+	var shaderProgram = gl.createProgram();
 	// Attach shader to shader program.
 	gl.attachShader(shaderProgram, vertexShader);
 	gl.attachShader(shaderProgram, fragmentShader);
@@ -94,31 +57,54 @@ function Shader(gl, vertexShader, fragmentShader) {
 	shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
 	shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 
-	this.callbackAfterShadesLoaded();
+	this.shaderProgram = shaderProgram;
 };
 
 
-Shader.prototype.cbLoadShaders = function(shaderSourceCode) {
-	//Init vertex shader.
-	var vertexShader = this.initShader(this.gl.VERTEX_SHADER, shaderSourceCode[0]);
-	//Init fragment shader.
-	var fragmentShader = this.initShader(this.gl.FRAGMENT_SHADER, shaderSourceCode[1]);
+//Shader.prototype.cbLoadShaders = function(shaderSourceCode) {
+////Init vertex shader.
+//var vertexShader = this.initShader(this.gl.VERTEX_SHADER, shaderSourceCode[0]);
+////Init fragment shader.
+//var fragmentShader = this.initShader(this.gl.FRAGMENT_SHADER, shaderSourceCode[1]);
+
+//this.initShaderProgram(vertexShader, fragmentShader);
+//};
+
+
+Shader.prototype.loadShaders = function(vertexShader, fragmentShader) {
+	var gl = this.gl;
+	
+	// Load source code and initialize vertex an fragment shader.
+	var vertexShaderSourceCode = getShaderSourceCode(vertexShader);
+	// Insert file load and keep compatibility, too!
+	if(vertexShaderSourceCode==null) {
+		//vertexShaderSourceCode = syncLoadFile(vertexShader, "text/plain");
+		vertexShaderSourceCode = loadShaderFile(vertexShader);
+	}
+	vertexShader = this.initShader(gl.VERTEX_SHADER, vertexShaderSourceCode);
+
+	var fragmentShaderSourceCode = getShaderSourceCode(fragmentShader);
+	// Insert file load and keep compatibility, too!
+	if(fragmentShaderSourceCode==null) {
+		//fragmentShaderSourceCode = syncLoadFile(fragmentShader, "text/plain");
+		fragmentShaderSourceCode = loadShaderFile(fragmentShader);
+	}
+	fragmentShader = this.initShader(gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
 
 	this.initShaderProgram(vertexShader, fragmentShader);
-};
 
+	/*
+		var obj = this;
+		this.callbackAfterShadesLoaded = callback;
 
-Shader.prototype.loadShaders = function(callback, vertexShaderName, fragmentShaderName) {
-	var obj = this;
-	this.callbackAfterShadesLoaded = callback;
-
-	//	Load source code for both, vertex an fragment shader.
-	loadFilesViaXMLHttpRequest(['../../shader/vertex.shader', '../../shader/fragment.shader'], 
-			function(shaderSourceCode){
-		obj.cbLoadShaders(shaderSourceCode);
-	}, 
-	function (url) { // Error callback.
-		alert('Failed to download "' + url + '"');} );
+		//	Load source code for both, vertex an fragment shader.
+		loadFilesViaXMLHttpRequest(['../../shader/vertex.shader', '../../shader/fragment.shader'], 
+				function(shaderSourceCode){
+			obj.cbLoadShaders(shaderSourceCode);
+		}, 
+		function (url) { // Error callback.
+			alert('Failed to download "' + url + '"');} );
+	 */
 
 	//	// Load source code from HTML tag and initialize vertex an fragment shader.
 	//	var vertexShaderSourceCode = getShaderSourceCode("shader-vs");
@@ -128,10 +114,69 @@ Shader.prototype.loadShaders = function(callback, vertexShaderName, fragmentShad
 };
 
 
-function Shader(gl) {	
-	// Public variables.
-	this.gl = gl;
-	this.shaderProgram = null;
-	this.callbackAfterShadesLoaded = null;
+/*
+ * Load shader source code from file/url and return content.
+ */
+/*
+Shader.prototype.load = function(url) {
+	request = new XMLHttpRequest();
+//	try { request = new XMLHttpRequest(); }
+//	catch(e) { 
+//		alert("Could not create XMLHttpRequest"); 
+//		return null;
+//	}
+	// Do not open asynchronously, thus wait for the response.
+	request.open("GET", url, false); 
+	request.send(null);
+	//alert("...back: "+request);
+	// Check if we got HTTP status 200 (OK)
+	if (request.status == 200) {
+		return request.responseText;
+	} else { // Failed
+		alert("Could not load shader file: "+url); 
+		return null;
+	}
 };
+*/
+
+function loadShaderFile(url) {
+	request = new XMLHttpRequest();
+//	try { request = new XMLHttpRequest(); }
+//	catch(e) { 
+//		alert("Could not create XMLHttpRequest"); 
+//		return null;
+//	}
+	// Do not open asynchronously, thus wait for the response.
+	request.open("GET", url, false); 
+	request.send(null);
+	//alert("...back: "+request);
+	// Check if we got HTTP status 200 (OK)
+	if (request.status == 200) {
+		return request.responseText;
+	} else { // Failed
+		alert("Could not load shader file: "+url); 
+		return null;
+	}
+};
+
+
+
+
+function getShaderSourceCode(id) {
+	var shaderScript = document.getElementById(id);
+	if (!shaderScript) {
+		return null;
+	}
+
+	var str = "";
+	var k = shaderScript.firstChild;
+	while (k) {
+		if (k.nodeType == 3) {
+			str += k.textContent;
+		}
+		k = k.nextSibling;
+	}
+	return str;
+}
+
 

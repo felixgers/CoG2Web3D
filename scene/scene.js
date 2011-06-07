@@ -32,17 +32,18 @@ function Scene(gl, sceneGraph, canvas, framerate, shader)
 	this.canvas = canvas;
 	this.sceneGraph = sceneGraph;
 	this.framerate = framerate;
+	this.shader = shader;
 	
 	this.matrices = new Matrices();
 
-	this.shader = new Shader(gl);
+	//this.shader = new Shader(gl);
 	
-	if(shader!= null) {
-		this.shader = shader;
-	} else {
-		// For compatibility reasons try to load shaders old style
-		this.shader = new Shader(gl, "shader-vs", "shader-fs");
-	}
+//	if(shader!= null) {
+//		this.shader = shader;
+//	} else {
+//		// For compatibility reasons try to load shaders old style
+//		this.shader = new Shader(gl, "shader-vs", "shader-fs");
+//	}
 	
 	this.intervalTimer = null;
 	
@@ -152,7 +153,4 @@ function Scene(gl, sceneGraph, canvas, framerate, shader)
 		}
 		return false;
 	};
-
-	// Load shaders and call back to start.
-	this.shader.loadShaders( function(){obj.start();}, "shader-vs", "shader-fs");
 }
