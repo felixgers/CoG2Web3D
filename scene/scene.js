@@ -26,6 +26,7 @@ function initGL(canvas) {
  */
 function Scene(gl, sceneGraph, canvas, framerate) 
 {
+	var obj = this;
 	// Variables used in the draw method.
 	this.gl = gl;
 	this.canvas = canvas;
@@ -33,13 +34,14 @@ function Scene(gl, sceneGraph, canvas, framerate)
 	this.framerate = framerate;
 	
 	this.matrices = new Matrices();
-	this.shader = new Shader(gl, "shader-vs", "shader-fs");
+	this.shader = new Shader(gl);
 	this.intervalTimer = null;
 	
 	this.startTime = 0.0; 
 	this.timerHandle = null;
 	this.sceneHasCamera = false; // will be set automatically
-	
+
+
 	
 	// DEBUG
 	// --------------------------------------------
@@ -47,49 +49,6 @@ function Scene(gl, sceneGraph, canvas, framerate)
 	this.debug = document.createElement("div");
 	canvas.parentNode.appendChild(this.debug);
 	// --------------------------------------------
-	
-	
-	/**
-	 * Draw scene graph
-	 */
-	this.drawSceneGraph = function(time) {
-		
-		// Some shortcuts for variables.
-		var gl = this.gl;
-		var pMatrix = this.matrices.pMatrix;
-		var mvMatrix = this.matrices.mvMatrix;
-		var sceneGraph = this.sceneGraph;
-
-		// Clear canvas an z-buffer.
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-		mat4.identity(mvMatrix); // Set to identity.
-		mat4.identity(pMatrix); // Set to identity.
-		
-		if(!this.sceneHasCamera) {
-			var aspectratio = this.canvas.width / this.canvas.height; 			
-			mat4.perspective(45.0, aspectratio, 1, 100, pMatrix);
-		}
-		sceneGraph.draw(gl, pMatrix, mvMatrix, time);
-	};
-	
-	
-	/**
-	 * Called by window interval handler
-	 */
-	this.update = function() {
-		
-		// Calculate time
-		var newDate = new Date();
-		var time = (newDate.getTime() / 1000.0) - this.startTime;
-		
-		this.drawSceneGraph(time);
-		
-		// DEBUG
-		// --------------------------------------------
-		this.debug.innerHTML = Math.round(10/(time-this.lastTime))/10.0+" fps";
-		this.lastTime = time;
-		// --------------------------------------------
-	};
 	
 	
 	/**
@@ -115,6 +74,50 @@ function Scene(gl, sceneGraph, canvas, framerate)
 		this.timerHandle = window.setInterval( function(){scene.update();}, (1000.0/this.framerate));
 	};
 	
+	
+	/**
+	 * Draw scene graph
+	 */
+	this.drawSceneGraph = function(time) {
+		
+		// Some shortcuts for variables.
+		var gl = this.gl;
+		var pMatrix = this.matrices.pMatrix;
+		var mvMatrix = this.matrices.mvMatrix;
+		var sceneGraph = this.sceneGraph;
+
+		// Clear canvas an z-buffer.
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		mat4.identity(mvMatrix); // Set to identity.
+		mat4.identity(pMatrix); // Set to identity.
+		
+		if(!this.sceneHasCamera) {
+			var aspectratio = this.canvas.width / this.canvas.height; 			
+			mat4.perspective(45.0, aspectratio, 1, 100, pMatrix);
+		}
+		sceneGraph.draw(gl, pMatrix, mvMatrix, time, this.shader.shaderProgram);
+	};
+	
+	
+	/**
+	 * Called by window interval handler
+	 */
+	this.update = function() {
+		
+		// Calculate time
+		var newDate = new Date();
+		var time = (newDate.getTime() / 1000.0) - this.startTime;
+		
+		this.drawSceneGraph(time);
+		
+		// DEBUG
+		// --------------------------------------------
+		this.debug.innerHTML = Math.round(10/(time-this.lastTime))/10.0+" fps";
+		this.lastTime = time;
+		// --------------------------------------------
+	};
+	
+	
 	/**
 	 * Stop scene time
 	 */
@@ -125,7 +128,7 @@ function Scene(gl, sceneGraph, canvas, framerate)
 	
 	
 	/**
-	 * This method looks if the scene graph has any camera node.
+	 * This method checks if the scene graph has a camera node attached.
 	 */
 	this.recursiveSceneHasCamera = function(node) {
 		if(node.groupFlag) {
@@ -141,5 +144,6 @@ function Scene(gl, sceneGraph, canvas, framerate)
 		return false;
 	};
 
-	
+	// Load shaders and call back to start.
+	this.shader.loadShaders( function(){obj.start();}, "shader-vs", "shader-fs");
 }

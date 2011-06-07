@@ -2,50 +2,43 @@
  * Load shader source code and init shaders and shader program.
  */
 
-function initShader(gl, type, shaderSourceCode) {
-
-	var shader = gl.createShader(type);
-
-	gl.shaderSource(shader, shaderSourceCode);
-	gl.compileShader(shader);
-
-	if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-		alert(gl.getShaderInfoLog(shader));
-		return null;
-	}
-	return shader;
-}
-
 
 function getShaderSourceCode(id) {
-	   var shaderScript = document.getElementById(id);
-	    if (!shaderScript) {
-	      return null;
-	    }
-	 
-	    var str = "";
-	    var k = shaderScript.firstChild;
-	    while (k) {
-	      if (k.nodeType == 3) {
-	        str += k.textContent;
-	      }
-	      k = k.nextSibling;
-	    }
+	var shaderScript = document.getElementById(id);
+	if (!shaderScript) {
+		return null;
+	}
+
+	var str = "";
+	var k = shaderScript.firstChild;
+	while (k) {
+		if (k.nodeType == 3) {
+			str += k.textContent;
+		}
+		k = k.nextSibling;
+	}
 	return str;
 }
 
 
-function Shader(gl, vertexShaderId, fragmentShaderId) {	
-	// Public variables.
-	this.shaderProgram;
-	this.vertexShader;
-	this.fragmentShader;
-    
-	// Load source code and initialize vertex an fragment shader.
-    var vertexShaderSourceCode = getShaderSourceCode("shader-vs");
-	vertexShader = initShader(gl, gl.VERTEX_SHADER, vertexShaderSourceCode);
-	var fragmentShaderSourceCode = getShaderSourceCode("shader-fs");
-	fragmentShader = initShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
+Shader.prototype.initShader = function(type, shaderSourceCode) {
+	var shader = this.gl.createShader(type);
+
+	this.gl.shaderSource(shader, shaderSourceCode);
+	this.gl.compileShader(shader);
+
+	if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) {
+		alert(this.gl.getShaderInfoLog(shader));
+		return null;
+	}
+	return shader;
+};
+
+
+Shader.prototype.initShaderProgram = function(vertexShader, fragmentShader) {	
+	//document.write("initShaderProgram:");
+	var gl = this.gl;
+	var shaderProgram = this.shaderProgram;
 
 	// Create shader program.
 	shaderProgram = gl.createProgram();
@@ -69,11 +62,50 @@ function Shader(gl, vertexShaderId, fragmentShaderId) {
 	gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
 	//
 	shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
-    gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
-	
+	gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+
 	// Store location of matrices, as specific uniform variable within the linked program, in shaderProgram object
 	shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
 	shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-}
 
+	this.callbackAfterShadesLoaded();
+};
+
+
+Shader.prototype.cbLoadShaders = function(shaderSourceCode) {
+	//Init vertex shader.
+	var vertexShader = this.initShader(this.gl.VERTEX_SHADER, shaderSourceCode[0]);
+	//Init fragment shader.
+	var fragmentShader = this.initShader(this.gl.FRAGMENT_SHADER, shaderSourceCode[1]);
+
+	this.initShaderProgram(vertexShader, fragmentShader);
+};
+
+
+Shader.prototype.loadShaders = function(callback, vertexShaderName, fragmentShaderName) {
+	var obj = this;
+	this.callbackAfterShadesLoaded = callback;
+
+	//	Load source code for both, vertex an fragment shader.
+	loadFilesViaXMLHttpRequest(['../../shader/vertex.shader', '../../shader/fragment.shader'], 
+			function(shaderSourceCode){
+		obj.cbLoadShaders(shaderSourceCode);
+	}, 
+	function (url) { // Error callback.
+		alert('Failed to download "' + url + '"');} );
+
+	//	// Load source code from HTML tag and initialize vertex an fragment shader.
+	//	var vertexShaderSourceCode = getShaderSourceCode("shader-vs");
+	//	vertexShader = initShader(gl, gl.VERTEX_SHADER, vertexShaderSourceCode);
+	//	var fragmentShaderSourceCode = getShaderSourceCode("shader-fs");
+	//	fragmentShader = initShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
+};
+
+
+function Shader(gl) {	
+	// Public variables.
+	this.gl = gl;
+	this.shaderProgram = null;
+	this.callbackAfterShadesLoaded = null;
+};
 

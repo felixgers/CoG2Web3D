@@ -1,6 +1,7 @@
 // First import all required js modules
 // Therefore the html document must add the script util/import.js before
 import("../../util/event.js");
+import("../../util/loadFile.js");
 import("../../util/glMatrix.js");
 import("../../util/matrices.js");
 import("../../util/shader.js");
@@ -16,8 +17,8 @@ import("nodes.js"); // RotorXMutableSpeed and PositionCamera
  * The only global variable.
  * (If we do not want any globals at all, please help solving this problem.)
  */
-var scene = null;
 
+var scene = null;
 
 /**
  * Start the and lazily create the scene
@@ -28,7 +29,7 @@ function startScene()
 		scene = initScene();
 	}
 	// Start running the scene
-	scene.start();
+	// scene.start();
 }
 
 /**

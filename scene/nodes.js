@@ -13,7 +13,7 @@ function Node() {
 	this.cameraFlag = false;
 	this.rootFlag = false;
 	this.groupFlag = false;
-	this.draw = function(gl, pMatrix, mvMatrix, time) {};
+	this.draw = function(gl, pMatrix, mvMatrix, time, shaderProgram) {};
 }
 
 
@@ -28,7 +28,7 @@ function Group() {
 		this.children.push(child);
 	};
 	
-	this.draw = function(gl, pMatrix, mvMatrix, time) {
+	this.draw = function(gl, pMatrix, mvMatrix, time, shaderProgram) {
 		var tempPMatrix = new glMatrixArrayType(16);
 		var tempMvMatrix = new glMatrixArrayType(16);
 		
@@ -38,7 +38,7 @@ function Group() {
 		
 		var children = this.children;
 		for(var i=0; i<children.length; i++) {
-			children[i].draw(gl, tempPMatrix, tempMvMatrix, time);
+			children[i].draw(gl, tempPMatrix, tempMvMatrix, time, shaderProgram);
 		}
 	};
 }
@@ -54,7 +54,7 @@ Group.prototype = new Node;
  */
 function Translation(x, y, z) {
 	this.trans = new Array(x,y,z);
-	this.draw = function(gl, pMatrix, mvMatrix, time) {
+	this.draw = function(gl, pMatrix, mvMatrix, time, shaderProgram) {
 		mat4.translate(mvMatrix, this.trans); // Translate.
 	};
 }
@@ -69,7 +69,7 @@ Translation.prototype = new Node;
  */
 function Scale(x, y, z) {
 	this.scale = new Array(x,y,z);
-	this.draw = function(gl, pMatrix, mvMatrix, time) {
+	this.draw = function(gl, pMatrix, mvMatrix, time, shaderProgram) {
 		mat4.scale(mvMatrix, this.scale);
 	};
 }
@@ -83,7 +83,7 @@ Scale.prototype = new Node();
  */
 function RotorY(speed) { 
 	this.speed = speed;
-	this.draw = function(gl, pMatrix, mvMatrix, time) {
+	this.draw = function(gl, pMatrix, mvMatrix, time, shaderProgram) {
 		mat4.rotateY(mvMatrix, Math.PI * this.speed * time);
 	};
 }
@@ -100,7 +100,7 @@ function Shape() {
 	this.numItems = 0;
 	this.beginMode = 0;
 
-	this.draw = function(gl, pMatrix, mvMatrix, time) {
+	this.draw = function(gl, pMatrix, mvMatrix, time, shaderProgram) {
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);	
 		gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.itemSize, gl.FLOAT, false, 0, 0);
 
@@ -185,7 +185,7 @@ function PerspectiveCamera(verticalFieldOfView, aspectratio, nearClipPlane, farC
 	this.nearClipPlane = nearClipPlane;
 	this.farClipPlane = farClipPlane;
 	
-	this.draw = function(gl, pMatrix, mvMatrix, time) {
+	this.draw = function(gl, pMatrix, mvMatrix, time, shaderProgram) {
 		var fov = this.verticalFieldOfView;
 		var ar = this.aspectratio;
 		var nc = this.nearClipPlane;
