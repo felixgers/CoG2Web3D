@@ -99,7 +99,7 @@ function loadFilesViaXMLHttpRequest(urls, callback, errorCallback, ViaXMLHttpReq
 }
 
 
-///////////////// Organize code ////////////////////////////
+///////////////// Utility to Organize code ////////////////////////////
 
 //Include JavaScript and css files.
 var include = (function() {

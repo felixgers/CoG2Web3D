@@ -1,5 +1,6 @@
-// First import all required js modules
-// Therefore the html document must load the script util/import.js first.
+// First import all required JS modules
+// Therefore the HTML document must load the script star.js first.
+// More import statements may follow at the end of JS files to cover dependencies.
 import("../../util/event.js");
 import("../../util/glMatrix.js");
 import("../../util/matrices.js");
@@ -14,12 +15,20 @@ import("../../scene/nodes.js");
 
 import("event.js"); // MySpecializedEventManager
 import("nodes.js"); // RotorXMutableSpeed and PositionCamera
-import("template.js");
 
 
 /**
+ * This is the entry main point for the application.
+ */
+window.onload = function () {
+	new MyApp().start();
+};
+
+///////////////// import utility to organize code ////////////////////////////
+
+/**
  * Import javascripts
- * @param javascriptPath
+ * @param javascriptPath optinalHTMLelement
  */
 function import(javascriptPath) {
 	var script = document.createElement("script");
