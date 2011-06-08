@@ -7,15 +7,15 @@
  * @param framerate
  * @returns {Scene}
  */
-function Scene(gl, sceneGraph, canvas, framerate, shader) 
+function Scene(gl, canvas, framerate, shader, sceneGraph) 
 {
 	var obj = this;
 	// Variables used in the draw method.
 	this.gl = gl;
 	this.canvas = canvas;
-	this.sceneGraph = sceneGraph;
 	this.framerate = framerate;
 	this.shader = shader;
+	this.sceneGraph = sceneGraph;
 	
 	this.matrices = new Matrices();
 
@@ -34,7 +34,6 @@ function Scene(gl, sceneGraph, canvas, framerate, shader)
 	this.timerHandle = null;
 	this.sceneHasCamera = false; // will be set automatically
 
-
 	
 	// DEBUG
 	// --------------------------------------------
@@ -48,7 +47,7 @@ function Scene(gl, sceneGraph, canvas, framerate, shader)
 	 * Start the scene, scene time.
 	 */
 	this.start = function() {
-	
+		with(this){
 		this.sceneHasCamera = this.recursiveSceneHasCamera(this.sceneGraph);
 		if(!this.sceneHasCamera)
 			alert("The scene graph has no camera node.\nUsing default perspective.");
@@ -58,6 +57,7 @@ function Scene(gl, sceneGraph, canvas, framerate, shader)
 		gl.enable(gl.DEPTH_TEST);
 		
 		// Draw once first.
+		this.sceneGraph.init(gl, matrices.pMatrix, matrices.mvMatrix, shader.shaderProgram);
 		this.drawSceneGraph(0.0);
 		
 		// Start interval
@@ -65,6 +65,7 @@ function Scene(gl, sceneGraph, canvas, framerate, shader)
 		this.startTime = startDate.getTime()/1000.0;
 		var scene = this;
 		this.timerHandle = window.setInterval( function(){scene.update();}, (1000.0/this.framerate));
+	}
 	};
 	
 	
@@ -88,7 +89,7 @@ function Scene(gl, sceneGraph, canvas, framerate, shader)
 			var aspectratio = this.canvas.width / this.canvas.height; 			
 			mat4.perspective(45.0, aspectratio, 1, 100, pMatrix);
 		}
-		sceneGraph.draw(gl, pMatrix, mvMatrix, time, this.shader.shaderProgram);
+		sceneGraph.draw(time);
 	};
 	
 	

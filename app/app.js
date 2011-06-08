@@ -50,17 +50,14 @@ function App() {
 			buildSceneGraph();
 
 			// Create Shader
-			shader = new Shader(gl, "../../shader/simple.vertex",
-			"../../shader/white.fragment");
-			// var shader = new Shader(gl, "shader-vs", "shader-fs"); // Shader form
-			// HTML tag.
+			shader = new Shader(gl, "../../shader/simple.vertex", "../../shader/white.fragment");
+			// var shader = new Shader(gl, "shader-vs", "shader-fs"); // Shader form HTML tag.
 
 			// Create event manager with objects
-			eventManager = eventManager = new MySpecializedEventManager(
-					canvas, camera, speedRotor, acceleration);
-
+			eventManager = new MyEventManager( this );
+	
 			// Create and start scene.
-			this.scene = new Scene(gl, sceneGraph, canvas,framerate, shader);
+			this.scene = new Scene(gl, canvas, framerate, shader, sceneGraph);
 			scene = this.scene; // todo out
 		}
 	};
@@ -76,12 +73,12 @@ App.prototype.start = function() {
 
 /**
  * This function is to be overwritten in a child class.
+ * @returns {sceneGraph}
  */
 App.prototype.buildSceneGraph = function(){
 	with (this){
 		// Create some special Nodes
 		sceneGraph = new Group();
-		speedRotor = new RotorXMutableSpeed(0.5);
 		camera = new PositionCamera(verticalViewAngle, 1.0, 1, 1000);
 
 		// Add all nodes directly (no other groups) to scene graph

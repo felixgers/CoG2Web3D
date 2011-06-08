@@ -1,4 +1,22 @@
 
+
+function EventManager( app ){
+	
+};
+
+EventManager.prototype.handleKeyEvents = function() {
+	with (this) {
+	}
+};
+
+
+EventManager.prototype.handleMouseEvents = function() {
+	with (this) {
+	}
+};
+
+// todo integrate the following
+
 /**
  * Key event manager sends key event codes
  * @param listener
@@ -116,3 +134,8 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 		this.eventCallback(x, y);
 	};
 }
+
+
+////////////////////dependent imports ////////////////////
+
+import("MyEvents.js"); // MySpecializedEventManager
