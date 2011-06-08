@@ -49,9 +49,9 @@ function Scene(gl, canvas, framerate, shader, sceneGraph)
 	this.start = function() {
 		with(this){
 		this.sceneHasCamera = this.recursiveSceneHasCamera(this.sceneGraph);
-		if(!this.sceneHasCamera)
+		if(!this.sceneHasCamera) {
 			alert("The scene graph has no camera node.\nUsing default perspective.");
-		
+		}
 		var gl = this.gl;
 		gl.clearColor(0.0, 0.0, 0.0, 1.0);
 		gl.enable(gl.DEPTH_TEST);
