@@ -50,7 +50,7 @@ function App() {
 			buildSceneGraph();
 
 			// Create Shader
-			shader = new Shader(gl, "../../shader/simple.vertex", "../../shader/white.fragment");
+			shader = new Shader(gl).init("../../shader/simple.vertex", "../../shader/white.fragment");
 			// var shader = new Shader(gl, "shader-vs", "shader-fs"); // Shader form HTML tag.
 
 			// Create event manager with objects
