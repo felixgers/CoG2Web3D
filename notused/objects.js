@@ -7,6 +7,16 @@ function BaseObject(val){
 	var privateVar = val;
 	var that = this; // By convention, we make a private that variable to make the object available to the private methods. 
 
+
+	this.initPriv = function(val){
+		this.val = val;
+		document.write("<br>initPriv:"+this.val);
+	};
+	
+	this.printPriv = function(){
+		document.write("<br>printPriv: "+this.val);
+	};
+	
 	// Privileged function.
 	this.duc = function(s){
 		document.write("<br>duc: "+val+s);
@@ -20,21 +30,38 @@ function BaseObject(val){
 };
 
 // Public function.
-BaseObject.prototype.init = function(s){
-	document.write("<br>.init:"+this.val+s);
+BaseObject.prototype.init = function(val){
+	this.val = val;
+	document.write("<br>init:"+this.val);
 };
 
-BaseObject.prototype.print = function(s){
-	document.write("<br>print:"+s+this.val);
+BaseObject.prototype.print = function(){
+	document.write("<br>print:"+this.val);
 };
 
+function BaseObjectChild(){
+}
+BaseObjectChild.prototype = new BaseObject("from Child");
+
+function BaseObjectGrandChild(val){
+}
+BaseObjectGrandChild.prototype = new BaseObjectChild;
+
+var boc =  new BaseObjectGrandChild("ddd");
+boc.initPriv("changed");
+boc.init("changed");
+boc.print();	
+boc.printPriv();	
+//boc.prototype.print();
+
+
+document.write("<br><br>////// private public fields //////////////");
 
 var baseObj = new BaseObject('abc');
 baseObj.init('cdf');
 baseObj.duc('hmm');
 baseObj.print('text');
 
-document.write("<br><br>////// Callbacks //////////////");
 
 function register(callback){
 	document.write("<br>register:"+callback);
@@ -94,7 +121,7 @@ function SomeObject(name){
 		document.write('<br>MyName '+name+this.age+age);
 		somename = "mee";
 	};
-	SomeOtherObject();
+	//SomeOtherObject();
 };
 
 document.write("<br>somename:"+somename);

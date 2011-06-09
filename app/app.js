@@ -82,7 +82,7 @@ App.prototype.buildSceneGraph = function(){
 		sceneGraph.addChild(camera); // <------- Camera
 		sceneGraph.addChild(new Translation( 0, 0, -8.0));
 		sceneGraph.addChild(new RotorY(1.0));
-		sceneGraph.addChild(new Triangle(gl, 2.0, 2.0));
+		sceneGraph.addChild(new Triangle(2.0, 2.0));
 	}
 };
 

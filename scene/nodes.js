@@ -127,7 +127,7 @@ function Shape() {
 	this.buffer = null;
 	this.itemSize = 0;
 	this.numItems = 0;
-	this.beginMode = 0;
+	this.tesselationMode = 0;
 
 	this.draw = function(time) { 
 		with(this) {
@@ -140,66 +140,11 @@ function Shape() {
 			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
 			gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
 
-			gl.drawArrays(this.beginMode, 0, this.numItems);
+			gl.drawArrays(this.tesselationMode, 0, this.numItems);
 		}
 	};
 }
 Shape.prototype = new Node;
-
-
-/**
- * 
- * @param gl
- * @param width
- * @param height
- * @returns {Rectangle}
- */
-function Rectangle(gl, width, height) {
-	// Create buffer for square vertex positions.
-	this.buffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-	var w = width/2.0;
-	var h = height/2.0;
-	var vertices = [
-	                w,  h,  0.0,
-	                -w,  h,  0.0,
-	                w, -h,  0.0,
-	                -w, -h,  0.0
-	                ];
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-	this.itemSize = 3;
-	this.numItems = 4;
-	this.beginMode = gl.TRIANGLE_STRIP;
-}
-Rectangle.prototype = new Shape;
-
-
-/**
- * 
- * @param gl
- * @param width
- * @param height
- * @returns {Triangle}
- */
-function Triangle(gl, width, height)
-{
-	// Create buffer for triangle vertex positions.
-	this.buffer = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-	var w = width/2.0;
-	var h = height/2.0;
-	var vertices = [
-	                0.0,  h,  0.0,
-	                -w, -h,  0.0,
-	                w, -h,  0.0
-	                ];
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-	this.itemSize = 3;
-	this.numItems = 3;
-	this.beginMode = gl.TRIANGLES;
-}
-Triangle.prototype = new Shape;
-
 
 
 /**
@@ -353,4 +298,5 @@ RotorXMutableSpeed.prototype = new Node;
 
 ////////////////////dependent imports ////////////////////
 
+import("../../scene/basicShapeNodes.js");
 import("MyNodes.js"); // MySpecializedEventManager
