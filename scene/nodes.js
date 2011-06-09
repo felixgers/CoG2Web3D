@@ -40,34 +40,27 @@ function Group() {
 	this.addChild = function(child) {
 		this.children.push(child);
 	};
-
+	this.superInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
-		this.gl = gl;
-		this.pMatrix = pMatrix;
-		this.mvMatrix = mvMatrix;
-		this.shaderProgram = shaderProgram;
+		this.superInit(gl, pMatrix, mvMatrix, shaderProgram);
 
-		with(this){
-			for(var i=0; i<children.length; i++) {
-				children[i].init(gl, pMatrix, mvMatrix, shaderProgram);
-			}
+		for(var i=0; i<this.children.length; i++) {
+				this.children[i].init(gl, pMatrix, mvMatrix, shaderProgram);
 		}
 	};	
 
 	this.draw = function(time) { 
 		with(this) {
-
 			var tempPMatrix = new glMatrixArrayType(16);
 			var tempMvMatrix = new glMatrixArrayType(16);
 
 			// Store values in temp matrices.
 			mat4.set(pMatrix, tempPMatrix);
 			mat4.set(mvMatrix, tempMvMatrix);
-
-			var children = this.children;
-			for(var i=0; i<children.length; i++) {
-				children[i].draw(time);
-			}
+		}
+		var children = this.children;
+		for(var i=0; i<children.length; i++) {
+			this.children[i].draw(time);
 		}
 	};
 }
@@ -131,10 +124,8 @@ function Shape() {
 
 	this.draw = function(time) { 
 		with(this) {
-
 			gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);	
 			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.itemSize, gl.FLOAT, false, 0, 0);
-
 			// Push the modified matrices into the the shader program,
 			// at the correct position, that we stored.
 			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);

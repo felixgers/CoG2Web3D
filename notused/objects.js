@@ -32,7 +32,7 @@ function BaseObject(val){
 // Public function.
 BaseObject.prototype.init = function(val){
 	this.val = val;
-	document.write("<br>init:"+this.val);
+	document.write("<br>BaseObject init:"+this.val);
 };
 
 BaseObject.prototype.print = function(){
@@ -40,8 +40,17 @@ BaseObject.prototype.print = function(){
 };
 
 function BaseObjectChild(){
+	var myVal = this.val;
+	var func = this.init;
+	var super = { init : this.init };
+	this.init = function(val){
+		super.init("HMMMMM");
+		func(val);
+		document.write("<br>BaseObjectChild init:"+this.val);		
+	};
 }
 BaseObjectChild.prototype = new BaseObject("from Child");
+
 
 function BaseObjectGrandChild(val){
 }
