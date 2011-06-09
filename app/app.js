@@ -13,13 +13,11 @@ function App() {
 	this.sceneGraph;
 	this.camera;
 	this.eventManager;
-	this.speedRotor; // todo out
 
 	// Application parameter.
 	this.width = 500;
 	this.height = 500;
 	this.framerate = 30.0;
-	this.acceleration = 0.1; // todo out
 	this.verticalViewAngle = 45.0;
 
 	/** 
@@ -58,7 +56,6 @@ function App() {
 	
 			// Create and start scene.
 			this.scene = new Scene(gl, canvas, framerate, shader, sceneGraph);
-			scene = this.scene; // todo out
 		}
 	};
 };
