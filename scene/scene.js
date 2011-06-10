@@ -12,27 +12,22 @@ function Scene()
 	// Variables used in the draw method.
 	this.gl;
 	this.canvas;
-	this.framerate;
 	this.shader;
 	this.sceneGraph;
 	//this.camera; // todo set this
 
 	this.matrices;
 
-	this.intervalTimer = null;	
-	this.startTime = 0.0; 
-	this.timerHandle = null;
 	this.sceneHasCamera = false; // will be set automatically
 
 	// Viewing parameter.
 	this.aspectRatio;
 	this.verticalViewAngle = 45.0;
 
-	this.init = function(gl, canvas, aspectRatio, framerate, shader) {
+	this.init = function(gl, canvas, aspectRatio, shader) {
 		this.gl = gl;
 		this.canvas = canvas;
 		this.aspectRatio = aspectRatio;
-		this.framerate = framerate;
 		this.shader = shader;
 
 		this.matrices = new Matrices();
@@ -43,36 +38,24 @@ function Scene()
 		if(!this.sceneHasCamera) {
 			alert("The scene graph has no camera node.\nUsing default perspective.");
 		}
-
-		// DEBUG
-		// --------------------------------------------
-		this.lastTime = 0.0;
-		this.debug = document.createElement("div");
-		this.canvas.parentNode.appendChild(this.debug);
-		// --------------------------------------------
-
+		
+		this.InitGL();
+		
 		return this;
 	};
 
 	/**
 	 * Start the scene, scene time.
 	 */
-	this.start = function() {
+	this.InitGL = function() {
 		with(this){
 			
-
 			gl.clearColor(0.0, 0.0, 0.0, 1.0);
 			gl.enable(gl.DEPTH_TEST);
 
 			// Draw once first.
 			this.sceneGraph.init(gl, matrices.pMatrix, matrices.mvMatrix, shader.shaderProgram);
 			this.drawSceneGraph(0.0);
-
-			// Start interval
-			var startDate = new Date();
-			this.startTime = startDate.getTime()/1000.0;
-			var scene = this;
-			this.timerHandle = window.setInterval( function(){scene.update();}, (1000.0/this.framerate));
 		}
 	};
 
@@ -98,35 +81,6 @@ function Scene()
 		}
 		sceneGraph.draw(time);
 	};
-
-
-	/**
-	 * Called by window interval handler
-	 */
-	this.update = function() {
-
-		// Calculate time
-		var newDate = new Date();
-		var time = (newDate.getTime() / 1000.0) - this.startTime;
-
-		this.drawSceneGraph(time);
-
-		// DEBUG
-		// --------------------------------------------
-		this.debug.innerHTML = Math.round(10/(time-this.lastTime))/10.0+" fps";
-		this.lastTime = time;
-		// --------------------------------------------
-	};
-
-
-	/**
-	 * Stop scene time
-	 */
-	this.stop = function() {
-		window.clearInterval(this.timerHandle);
-		this.timerHandle = null;
-	};
-
 
 	/**
 	 * This method checks if the scene graph has a camera node attached.

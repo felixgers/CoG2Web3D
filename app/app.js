@@ -15,9 +15,13 @@ function App() {
 	this.width = 500;
 	this.height = 500;
 	this.aspectRatio;
-	this.framerate = 30.0;
 	this.aspectRatio;
 
+	// Loop parameter and variables.
+	this.framerate = 30.0;	
+	this.intervalTimer = null;	
+	this.startTime = 0.0; 
+	this.timerHandle = null;
 
 	this.init = function() {
 		with (this) {
@@ -26,6 +30,13 @@ function App() {
 			this.canvas.height = height;
 			this.aspectRatio = canvas.width / canvas.height;
 
+			// DEBUG
+			// --------------------------------------------
+			this.lastTime = 0.0;
+			this.debug = document.createElement("div");
+			this.canvas.parentNode.appendChild(this.debug);
+			// --------------------------------------------
+
 			this.gl = initGL(canvas);
 
 			// Create Shader
@@ -33,13 +44,14 @@ function App() {
 			this.shader = new Shader().init(this.gl, "../../shader/simple.vertex", "../../shader/white.fragment");
 	
 			// Create and start scene.
-			this.scene = new MyScene().init(gl, canvas, aspectRatio, framerate, shader);
+			this.scene = new MyScene().init(gl, canvas, aspectRatio, shader);
 
 			// Create event manager with objects
-			this.eventManager = new MyEventManager().init( app );
+			this.eventManager = new MyEventManager().init( this );
+			
 		}
 	};
-	
+
 	/** 
 	 * @param canvas
 	 * @returns
@@ -58,6 +70,45 @@ function App() {
 		}
 		return gl;
 	};
+
+	
+	this.startLoop = function() {
+		with(this){			
+			// Start interval
+			var startDate = new Date();
+			this.startTime = startDate.getTime()/1000.0;
+			var self = this;
+			this.timerHandle = window.setInterval( function(){self.update();}, (1000.0/this.framerate));
+		}
+	};
+	
+	/**
+	 * Called by window interval handler
+	 */
+	this.update = function() {
+
+		// Calculate time
+		var newDate = new Date();
+		var time = (newDate.getTime() / 1000.0) - this.startTime;
+
+		this.scene.drawSceneGraph(time);
+
+		// DEBUG
+		// --------------------------------------------
+		this.debug.innerHTML = Math.round(10/(time-this.lastTime))/10.0+" fps";
+		this.lastTime = time;
+		// --------------------------------------------
+	};
+
+
+	/**
+	 * Stop scene time
+	 */
+	this.stop = function() {
+		window.clearInterval(this.timerHandle);
+		this.timerHandle = null;
+	};
+	
 };
 
 /**
@@ -65,7 +116,7 @@ function App() {
  */
 App.prototype.start = function() {
 	this.init();
-	this.scene.start();
+	this.startLoop();
 };
 
 
