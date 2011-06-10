@@ -1,7 +1,6 @@
 
 
-function MyEventManager(app){
-	
+function MyEventManager(){
 };
 MyEventManager.prototype = new EventManager;
 

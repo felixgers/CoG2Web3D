@@ -4,12 +4,13 @@
 import("../../util/glMatrix.js");
 import("../../util/matrices.js");
 
+import("../../scene/shader.js");
+import("../../scene/nodes.js");
+import("../../scene/scene.js");
+
 import("../../app/events.js"); 
 import("../../app/app.js");
 
-import("../../scene/shader.js");
-import("../../scene/scene.js");
-import("../../scene/nodes.js");
 
 /**
  * This is the entry main point for the application.

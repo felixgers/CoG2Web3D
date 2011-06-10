@@ -3,34 +3,32 @@
  * Load shader source code and initialize shader and shader program.
  * Names for shader can be files/urls or HTML ids.
  */
-function Shader(gl){
-	this.gl = gl;
+function Shader(){
 	this.shaderProgram;
 
 	/*
 	 *  Load shader source code and initialize vertex an fragment shader.
 	 */
-	this.init = function(vertexShaderName, fragmentShaderName) {
-		with(this){
-			var vertexShaderSourceCode = getShaderSourceCodeFromHTMLTag(vertexShaderName)
-			|| loadShaderFile(vertexShaderName);
-			var vertexShader = initShader(gl.VERTEX_SHADER, vertexShaderSourceCode);
+	this.init = function(gl, vertexShaderName, fragmentShaderName) {
 
-			var fragmentShaderSourceCode = getShaderSourceCodeFromHTMLTag(fragmentShaderName)
-			|| loadShaderFile(fragmentShaderName);
-			var fragmentShader = initShader(gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
+		var vertexShaderSourceCode = getShaderSourceCodeFromHTMLTag(vertexShaderName)
+		|| loadShaderFile(vertexShaderName);
+		var vertexShader = initShader(gl, gl.VERTEX_SHADER, vertexShaderSourceCode);
 
-			// Create and initialize the shader program.
-			this.shaderProgram = initShaderProgram(vertexShader, fragmentShader);
-		}
+		var fragmentShaderSourceCode = getShaderSourceCodeFromHTMLTag(fragmentShaderName)
+		|| loadShaderFile(fragmentShaderName);
+		var fragmentShader = initShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSourceCode);
+
+		// Create and initialize the shader program.
+		this.shaderProgram = initShaderProgram(gl, vertexShader, fragmentShader);
+
 		return this;
 	};
 
 	/*
 	 *  Create and compile shader given the source.
 	 */
-	function initShader(type, shaderSourceCode) {
-		var gl = this.gl;
+	function initShader(gl, type, shaderSourceCode) {
 		if( ! shaderSourceCode) {
 			alert("Could not find shader source: "+shaderSourceCode);
 		}
@@ -50,8 +48,7 @@ function Shader(gl){
 	/*
 	 *  Create and initialize shader program given the compiled shader.
 	 */
-	function initShaderProgram(vertexShader, fragmentShader) {	
-		var gl = this.gl;
+	function initShaderProgram(gl, vertexShader, fragmentShader) {	
 		// Create shader program.
 		var shaderProgram = gl.createProgram();
 		// Attach shader to shader program.

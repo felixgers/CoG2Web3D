@@ -1,7 +1,12 @@
 
 
-function EventManager( app ){
+function EventManager(){
+	this.scene;
 	
+	this.init = function( scene ) {
+		this.scene = scene;
+		return this;
+	};
 };
 
 EventManager.prototype.handleKeyEvents = function() {

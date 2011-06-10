@@ -45,7 +45,7 @@ function Group() {
 		this.superInit(gl, pMatrix, mvMatrix, shaderProgram);
 
 		for(var i=0; i<this.children.length; i++) {
-				this.children[i].init(gl, pMatrix, mvMatrix, shaderProgram);
+			this.children[i].init(gl, pMatrix, mvMatrix, shaderProgram);
 		}
 	};	
 
@@ -57,10 +57,10 @@ function Group() {
 			// Store values in temp matrices.
 			mat4.set(pMatrix, tempPMatrix);
 			mat4.set(mvMatrix, tempMvMatrix);
-		}
-		var children = this.children;
-		for(var i=0; i<children.length; i++) {
-			this.children[i].draw(time);
+
+			for(var i=0; i<children.length; i++) {
+				this.children[i].draw(time);
+			}
 		}
 	};
 }
