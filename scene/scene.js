@@ -15,7 +15,7 @@ function Scene()
 	this.framerate;
 	this.shader;
 	this.sceneGraph;
-	//this.camera;
+	//this.camera; // todo set this
 
 	this.matrices;
 
@@ -38,6 +38,11 @@ function Scene()
 		this.matrices = new Matrices();
 
 		this.sceneGraph = this.buildSceneGraph();
+		
+		this.sceneHasCamera = this.recursiveSceneHasCamera(this.sceneGraph);
+		if(!this.sceneHasCamera) {
+			alert("The scene graph has no camera node.\nUsing default perspective.");
+		}
 
 		// DEBUG
 		// --------------------------------------------
@@ -54,10 +59,7 @@ function Scene()
 	 */
 	this.start = function() {
 		with(this){
-			this.sceneHasCamera = this.recursiveSceneHasCamera(this.sceneGraph);
-			if(!this.sceneHasCamera) {
-				alert("The scene graph has no camera node.\nUsing default perspective.");
-			}
+			
 
 			gl.clearColor(0.0, 0.0, 0.0, 1.0);
 			gl.enable(gl.DEPTH_TEST);
@@ -91,9 +93,8 @@ function Scene()
 		mat4.identity(mvMatrix); // Set to identity.
 		mat4.identity(pMatrix); // Set to identity.
 
-		if(!this.sceneHasCamera) {
-			var aspectratio = this.canvas.width / this.canvas.height; 			
-			mat4.perspective(45.0, aspectratio, 1, 100, pMatrix);
+		if(!this.sceneHasCamera) {		
+			mat4.perspective(45.0, this.aspectratio, 1, 100, pMatrix);
 		}
 		sceneGraph.draw(time);
 	};
@@ -153,7 +154,7 @@ Scene.prototype.buildSceneGraph = function(){
 
 	// Create some special Nodes
 	var sceneGraph = new Group();
-	var camera = new PositionCamera(this.verticalViewAngle, 1.0, 1, 1000);
+	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
 	// Add all nodes directly (no other groups) to scene graph
 	sceneGraph.addChild(camera); // <------- Camera
 	sceneGraph.addChild(new Translation( 0, 0, -8.0));
@@ -161,6 +162,7 @@ Scene.prototype.buildSceneGraph = function(){
 	sceneGraph.addChild(new Triangle(2.0, 2.0));
 	return sceneGraph;
 };
+
 
 ////////////////////dependent imports ////////////////////
 

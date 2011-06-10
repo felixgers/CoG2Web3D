@@ -3,8 +3,8 @@
 function EventManager(){
 	this.scene;
 	
-	this.init = function( scene ) {
-		this.scene = scene;
+	this.init = function( app ) {
+		this.scene = app;
 		return this;
 	};
 };
