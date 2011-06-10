@@ -36,7 +36,7 @@ function App() {
 			this.scene = new MyScene().init(gl, canvas, aspectRatio, framerate, shader);
 
 			// Create event manager with objects
-			this.eventManager = new MyEventManager().init( scene );
+			this.eventManager = new MyEventManager().init( app );
 		}
 	};
 	
