@@ -14,11 +14,11 @@ function Scene()
 	this.canvas;
 	this.shader;
 	this.sceneGraph;
-	//this.camera; // todo set this
+	//this.camera = null; // todo set this
 
 	this.matrices;
 
-	this.sceneHasCamera = false; // will be set automatically
+	this.sceneHasCamera = false; // will be set automatically // to replace with camera == null
 
 	// Viewing parameter.
 	this.aspectRatio;
