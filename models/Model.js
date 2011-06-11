@@ -1,14 +1,15 @@
-function Model(filename,gl){
+function Model(filename,gl,shader){
   this.vertices;
   this.colors;
   this.vertexPositionBuffer;
   this.vertexNormalBuffer;
-  this.vertexTextureCoordBuffer;
+  this.vertexTextureCoordBuffer=null;
   this.vertexIndexBuffer;
   this.texture;
   this.colorBuffer;
   this.gl=gl;
-  this.loaded=false;    
+  this.loaded=false;   
+ 
   
    $.ajaxSetup({'beforeSend': function(xhr){
 		if (xhr.overrideMimeType)
@@ -20,8 +21,14 @@ function Model(filename,gl){
    		this.texture=texture;
    }
    
+   Model.prototype.init=function(gl, pMatrix, mvMatrix, shaderProgram){
+		this.gl=gl;
+		this.shaderProgram=shaderProgram;
+		this.pMatrix=pMatrix;
+		this.mvMatrix=mvMatrix;
+   }
 
-   Model.prototype.init=function(){
+   Model.prototype.loadData=function(){
 			//is json loaded
 			if(this.data==null)return;
 			var data=this.data; 
@@ -57,38 +64,69 @@ function Model(filename,gl){
 					
    }
    
-    Model.prototype.draw = function(gl,pMatrix, mvMatrix){			
-			if(this.loaded){
-				gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPositionBuffer);
-				gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-				
-				if(this.vertexTextureCoordBuffer != null){
-					//todo texture
-				}else if(this.colorBuffer != null){
-					gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
-					gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, this.colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-				}
-			  
-				gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vertexIndexBuffer);
-				gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-				gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
-				gl.drawElements(gl.TRIANGLES,this.vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-			}			
+    Model.prototype.draw = function(){			
+		with(this){	
+				if(loaded){
+					gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
+					gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+					
+					if(vertexTextureCoordBuffer != null){
+						//todo texture
+					}else if(colorBuffer != null){
+						gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+						gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+					}
+				  
+					gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vertexIndexBuffer);
+					gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+					gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+					gl.drawElements(gl.TRIANGLES,vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+				}	
+			}	
 
 		}
    
    
+   
+   
+	Model.prototype.load=function(url,model) {
+		 var that=model;
+		
+		
+		try { var request = new XMLHttpRequest(); }
+		catch(e) { 
+			alert("Could not create XMLHttpRequest"); 
+			return null;
+		}
+		// Do not open asynchronously, thus wait for the response.
+		request.open("GET", url, false); 
+		request.send(null);
+		// Check if we got HTTP status 200 (OK)
+		if (request.status == 200) {
+			that.data=JSON.parse(request.responseText);
+			that.loadData();
+		} else { // Failed
+			alert("Could not load shader file: "+url); 
+			return null;
+		}
+	};
+   
+	/*
 	Model.prototype.load=function(filename,model){
 	     var that=model;
 		$.getJSON(filename, function(data) {
-		$('.result').html(data);
+		//alert($('.result').html(data));
+		//$('.result').html(data);
 		that.data=data;
-		that.init();
-	 });
+		that.loadData();
+	 })
+	 .success(function() { alert("second success"); })
+	 .error(function() { alert("error"); })
+	 .complete(function() { alert("complete"); });;
 	}
-	
-	
+	*/
 	
 	this.load(filename,this);
 	
-} 
+}
+//Model.prototype=new Shape(); 
