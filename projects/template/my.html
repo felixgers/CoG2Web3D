@@ -7,9 +7,10 @@
 	<link rel="stylesheet" type="text/css" href="my.css">
 	
 	<script type="text/javascript" src="../../app/start.js"></script>
+	<script type="text/javascript" src="myApp.js"></script>
 </head>
 
-<body>
+<body onload="new MyApp().start('canvas');">
 
 	<h1>COG WebGL Template</h1>
 	
@@ -45,6 +46,7 @@
 		<a href="../../index.html">Back to main page</a>
 	</div>
 	
+<!-- 	
 <script id="shader-vs" type="x-shader/x-vertex"> 
 	attribute vec3 aVertexPosition;
  
@@ -64,6 +66,7 @@
         gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
     }
 </script>
+-->
 
 </body>
 </html>
