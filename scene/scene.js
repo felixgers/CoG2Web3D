@@ -109,6 +109,7 @@ Scene.prototype.buildSceneGraph = function(){
 	// Create some special Nodes
 	var sceneGraph = new Group();
 	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
+	
 	// Add all nodes directly (no other groups) to scene graph
 	sceneGraph.addChild(camera); // <------- Camera
 	sceneGraph.addChild(new Translation( 0, 0, -8.0));
@@ -117,7 +118,3 @@ Scene.prototype.buildSceneGraph = function(){
 	return sceneGraph;
 };
 
-
-////////////////////dependent imports ////////////////////
-
-import("myScene.js");
