@@ -8,7 +8,6 @@ MyScene.prototype = new Scene;
 
 MyScene.prototype.buildSceneGraph = function() {
 
-
 		// Create some special Nodes.
 		var sceneGraph = new Group();
 		speedRotor = new RotorXMutableSpeed(0.5);
