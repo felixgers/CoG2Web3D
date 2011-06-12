@@ -2,7 +2,7 @@
 
 function EventManager(){
 	this.scene;
-	
+
 	this.init = function( app ) {
 		this.scene = app;
 		return this;
@@ -20,7 +20,7 @@ EventManager.prototype.handleMouseEvents = function() {
 	}
 };
 
-// todo integrate the following
+//todo integrate the following
 
 /**
  * Key event manager sends key event codes
@@ -28,16 +28,16 @@ EventManager.prototype.handleMouseEvents = function() {
  * @returns {KeyEventManager}
  */
 function KeyEventManager(keyCallback, keyUpCallback) {
-	
+
 	this.keyCallback = keyCallback;
 	this.keyUpCallback = keyUpCallback;
 	var thisEM = this;
-	
+
 	// TODO: Other events to be implemented...
 	document.onkeydown = function(event){thisEM.handleKeyDown(event);};
 	document.onkeyup = function(event){thisEM.handleKeyUp(event);};
-	
-	
+
+
 	this.handleKeyDown = function(event) {
 		var code = -1;
 		if (!event)
@@ -49,7 +49,7 @@ function KeyEventManager(keyCallback, keyUpCallback) {
 		}
 		this.keyCallback(code);
 	};
-	
+
 	this.handleKeyUp = function(event) {
 		var code = -1;
 		if (!event)
@@ -61,7 +61,7 @@ function KeyEventManager(keyCallback, keyUpCallback) {
 		}
 		this.keyUpCallback(code);
 	};
-	
+
 }
 
 function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
@@ -73,17 +73,17 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 	this.lastY = 0;
 	var thisEM = this;
 	this.downMove = false;
-	
+
 	// Event listeners for mouse click.
 	canvas.addEventListener("click", function(e){thisEM.handleMouseClick(e);}, false);
-	
+
 	// Event listeners for drag like mouse move on canvas.
 	canvas.addEventListener("mousedown", function(e){thisEM.handleDownMove(e, 1);}, false);
 	window.addEventListener("mouseup", function(e){thisEM.handleDownMove(e, -1);}, false);
 	window.addEventListener("mousout", function(e){thisEM.handleDownMove(e, -1);}, false);
 	window.addEventListener("mousemove", function(e){thisEM.handleDownMove(e, 0);}, false);
-	
-	
+
+
 	/**
 	 * downMove means the drag like mouse move with pressed left mouse button
 	 */
@@ -100,9 +100,9 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 		var canvas = this.canvas;
 		x -= canvas.offsetLeft;
 		y -= canvas.offsetTop;
-		
+
 		var dm = this.downMove;
-		
+
 		if(m > 0) {
 			this.lastX = x; // Set lastXY for init
 			this.lastY = y;
@@ -120,7 +120,7 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 			this.lastY = y;
 		}
 	};
-	
+
 	this.handleMouseClick = function(e) 
 	{
 		var x;
@@ -141,6 +141,3 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 }
 
 
-////////////////////dependent imports ////////////////////
-
-import("MyEvents.js"); // MySpecializedEventManager

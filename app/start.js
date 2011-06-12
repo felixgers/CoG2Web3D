@@ -12,14 +12,6 @@ import("../../app/events.js");
 import("../../app/app.js");
 
 
-/**
- * This is the entry main point for the application.
- */
-window.onload = function () {
-	new MyApp().start();
-};
-
-///////////////// import utility to organize code ////////////////////////////
 
 /**
  * Import javascripts

@@ -23,11 +23,12 @@ function App() {
 	this.startTime = 0.0; 
 	this.timerHandle = null;
 
-	this.init = function() {
+	this.init = function(canvasId) {
 		with (this) {
-			this.canvas = document.getElementById("canvas");
-			this.canvas.width = width;
-			this.canvas.height = height;
+			var canvas = document.getElementById(canvasId);
+			canvas.width = width;
+			canvas.height = height;
+			this.canvas = canvas;
 			this.aspectRatio = canvas.width / canvas.height;
 
 			// DEBUG
@@ -41,14 +42,13 @@ function App() {
 
 			// Create Shader
 			// ("shader-vs", "shader-fs"); // Shader form HTML tag.
-			this.shader = new Shader().init(this.gl, "../../shader/simple.vertex", "../../shader/white.fragment");
+			this.shader = this.getShader();
 	
 			// Create and start scene.
-			this.scene = new MyScene().init(gl, canvas, aspectRatio, shader);
+			this.scene = this.getScene();
 
 			// Create event manager with objects
-			this.eventManager = new MyEventManager().init( this );
-			
+			this.eventManager = this.getEventManager();
 		}
 	};
 
@@ -114,13 +114,20 @@ function App() {
 /**
  * Public entry point for the application.
  */
-App.prototype.start = function() {
-	this.init();
+App.prototype.start = function(canvasId) {
+	this.init(canvasId);
 	this.startLoop();
 };
 
 
+App.prototype.getShader = function() {
+	return new Shader().init(this.gl, "../../shader/simple.vertex", "../../shader/white.fragment");
+};
 
-////////////////////dependent imports ////////////////////
+App.prototype.getScene = function() {
+	return new Scene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
+};
 
-import("myApp.js");
+App.prototype.getEventManager = function() {
+	return new EventManager().init(this);
+};
