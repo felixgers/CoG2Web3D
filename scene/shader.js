@@ -91,10 +91,11 @@ function Shader(){
 			return null;
 		}
 		// Do not open asynchronously, thus wait for the response.
+		request.overrideMimeType("text/plain");
 		request.open("GET", url, false); 
 		request.send(null);
 		// Check if we got HTTP status 200 (OK)
-		if (request.status == 200) {
+		if (request.status == 0) {
 			return request.responseText;
 		} else { // Failed
 			alert("Could not load shader file: "+url); 
