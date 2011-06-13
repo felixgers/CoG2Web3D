@@ -1,6 +1,5 @@
 /**
  * 
- * @param gl
  * @param width
  * @param height
  * @returns {Triangle}
@@ -32,7 +31,6 @@ Triangle.prototype = new Shape;
 
 /**
  * 
- * @param gl
  * @param width
  * @param height
  * @returns {Rectangle}
@@ -66,7 +64,6 @@ Rectangle.prototype = new Shape;
 
 /**
  * 
- * @param gl
  * @param width
  * @param height
  * @returns {Triangle}
