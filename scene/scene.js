@@ -29,19 +29,18 @@ function Scene()
 		this.canvas = canvas;
 		this.aspectRatio = aspectRatio;
 		this.shader = shader;
-
 		this.matrices = new Matrices();
+		return this;
+	};
 
-		this.sceneGraph = this.buildSceneGraph();
-		
+
+	this.setSceneGraph = function(sceneGraph) {
+		this.sceneGraph = sceneGraph;
 		this.sceneHasCamera = this.recursiveSceneHasCamera(this.sceneGraph);
 		if(!this.sceneHasCamera) {
 			alert("The scene graph has no camera node.\nUsing default perspective.");
 		}
-		
 		this.InitGL();
-		
-		return this;
 	};
 
 	/**
@@ -49,13 +48,12 @@ function Scene()
 	 */
 	this.InitGL = function() {
 		with(this){
-			
 			gl.clearColor(0.0, 0.0, 0.0, 1.0);
 			gl.enable(gl.DEPTH_TEST);
 
 			// Draw once first.
-			this.sceneGraph.init(gl, matrices.pMatrix, matrices.mvMatrix, shader.shaderProgram);
-			this.drawSceneGraph(0.0);
+			sceneGraph.init(gl, matrices.pMatrix, matrices.mvMatrix, shader.shaderProgram);
+			drawSceneGraph(0.0);
 		}
 	};
 
@@ -99,22 +97,4 @@ function Scene()
 		return false;
 	};
 }
-
-/**
- * This function is to be overwritten in a child class.
- * @returns {sceneGraph}
- */
-Scene.prototype.buildSceneGraph = function(){
-
-	// Create some special Nodes
-	var sceneGraph = new Group();
-	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
-	
-	// Add all nodes directly (no other groups) to scene graph
-	sceneGraph.addChild(camera); // <------- Camera
-	sceneGraph.addChild(new Translation( 0, 0, -8.0));
-	sceneGraph.addChild(new RotorY(1.0));
-	sceneGraph.addChild(new Triangle(2.0, 2.0));
-	return sceneGraph;
-};
 
