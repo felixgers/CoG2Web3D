@@ -61,6 +61,8 @@ function Group() {
 			for(var i=0; i<children.length; i++) {
 				this.children[i].draw(time);
 			}
+			mat4.set(tempPMatrix, pMatrix);
+			mat4.set(tempMvMatrix, mvMatrix);
 		}
 	};
 }
@@ -143,4 +145,3 @@ Shape.prototype = new Node;
 import("../../scene/basicShapeNodes.js");
 import("../../scene/cameraNodes.js");
 import("../../scene/specialNodes.js");
-import("MyNodes.js"); // MySpecializedEventManager
