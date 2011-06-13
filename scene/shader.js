@@ -90,12 +90,15 @@ function Shader(){
 			alert("Could not create XMLHttpRequest"); 
 			return null;
 		}
+		// Check whether document is located in local file system.
+		var localFileSys = document.URL.match(/^file:\/\/.*?$/);
+		
 		// Do not open asynchronously, thus wait for the response.
-		request.overrideMimeType("text/plain");
 		request.open("GET", url, false); 
+		request.overrideMimeType("text/plain");
 		request.send(null);
-		// Check if we got HTTP status 200 (OK)
-		if (request.status == 0) {
+		// Check if we got HTTP status 200 (OK) or in local file system status 0
+		if ((localFileSys && request.status == 0) || request.status == 200) {
 			return request.responseText;
 		} else { // Failed
 			alert("Could not load shader file: "+url); 
@@ -103,6 +106,7 @@ function Shader(){
 		}
 	};
 
+	
 	/*
 	 * Try to load the shader source from an HTML tag
 	 * with given name as id.
