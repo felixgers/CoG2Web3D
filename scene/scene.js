@@ -98,3 +98,6 @@ function Scene()
 	};
 }
 
+////////////////////dependent imports ////////////////////
+
+import("myScene.js");
