@@ -12,7 +12,6 @@ import("../../app/events.js");
 import("../../app/app.js");
 
 
-
 /**
  * Import javascripts
  * @param javascriptPath optinalHTMLelement

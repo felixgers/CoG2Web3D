@@ -150,3 +150,7 @@ App.prototype.buildSceneGraph = function() {
 	sceneGraph.addChild(new Triangle(2.0, 2.0));
 	return sceneGraph;
 };
+
+////////////////////dependent imports ////////////////////
+
+import("myApp.js");

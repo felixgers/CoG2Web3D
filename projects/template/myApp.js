@@ -1,4 +1,3 @@
-import("myEvents.js");
 import("myNodes.js");
 import("myScene.js");
 

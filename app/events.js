@@ -140,4 +140,7 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 	};
 }
 
+////////////////////dependent imports ////////////////////
+
+import("myEvents.js");
 
