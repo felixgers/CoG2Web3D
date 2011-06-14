@@ -5,6 +5,8 @@
  */
 function App() {
 	var self = this;
+	// HTML Id of the Canvas in case there is more than one.
+	this.canvasId; 
 	this.canvas;
 	this.gl;
 	this.shader;
@@ -26,10 +28,11 @@ function App() {
 
 	this.init = function(canvasId) {
 		with (this) {
+			this.canvasId = canvasId;
 			var canvas = document.getElementById(canvasId);
+			this.canvas = canvas;
 			canvas.width = width;
 			canvas.height = height;
-			this.canvas = canvas;
 			this.aspectRatio = width / height;
 
 			// DEBUG
@@ -107,8 +110,7 @@ function App() {
 	this.stop = function() {
 		window.clearInterval(this.timerHandle);
 		this.timerHandle = null;
-	};
-	
+	};	
 };
 
 /**
