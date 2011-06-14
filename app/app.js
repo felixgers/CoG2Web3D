@@ -18,6 +18,8 @@ function App() {
 	this.height = 500;
 	this.aspectRatio;
 	this.aspectRatio;
+	this.vetexShaderName = "../../shader/simple.vertex";
+	this.fragmentShaderName = "../../shader/white.fragment";
 
 	// Loop parameter and variables.
 	this.framerate = 30.0;	
@@ -50,9 +52,9 @@ function App() {
 	
 			// Create and start scene.
 			this.scene = this.getScene();
-			// Set the scene graph
-			this.scene.setSceneGraph(this.buildSceneGraph());
-		}
+
+			// Create event manager with objects
+			this.eventManager = new MyEventManager().init( this );	}
 	};
 
 	/** 
@@ -126,7 +128,7 @@ App.prototype.start = function(canvasId) {
  * @returns {Shader}
  */
 App.prototype.getShader = function() {
-	return new Shader().init(this.gl, "../../shader/simple.vertex", "../../shader/white.fragment");
+	return new Shader().init(this.gl, this.vetexShaderName, this.fragmentShaderName );
 };
 
 /**
@@ -134,23 +136,7 @@ App.prototype.getShader = function() {
  * @returns {Scene}
  */
 App.prototype.getScene = function() {
-	return new Scene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
-};
-
-/**
- * Override this method to create a scene graph.
- * @returns {Group}
- */
-App.prototype.buildSceneGraph = function() {
-	// Create some special Nodes
-	var sceneGraph = new Group();
-	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
-	// Add all nodes directly (no other groups) to scene graph
-	sceneGraph.addChild(camera); // <------- Camera
-	sceneGraph.addChild(new Translation( 0, 0, -8.0));
-	sceneGraph.addChild(new RotorY(1.0));
-	sceneGraph.addChild(new Triangle(2.0, 2.0));
-	return sceneGraph;
+	return new MyScene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
 };
 
 ////////////////////dependent imports ////////////////////
