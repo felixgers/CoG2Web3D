@@ -1,21 +1,32 @@
 
 
-function EventManager(){
+function EventManager(app){
+	this.app
 	this.scene;
 
 	this.init = function( app ) {
-		this.scene = app;
+		this.app = app;
+		this.scene = this.app.scene;
+
+		this.initKeyEvents();
+		this.initMouseEvents();
+		
 		return this;
 	};
 };
 
-EventManager.prototype.handleKeyEvents = function() {
+/**
+ * Override this method to handle events.
+ */
+EventManager.prototype.initKeyEvents = function() {
 	with (this) {
 	}
 };
 
-
-EventManager.prototype.handleMouseEvents = function() {
+/**
+ * Override this method to handle events.
+ */
+EventManager.prototype.initMouseEvents = function() {
 	with (this) {
 	}
 };

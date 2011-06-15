@@ -3,16 +3,16 @@ function MyEventManager(){
 };
 MyEventManager.prototype = new EventManager;
 
-MyEventManager.prototype.handleKeyEvents = function() {
+EventManager.prototype.initKeyEvents = function() {
 	with (this) {
 	}
 };
 
-
-MyEventManager.prototype.handleMouseEvents = function() {
+EventManager.prototype.initMouseEvents = function() {
 	with (this) {
 	}
 };
+
 
 
 /**
