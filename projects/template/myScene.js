@@ -2,12 +2,20 @@ function MyScene(){};
 MyScene.prototype = new Scene;
 
 
+/**
+ * Override buildSceneGraph
+ */
 MyScene.prototype.buildSceneGraph = function() {
-
+	
 	// Create some special Nodes.
 	var sceneGraph = new Group();
-	speedRotor = new RotorXMutableSpeed(0.5);
+	var speedRotor = new RotorXMutableSpeed(0.5);
 	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
+	
+	// Add these objects as properties,
+	// so that the event manager can access them.
+	this.camera = camera;
+	this.speedRotor = speedRotor;
 
 	// Create 1st group with triangle.
 	var g2 = new Group();
@@ -36,3 +44,4 @@ MyScene.prototype.buildSceneGraph = function() {
 
 	return sceneGraph;
 };
+
