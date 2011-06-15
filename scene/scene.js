@@ -12,13 +12,10 @@ function Scene()
 	// Variables used in the draw method.
 	this.gl;
 	this.canvas;
+	this.matrices;
 	this.shader;
 	this.sceneGraph;
-	//this.camera = null; // todo set this
-
-	this.matrices;
-
-	this.sceneHasCamera = false; // will be set automatically // to replace with camera == null
+	this.camera = null;	// will be set automatically given the scenegraph.
 
 	// Viewing parameter.
 	this.aspectRatio;
@@ -35,8 +32,8 @@ function Scene()
 		// Set the scene graph
 		this.sceneGraph = this.buildSceneGraph();
 
-		this.sceneHasCamera = this.recursiveSceneHasCamera(this.sceneGraph);
-		if(!this.sceneHasCamera) {
+		this.camera = this.recursiveSceneHasCamera(this.sceneGraph);
+		if(!this.camera) {
 			alert("The scene graph has no camera node.\nUsing default perspective.");
 		}
 		
@@ -76,7 +73,7 @@ function Scene()
 		mat4.identity(mvMatrix); // Set to identity.
 		mat4.identity(pMatrix); // Set to identity.
 
-		if(!this.sceneHasCamera) {		
+		if(!this.camera) {		
 			mat4.perspective(45.0, this.aspectratio, 1, 100, pMatrix);
 		}
 		sceneGraph.draw(time);
@@ -89,14 +86,15 @@ function Scene()
 		if(node.groupFlag) {
 			var children = node.children;
 			for(var i=0; i<children.length; i++) {
-				if(this.recursiveSceneHasCamera(children[i])) {
-					return true;
+				node = this.recursiveSceneHasCamera(children[i]);
+				if(node) {
+					return node;
 				}
 			}
 		} else if (node.cameraFlag) {
-			return true;
+			return node;
 		}
-		return false;
+		return null;
 	};
 }
 

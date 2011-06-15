@@ -7,7 +7,8 @@ function EventManager(app){
 	this.init = function( app ) {
 		this.app = app;
 		this.scene = this.app.scene;
-
+		this.camera = this.scene.camera;
+		
 		this.initKeyEvents();
 		this.initMouseEvents();
 		

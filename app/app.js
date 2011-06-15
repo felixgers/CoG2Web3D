@@ -54,7 +54,8 @@ function App() {
 			this.scene = this.getScene();
 
 			// Create event manager with objects
-			this.eventManager = new MyEventManager().init( this );	}
+			this.eventManager = new MyEventManager().init( this );	
+		}
 	};
 
 	/** 
