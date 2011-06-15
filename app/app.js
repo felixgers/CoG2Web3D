@@ -43,12 +43,13 @@ function App() {
 
 			// Create Shader
 			// ("shader-vs", "shader-fs"); // Shader form HTML tag.
-			this.shader = this.getShader();
+			this.shader = this.createShader();
 	
-			// Create and start scene.
-			this.scene = this.getScene();
-			// Set the scene graph
-			this.scene.setSceneGraph(this.buildSceneGraph());
+			// Create and initial draw of scene.
+			this.scene = this.createScene();
+			
+			// Create the eventManager.
+			this.eventManager = this.createEventManager();
 		}
 	};
 
@@ -111,6 +112,7 @@ function App() {
 	
 };
 
+
 /**
  * Public entry point for the application.
  */
@@ -119,34 +121,29 @@ App.prototype.start = function(canvasId) {
 	this.startLoop();
 };
 
+
 /**
  * Override this method to apply another shader program
  * @returns {Shader}
  */
-App.prototype.getShader = function() {
+App.prototype.createShader = function() {
 	return new Shader().init(this.gl, "../../shader/simple.vertex", "../../shader/white.fragment");
 };
+
 
 /**
  * Override this method to apply another scene for the app.
  * @returns {Scene}
  */
-App.prototype.getScene = function() {
+App.prototype.createScene = function() {
 	return new Scene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
 };
 
+
 /**
- * Override this method to create a scene graph.
- * @returns {Group}
+ * Override this method to apply an event manager to the app.
+ * @returns {EventManager}
  */
-App.prototype.buildSceneGraph = function() {
-	// Create some special Nodes
-	var sceneGraph = new Group();
-	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
-	// Add all nodes directly (no other groups) to scene graph
-	sceneGraph.addChild(camera); // <------- Camera
-	sceneGraph.addChild(new Translation( 0, 0, -8.0));
-	sceneGraph.addChild(new RotorY(1.0));
-	sceneGraph.addChild(new Triangle(2.0, 2.0));
-	return sceneGraph;
+App.prototype.createEventManager = function() {
+	return null;
 };
