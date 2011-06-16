@@ -49,7 +49,7 @@ function App() {
 			// Create Shader
 			// ("shader-vs", "shader-fs"); // Shader form HTML tag.
 			this.shader = this.getShader();
-	
+
 			// Create and start scene.
 			this.scene = this.getScene();
 
@@ -77,9 +77,11 @@ function App() {
 		return gl;
 	};
 
-	
+
 	this.startLoop = function() {
-		with(this){			
+		with(this){	
+			// Check if loop is already running.
+			if(this.timerHandle){ return; }
 			// Start interval
 			var startDate = new Date();
 			this.startTime = startDate.getTime()/1000.0;
@@ -87,8 +89,19 @@ function App() {
 			this.timerHandle = window.setInterval( function(){self.update();}, (1000.0/this.framerate));
 		}
 	};
-	
+
 	/**
+	 * Stop scene time
+	 */
+	this.stopLoop = function() {
+		if(this.timerHandle){
+			window.clearInterval(this.timerHandle);
+			this.timerHandle = null;
+		}
+	};	
+
+	/**
+	 * Main loop.
 	 * Called by window interval handler
 	 */
 	this.update = function() {
@@ -97,7 +110,7 @@ function App() {
 		var newDate = new Date();
 		var time = (newDate.getTime() / 1000.0) - this.startTime;
 
-		this.scene.drawSceneGraph(time);
+		this.scene.draw(time);
 
 		// DEBUG
 		// --------------------------------------------
@@ -106,14 +119,6 @@ function App() {
 		// --------------------------------------------
 	};
 
-
-	/**
-	 * Stop scene time
-	 */
-	this.stop = function() {
-		window.clearInterval(this.timerHandle);
-		this.timerHandle = null;
-	};	
 };
 
 /**
@@ -126,6 +131,7 @@ App.prototype.start = function(canvasId) {
 
 /**
  * Override this method to apply another shader program
+ * or simply override the variables used within the method in the MyApp class.
  * @returns {Shader}
  */
 App.prototype.getShader = function() {
@@ -133,7 +139,8 @@ App.prototype.getShader = function() {
 };
 
 /**
- * Override this method to apply another scene for the app.
+ * Override this method to apply another scene for the application
+ * or simply override the MyScene class.
  * @returns {Scene}
  */
 App.prototype.getScene = function() {

@@ -49,35 +49,11 @@ function Scene()
 		with(this){
 			gl.clearColor(0.0, 0.0, 0.0, 1.0);
 			gl.enable(gl.DEPTH_TEST);
-
-			// Draw once first.
+			
 			sceneGraph.init(gl, matrices.pMatrix, matrices.mvMatrix, shader.shaderProgram);
-			drawSceneGraph(0.0);
 		}
 	};
 
-
-	/**
-	 * Draw scene graph
-	 */
-	this.drawSceneGraph = function(time) {
-
-		// Some shortcuts for variables.
-		var gl = this.gl;
-		var pMatrix = this.matrices.pMatrix;
-		var mvMatrix = this.matrices.mvMatrix;
-		var sceneGraph = this.sceneGraph;
-
-		// Clear canvas an z-buffer.
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-		mat4.identity(mvMatrix); // Set to identity.
-		mat4.identity(pMatrix); // Set to identity.
-
-		if(!this.camera) {		
-			mat4.perspective(45.0, this.aspectratio, 1, 100, pMatrix);
-		}
-		sceneGraph.draw(time);
-	};
 
 	/**
 	 * This method checks if the scene graph has a camera node attached.
@@ -113,6 +89,94 @@ Scene.prototype.buildSceneGraph = function() {
 	sceneGraph.addChild(new Triangle(2.0, 2.0));
 	return sceneGraph;
 };
+
+
+/**
+ * Draw animated scene and scene graph.
+ */
+Scene.prototype.draw = function(time) {
+
+	// Some shortcuts for variables.
+	var gl = this.gl;
+	var pMatrix = this.matrices.pMatrix;
+	var mvMatrix = this.matrices.mvMatrix;
+	var sceneGraph = this.sceneGraph;
+
+	// Clear canvas an z-buffer.
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	mat4.identity(mvMatrix); // Set to identity.
+	mat4.identity(pMatrix); // Set to identity.
+	
+	// Set some default frustrum.
+	if(!this.camera) {		
+		mat4.perspective(45.0, this.aspectratio, 1, 100, pMatrix);
+	}
+	
+	this.update(time);
+	
+	sceneGraph.draw(time);
+};
+
+/**
+ * Handle animation and interaction in the scene and the scene graph.
+ */
+Scene.prototype.update = function(time) {
+};
+
+
+/**
+ * Override to handle events.
+ * @param event
+ */
+Scene.prototype.handleMouseEvent = function(e) {
+};
+
+/**
+ * Override to handle events.
+ * @param event
+ */
+Scene.prototype.handleKeyDown = function(e) {	
+	switch (e.keycode) {
+	case 38: // up arrow
+		if(up)
+			this.camera.speedF = 1.0;
+		else
+			this.camera.speedF = 0.0;
+		break;
+
+	case 40: // down arrow
+		if(up)
+			this.camera.speedF = -1.0;
+		else
+			this.camera.speedF = 0.0;
+		break;
+		
+	case 37: // left arrow
+		if(up)
+			this.camera.speedS = -1.0;
+		else
+			this.camera.speedS = 0.0;
+		break;
+		
+	case 39: // right arrow
+		if(up)
+			this.camera.speedS = 1.0;
+		else
+			this.camera.speedS = 0.0;
+		break;
+
+	default:
+		break;
+	}
+};
+
+/**
+ * Override to handle events.
+ * @param event
+ */
+Scene.prototype.handleKeyUp = function(e) {
+};
+
 
 ////////////////////dependent imports ////////////////////
 

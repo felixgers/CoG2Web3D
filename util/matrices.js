@@ -11,6 +11,7 @@ function Matrices() {
 	this.mvMatrix = mat4.create();
 	// Matrix stack for mvMatrix.
 	this.mvMatrixStack = [];
+	// We do not yet need a matrix stack for pMatrix.
 
 	this.mvPushMatrix = function() {
 		var copy = mat4.create();

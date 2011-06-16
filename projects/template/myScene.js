@@ -36,3 +36,28 @@ MyScene.prototype.buildSceneGraph = function() {
 
 	return sceneGraph;
 };
+
+
+MyScene.prototype.update = function(time) {
+};
+
+
+MyScene.prototype.handleMouseEvent = function(e) {
+};
+
+MyScene.prototype.__handleKeyDown = function(e) {
+	switch (e.keycode) {
+	case 107: // +
+		if(up)
+		this.speedRotor.speed += this.acceleration;
+		break;
+
+	case 109: // -
+		this.speedRotor.speed -= this.acceleration;
+		break;
+	}
+};
+
+MyScene.prototype.handleKeyUp = function(e) {
+};
+
