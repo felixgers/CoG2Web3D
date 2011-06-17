@@ -12,7 +12,11 @@ function Scene()
 	// Variables used in the draw method.
 	this.gl;
 	this.canvas;
-	this.matrices;
+	// Projection matrix stack.
+	this.pMatrix;
+	// Model-View matrix stack.
+	this.mvMatrix;
+
 	this.shader;
 	this.sceneGraph;
 	this.camera = null;	// will be set automatically given the scenegraph.
@@ -26,9 +30,10 @@ function Scene()
 		this.canvas = canvas;
 		this.aspectRatio = aspectRatio;
 		this.shader = shader;
-		
-		this.matrices = new Matrices();
-		
+
+		this.pMatrix = new MatrixStack();
+		this.mvMatrix = new MatrixStack();
+
 		// Set the scene graph
 		this.sceneGraph = this.buildSceneGraph();
 
@@ -36,7 +41,7 @@ function Scene()
 		if(!this.camera) {
 			alert("The scene graph has no camera node.\nUsing default perspective.");
 		}
-		
+
 		this.InitGL();
 
 		return this;
@@ -49,8 +54,8 @@ function Scene()
 		with(this){
 			gl.clearColor(0.0, 0.0, 0.0, 1.0);
 			gl.enable(gl.DEPTH_TEST);
-			
-			sceneGraph.init(gl, matrices.pMatrix, matrices.mvMatrix, shader.shaderProgram);
+
+			sceneGraph.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
 		}
 	};
 
@@ -95,26 +100,20 @@ Scene.prototype.buildSceneGraph = function() {
  * Draw animated scene and scene graph.
  */
 Scene.prototype.draw = function(time) {
+	with(this){
+		// Clear canvas an z-buffer.
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		mvMatrix.identity();
+		pMatrix.identity();
 
-	// Some shortcuts for variables.
-	var gl = this.gl;
-	var pMatrix = this.matrices.pMatrix;
-	var mvMatrix = this.matrices.mvMatrix;
-	var sceneGraph = this.sceneGraph;
+		// Set some default frustrum.
+		if(!camera) {		
+			mat4.perspective(45.0, aspectratio, 1, 100, pMatrix.top);
+		}
 
-	// Clear canvas an z-buffer.
-	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-	mat4.identity(mvMatrix); // Set to identity.
-	mat4.identity(pMatrix); // Set to identity.
-	
-	// Set some default frustrum.
-	if(!this.camera) {		
-		mat4.perspective(45.0, this.aspectratio, 1, 100, pMatrix);
+		update(time);
+		sceneGraph.draw(time);
 	}
-	
-	this.update(time);
-	
-	sceneGraph.draw(time);
 };
 
 /**
@@ -139,7 +138,7 @@ Scene.prototype.handleKeyDown = function(e) {
 	switch (e.keycode) {
 	case 38: // up arrow
 		if(up)
-			this.camera.speedF = 1.0;
+			camera.speedF = 1.0;
 		else
 			this.camera.speedF = 0.0;
 		break;
@@ -150,14 +149,14 @@ Scene.prototype.handleKeyDown = function(e) {
 		else
 			this.camera.speedF = 0.0;
 		break;
-		
+
 	case 37: // left arrow
 		if(up)
 			this.camera.speedS = -1.0;
 		else
 			this.camera.speedS = 0.0;
 		break;
-		
+
 	case 39: // right arrow
 		if(up)
 			this.camera.speedS = 1.0;

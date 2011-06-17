@@ -19,7 +19,7 @@ function PerspectiveCamera(verticalFieldOfView, aspectratio, nearClipPlane, farC
 		var ar = this.aspectratio;
 		var nc = this.nearClipPlane;
 		var fc = this.farClipPlane;
-		mat4.perspective(fov, ar, nc, fc, this.pMatrix);
+		mat4.perspective(fov, ar, nc, fc, this.pMatrix.top);
 	};
 }
 PerspectiveCamera.prototype = new Node;
@@ -110,10 +110,10 @@ function PositionCamera(verticalFieldOfView, aspectratio, nearClipPlane, farClip
 				pos[2] += vS * xv; 
 			}
 
-			mat4.perspective(fov, ar, nc, fc, pMatrix);
-			mat4.rotateX(pMatrix, xrt);
-			mat4.rotateY(pMatrix, yrt);
-			mat4.translate(pMatrix, pos);
+			mat4.perspective(fov, ar, nc, fc, pMatrix.top);
+			mat4.rotateX(pMatrix.top, xrt);
+			mat4.rotateY(pMatrix.top, yrt);
+			mat4.translate(pMatrix.top, pos);
 
 			this.position = pos;
 		}

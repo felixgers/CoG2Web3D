@@ -51,18 +51,15 @@ function Group() {
 
 	this.draw = function(time) { 
 		with(this) {
-			var tempPMatrix = new glMatrixArrayType(16);
-			var tempMvMatrix = new glMatrixArrayType(16);
-
-			// Store values in temp matrices.
-			mat4.set(pMatrix, tempPMatrix);
-			mat4.set(mvMatrix, tempMvMatrix);
+			// Preserve the current transformation.
+			// Not for the perspective, assuming it does not change.
+			mvMatrix.push();
 
 			for(var i=0; i<children.length; i++) {
 				this.children[i].draw(time);
 			}
-			mat4.set(tempPMatrix, pMatrix);
-			mat4.set(tempMvMatrix, mvMatrix);
+			// Go back up in transformation hierarchy.
+			mvMatrix.pop();
 		}
 	};
 }
@@ -79,7 +76,8 @@ Group.prototype = new Node;
 function Translation(x, y, z) {
 	this.trans = new Array(x,y,z);
 	this.draw = function(time) {
-		mat4.translate(this.mvMatrix, this.trans); // Translate.
+		//this.mvMatrix.translate(this.trans);
+		mat4.translate(this.mvMatrix.top, this.trans); // Translate.
 	};
 }
 Translation.prototype = new Node;
@@ -94,7 +92,7 @@ Translation.prototype = new Node;
 function Scale(x, y, z) {
 	this.scale = new Array(x,y,z);
 	this.draw = function(time) { 
-		mat4.scale(this.mvMatrix, this.scale);
+		mat4.scale(this.mvMatrix.top, this.scale);
 	};
 }
 Scale.prototype = new Node();
@@ -108,7 +106,7 @@ Scale.prototype = new Node();
 function RotorY(speed) { 
 	this.speed = speed;
 	this.draw = function(time) { 
-		mat4.rotateY(this.mvMatrix, Math.PI * this.speed * time);
+		mat4.rotateY(this.mvMatrix.top, Math.PI * this.speed * time);
 	};
 }
 RotorY.prototype = new Node;
@@ -130,8 +128,8 @@ function Shape() {
 			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.itemSize, gl.FLOAT, false, 0, 0);
 			// Push the modified matrices into the the shader program,
 			// at the correct position, that we stored.
-			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-			gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix.top);
+			gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix.top);
 
 			gl.drawArrays(this.tesselationMode, 0, this.numItems);
 		}
