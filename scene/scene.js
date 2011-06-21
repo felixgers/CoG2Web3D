@@ -107,8 +107,8 @@ Scene.prototype.draw = function(time) {
 		pMatrix.identity();
 
 		// Set some default frustrum.
-		if(!camera) {		
-			mat4.perspective(45.0, aspectratio, 1, 100, pMatrix.top);
+		if(!camera) {	
+			this.pMatrix.perspective(45.0, aspectratio, 1, 100);
 		}
 
 		update(time);

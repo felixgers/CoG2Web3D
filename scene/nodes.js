@@ -76,8 +76,7 @@ Group.prototype = new Node;
 function Translation(x, y, z) {
 	this.trans = new Array(x,y,z);
 	this.draw = function(time) {
-		//this.mvMatrix.translate(this.trans);
-		mat4.translate(this.mvMatrix.top, this.trans); // Translate.
+		this.mvMatrix.translate(this.trans);
 	};
 }
 Translation.prototype = new Node;
@@ -92,7 +91,7 @@ Translation.prototype = new Node;
 function Scale(x, y, z) {
 	this.scale = new Array(x,y,z);
 	this.draw = function(time) { 
-		mat4.scale(this.mvMatrix.top, this.scale);
+		this.mvMatrix.scale(this.scale);
 	};
 }
 Scale.prototype = new Node();
@@ -105,8 +104,8 @@ Scale.prototype = new Node();
  */
 function RotorY(speed) { 
 	this.speed = speed;
-	this.draw = function(time) { 
-		mat4.rotateY(this.mvMatrix.top, Math.PI * this.speed * time);
+	this.draw = function(time) {
+		this.mvMatrix.rotateY(Math.PI * this.speed * time);
 	};
 }
 RotorY.prototype = new Node;
