@@ -111,6 +111,19 @@ function RotorY(speed) {
 RotorY.prototype = new Node;
 
 /**
+ * Y Rotation rotor
+ * animates a y rotation
+ * @param speed as frequency (rotations per second)
+ */
+function Rotate(x,y,z) { 
+	this.draw = function(time) {
+		this.mvMatrix.rotateX(x);
+		this.mvMatrix.rotateY(y);
+		this.mvMatrix.rotateZ(z);
+	};
+}
+Rotate.prototype = new Node;
+/**
  * Shape base class
  * @param gl
  * @returns {Shape}
