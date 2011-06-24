@@ -121,3 +121,6 @@ function PositionCamera(verticalFieldOfView, aspectratio, nearClipPlane, farClip
 };
 PositionCamera.prototype = new Node;
 
+////////////////////dependent imports ////////////////////
+
+importScript("../../scene/specialNodes.js");

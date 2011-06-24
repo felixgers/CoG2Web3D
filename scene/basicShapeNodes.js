@@ -96,3 +96,7 @@ function Box(width, height, depth)
 }
 Box.prototype = new Shape;
 
+////////////////////dependent imports ////////////////////
+
+importScript("../../scene/cameraNodes.js");
+

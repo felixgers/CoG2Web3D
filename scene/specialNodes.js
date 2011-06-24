@@ -22,3 +22,7 @@ function RotorXMutableSpeed(startSpeed)
 	};
 }
 RotorXMutableSpeed.prototype = new Node;
+
+////////////////////dependent imports ////////////////////
+
+importScript("myNodes.js"); 
