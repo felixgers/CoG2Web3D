@@ -1,25 +1,28 @@
 // First import all required JS modules
 // Therefore the HTML document must load the script star.js first.
-// More import statements may follow at the end of JS files to cover dependencies.
-import("../../util/glMatrix.js");
-import("../../util/matrixStack.js");
+// More importScript statements may follow at the end of JS files to cover dependencies.
+importScript("../../util/glMatrix.js");
+importScript("../../util/matrixStack.js");
 
-import("../../scene/shader.js");
-import("../../scene/nodes.js");
-import("../../scene/scene.js");
+importScript("../../scene/shader.js");
+importScript("../../scene/nodes.js");
+importScript("../../scene/scene.js");
 
-import("../../app/events.js"); 
-import("../../app/app.js");
+importScript("../../app/events.js"); 
+importScript("../../app/app.js");
 
 
 /**
- * Import javascripts
+ * importScript javascripts
  * @param javascriptPath optinalHTMLelement
  */
-function import(javascriptPath) {
+function importScript(javascriptPath) {
 	var script = document.createElement("script");
 	script.setAttribute("type", "text/javascript");
 	script.setAttribute("src", javascriptPath);
 	var absPath = script.src;
-	document.getElementsByTagName("head")[0].appendChild(script);
+	var parentElement = "head";
+	if(arguments.length > 1){parentElement = arguments[1];}
+	document.getElementsByTagName(parentElement)[0].appendChild(script);
 }
+

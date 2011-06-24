@@ -149,4 +149,4 @@ App.prototype.getScene = function() {
 
 ////////////////////dependent imports ////////////////////
 
-import("myApp.js");
+importScript("myApp.js");

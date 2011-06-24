@@ -179,4 +179,4 @@ Scene.prototype.handleKeyUp = function(e) {
 
 ////////////////////dependent imports ////////////////////
 
-import("myScene.js");
+importScript("myScene.js");

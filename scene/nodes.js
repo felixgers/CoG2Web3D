@@ -139,7 +139,7 @@ Shape.prototype = new Node;
 
 ////////////////////dependent imports ////////////////////
 
-import("../../scene/basicShapeNodes.js");
-import("../../scene/cameraNodes.js");
-import("../../scene/specialNodes.js");
-import("myNodes.js"); // MySpecializedEventManager
+importScript("../../scene/basicShapeNodes.js");
+importScript("../../scene/cameraNodes.js");
+importScript("../../scene/specialNodes.js");
+importScript("myNodes.js"); 
