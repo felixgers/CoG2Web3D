@@ -5,6 +5,8 @@
  */
 function App() {
 	var self = this;
+	// HTML Id of the Canvas in case there is more than one.
+	this.canvasId; 
 	this.canvas;
 	this.gl;
 	this.shader;
@@ -16,6 +18,8 @@ function App() {
 	this.height = 500;
 	this.aspectRatio;
 	this.aspectRatio;
+	this.vetexShaderName = "../../shader/simple.vertex";
+	this.fragmentShaderName = "../../shader/white.fragment";
 
 	// Loop parameter and variables.
 	this.framerate = 30.0;	
@@ -26,10 +30,11 @@ function App() {
 
 	this.init = function(canvasId) {
 		with (this) {
+			this.canvasId = canvasId;
 			var canvas = document.getElementById(canvasId);
+			this.canvas = canvas;
 			canvas.width = width;
 			canvas.height = height;
-			this.canvas = canvas;
 			this.aspectRatio = width / height;
 
 			// DEBUG
@@ -43,13 +48,14 @@ function App() {
 
 			// Create Shader
 			// ("shader-vs", "shader-fs"); // Shader form HTML tag.
-			this.shader = this.createShader();
-	
-			// Create and initial draw of scene.
-			this.scene = this.createScene();
-			
-			// Create the eventManager.
-			this.eventManager = this.createEventManager();
+
+			this.shader = this.getShader();
+
+			// Create and start scene.
+			this.scene = this.getScene();
+
+			// Create event manager with objects
+			this.eventManager = new MyEventManager().init( this );	
 		}
 	};
 
@@ -72,9 +78,11 @@ function App() {
 		return gl;
 	};
 
-	
+
 	this.startLoop = function() {
-		with(this){			
+		with(this){	
+			// Check if loop is already running.
+			if(this.timerHandle){ return; }
 			// Start interval
 			var startDate = new Date();
 			this.startTime = startDate.getTime()/1000.0;
@@ -82,8 +90,19 @@ function App() {
 			this.timerHandle = window.setInterval( function(){self.update();}, (1000.0/this.framerate));
 		}
 	};
-	
+
 	/**
+	 * Stop scene time
+	 */
+	this.stopLoop = function() {
+		if(this.timerHandle){
+			window.clearInterval(this.timerHandle);
+			this.timerHandle = null;
+		}
+	};	
+
+	/**
+	 * Main loop.
 	 * Called by window interval handler
 	 */
 	this.update = function() {
@@ -92,7 +111,7 @@ function App() {
 		var newDate = new Date();
 		var time = (newDate.getTime() / 1000.0) - this.startTime;
 
-		this.scene.drawSceneGraph(time);
+		this.scene.draw(time);
 
 		// DEBUG
 		// --------------------------------------------
@@ -101,15 +120,6 @@ function App() {
 		// --------------------------------------------
 	};
 
-
-	/**
-	 * Stop scene time
-	 */
-	this.stop = function() {
-		window.clearInterval(this.timerHandle);
-		this.timerHandle = null;
-	};
-	
 };
 
 
@@ -124,26 +134,24 @@ App.prototype.start = function(canvasId) {
 
 /**
  * Override this method to apply another shader program
+ * or simply override the variables used within the method in the MyApp class.
  * @returns {Shader}
  */
-App.prototype.createShader = function() {
-	return new Shader().init(this.gl, "../../shader/simple.vertex", "../../shader/white.fragment");
+App.prototype.getShader = function() {
+	return new Shader().init(this.gl, this.vetexShaderName, this.fragmentShaderName );
 };
 
 
 /**
- * Override this method to apply another scene for the app.
+ * Override this method to apply another scene for the application
+ * or simply override the MyScene class.
  * @returns {Scene}
  */
-App.prototype.createScene = function() {
-	return new Scene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
+App.prototype.getScene = function() {
+	return new MyScene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
 };
 
+////////////////////dependent imports ////////////////////
 
-/**
- * Override this method to apply an event manager to the app.
- * @returns {EventManager}
- */
-App.prototype.createEventManager = function() {
-	return null;
-};
+importScript("myApp.js");
+

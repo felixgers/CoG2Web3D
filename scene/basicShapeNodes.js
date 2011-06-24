@@ -68,7 +68,7 @@ Rectangle.prototype = new Shape;
  * @param height
  * @returns {Triangle}
  */
-function Box(width, height)
+function Box(width, height, depth)
 {
 	this.superInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
@@ -78,15 +78,20 @@ function Box(width, height)
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
 		var w = width/2.0;
 		var h = height/2.0;
-		var vertices = [
-		                0.0,  h,  0.0,
-		                -w, -h,  0.0,
-		                w, -h,  0.0
-		                ];
+		var depth = depth/2.0;
+		// Build the box from triangles.
+		// First corners of Box are specified.
+		// Corners are used for triangle vertices.
+		var vertices = new Array;
+		vertices.push();
+//		                0.0,  h,  0.0,
+//		                -w, -h,  0.0,
+//		                w, -h,  0.0
+//		                ];
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 		this.itemSize = 3;
 		this.numItems = 3;
-		this.tesselationMode = gl.TRIANGLES;
+		this.tesselationMode = gl.TRIANGLE_STRIP;
 	};
 }
 Box.prototype = new Shape;

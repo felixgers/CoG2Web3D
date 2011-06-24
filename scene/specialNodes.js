@@ -17,7 +17,7 @@ function RotorXMutableSpeed(startSpeed)
 	// May be someone can help to optimize this method or get is faster.
 	this.draw = function(time) {
 		this.currentRotation += (time - this.lastTime) * Math.PI * this.speed;
-		mat4.rotateX(this.mvMatrix, this.currentRotation);
+		mat4.rotateX(this.mvMatrix.top, this.currentRotation);
 		this.lastTime = time;
 	};
 }

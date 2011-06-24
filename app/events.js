@@ -1,24 +1,89 @@
+/*
+ * Event are handled in a top-down fashion first. 
+ * Then an event is passed on to the scenegraph via the scene,
+ * where it is propagated through the hierarchy.
+ */
 
-
-function EventManager(){
+function EventManager(app){
+	this.app;
 	this.scene;
+	this.canvas;
 
 	this.init = function( app ) {
-		this.scene = app;
+		this.app = app;
+		this.scene = this.app.scene;
+		this.canvas = this.app.canvas;
+
+		this.initEventHandlers();
+		this.initCustomEventHandlers();
+
 		return this;
 	};
 };
 
-EventManager.prototype.handleKeyEvents = function() {
-	with (this) {
-	}
+/**
+ * Override this method to handle events differently.
+ */
+EventManager.prototype.initEventHandlers = function() {
+	var thisEM = this;
+	var app = this.app;
+	var scene = this.scene;
+	var canvas = this.canvas;
+
+	// Propagate canvas events to the scene.
+	canvas.addEventListener("click", function(e){scene.handleMouseEvent(e);}, false);
+	canvas.addEventListener("mousedown", function(e){scene.handleMouseEvent(e);}, false);
+	canvas.addEventListener("mouseup", function(e){scene.handleMouseEvent(e);}, false);
+	canvas.addEventListener("mousover", function(e){scene.handleMouseEvent(e);}, false);
+	canvas.addEventListener("mousemove", function(e){scene.handleMouseEvent(e);}, false);
+	canvas.addEventListener("mousout", function(e){scene.handleMouseEvent(e);}, false);
+
+	// Propagate key events to the scene.
+	document.onkeydown = function(e){scene.handleKeyDown(e);};
+	document.onkeyup = function(e){scene.handleKeyUp(e);};
+
+	// Handle application mouse events.
+	document.addEventListener("click", function(e){thisEM.handleMouseEvent(e);}, false);
+	document.addEventListener("mousedown", function(e){thisEM.handleMouseEvent(e);}, false);
+	document.addEventListener("mouseup", function(e){thisEM.handleMouseEvent(e);}, false);
+	document.addEventListener("mousover", function(e){thisEM.handleMouseEvent(e);}, false);
+	document.addEventListener("mousemove", function(e){thisEM.handleMouseEvent(e);}, false);
+	document.addEventListener("mousout", function(e){thisEM.handleMouseEvent(e);}, false);
+	
+	// Handle application key events.
+	document.onkeydown = function(e){thisEM.handleKeyDown(e);};
+	document.onkeyup = function(e){thisEM.handleKeyUp(e);};
+};
+
+/**
+ * Override this method to use custom event handlers.
+ */
+EventManager.prototype.initCustomEventHandlers = function() {
 };
 
 
-EventManager.prototype.handleMouseEvents = function() {
-	with (this) {
-	}
+/**
+ * Override to handle events.
+ * @param event
+ */
+EventManager.prototype.handleMouseEvent = function(e) {
 };
+
+/**
+ * Override to handle events.
+ * @param event
+ */
+EventManager.prototype.handleKeyDown = function(e) {
+};
+
+/**
+ * Override to handle events.
+ * @param event
+ */
+EventManager.prototype.handleKeyUp = function(e) {
+};
+
+
 
 //todo integrate the following
 
@@ -140,4 +205,7 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 	};
 }
 
+////////////////////dependent imports ////////////////////
+
+importScript("myEvents.js");
 

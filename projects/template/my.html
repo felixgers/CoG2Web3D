@@ -6,8 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="../../css/webGL.css">
 	<link rel="stylesheet" type="text/css" href="my.css">
 	
-	<script type="text/javascript" src="../../app/start.js"></script>
-	<script type="text/javascript" src="myApp.js"></script>
+	<script type="text/javascript" src="../../app/import.js"></script>
 </head>
 
 <body>
@@ -17,7 +16,7 @@
 	<div class="part">
 		<h3>Keys:</h3>
 		Rectangle<br>
-		<div class="key"><span class="key">+</span></div> Increase rotation speed<br>
+		<div class="key" id="irs"><span class="key">+</span></div> Increase rotation speed<br>
 		<div class="key"><span class="key">-</span></div> Decrease rotation speed<br>
 		Camera<br>
 		<div class="key"><span class="key">&larr;</span></div> Shift left<br>
@@ -27,8 +26,8 @@
 		<br>
 		
 		<h3>Start & stop time:</h3>
-		<button onclick="startScene()">Start</button><br>
-		<button onclick="stopScene()">Stop</button><br>
+		<button id="startButton">Start</button><br>
+		<button id="stopButton">Stop</button><br>
 		<br>
 		
 		<h3>Mouse:</h3>
