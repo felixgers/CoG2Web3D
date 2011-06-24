@@ -130,8 +130,8 @@ function Model(filename,gl,shader){
 					
 					
 					
-					gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-					gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+					gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix.top);
+			        gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix.top);
 					
 					gl.drawElements(gl.TRIANGLES,vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 				}	
