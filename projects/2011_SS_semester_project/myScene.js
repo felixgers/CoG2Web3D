@@ -5,9 +5,19 @@ importScript("json2.js");
 function MyScene(){}
 MyScene.prototype = new Scene;
 
+MyScene.prototype.setGLOptions=function(){
+//this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE);
+
+//this.gl.blendFunc( this.gl.FUNC_ADD );
+this.gl.blendFunc( this.gl.SRC_COLOR, this.gl.ONE_MINUS_CONSTANT_COLOR );
+this.gl.enable(this.gl.BLEND);
+this.gl.enable(this.gl.SAMPLE_COVERAGE);
+}
+
 
 MyScene.prototype.buildSceneGraph = function() {
 
+		this.setGLOptions();
 
 		// Create some special Nodes.
 		var sceneGraph = new Group();
@@ -30,8 +40,15 @@ MyScene.prototype.buildSceneGraph = function() {
 		g2.addChild(new Translation(0, -1.5, -5.0));
 		g2.addChild(new Rotate(1.8,0,0.4));
 		g2.addChild(new Scale(0.03469776,0.05087215,0.6585168));		  
-		var test=new Model('table.json',this.gl,this.shader);
-		g2.addChild(test);
+		var table=new Model('table.json',this.gl,this.shader);
+		g2.addChild(table);
+		
+		var g3 = new Group();
+		g3.addChild(new Translation(1, -0.5, -5.0));
+		g3.addChild(new Rotate(1.2,3,0));
+		g3.addChild(new Scale(0.15,0.15,0.15));		  
+		var bowl=new Model('bowl.json',this.gl,this.shader);
+		g3.addChild(bowl);
 		
 		
 		// Add all nodes to scene graph.
@@ -39,6 +56,7 @@ MyScene.prototype.buildSceneGraph = function() {
 		
 		sceneGraph.addChild(g1);
 		sceneGraph.addChild(g2);
+		sceneGraph.addChild(g3);
 		
 		
 		
