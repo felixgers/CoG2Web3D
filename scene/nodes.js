@@ -56,7 +56,7 @@ function Group() {
 			mvMatrix.push();
 
 			for(var i=0; i<children.length; i++) {
-				this.children[i].draw(time);
+				children[i].draw(time);
 			}
 			// Go back up in transformation hierarchy.
 			mvMatrix.pop();

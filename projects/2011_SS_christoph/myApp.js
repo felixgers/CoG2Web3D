@@ -17,4 +17,4 @@ MyApp.prototype.getEventManager = function() {
 	
 	// Return the event manager.
 	return new MySpecializedEventManager(this.canvas, this.scene.camera, this.scene.speedRotor, 0.01);
-}
+};

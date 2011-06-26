@@ -27,7 +27,6 @@ PerspectiveCamera.prototype = new Node;
 
 /**
  * 
-
  * @param verticalFieldOfView
  * @param aspectratio
  * @param nearClipPlane
