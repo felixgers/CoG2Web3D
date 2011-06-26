@@ -18,8 +18,6 @@ function App() {
 	this.height = 500;
 	this.aspectRatio;
 	this.aspectRatio;
-	this.vetexShaderName = "../../shader/simple.vertex";
-	this.fragmentShaderName = "../../shader/white.fragment";
 
 	// Loop parameter and variables.
 	this.framerate = 30.0;	
@@ -46,16 +44,13 @@ function App() {
 
 			this.gl = initGL(canvas);
 
-			// Create Shader
-			// ("shader-vs", "shader-fs"); // Shader form HTML tag.
-
 			this.shader = this.getShader();
 
 			// Create and start scene.
 			this.scene = this.getScene();
 
 			// Create event manager with objects
-			this.eventManager = new MyEventManager().init( this );	
+			this.eventManager = this.getEventManager();	
 		}
 	};
 
@@ -138,7 +133,7 @@ App.prototype.start = function(canvasId) {
  * @returns {Shader}
  */
 App.prototype.getShader = function() {
-	return new Shader().init(this.gl, this.vetexShaderName, this.fragmentShaderName );
+	return new Shader().init(this.gl, "../../shader/simple.vertex", "../../shader/white.fragment");
 };
 
 
@@ -148,8 +143,16 @@ App.prototype.getShader = function() {
  * @returns {Scene}
  */
 App.prototype.getScene = function() {
-	return new MyScene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
+	return new Scene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
 };
+
+
+/**
+ * Override this method to apply an event manager to the application
+ */
+App.prototype.getEventManager = function() {
+	return new EventManager().init(this);
+}
 
 ////////////////////dependent imports ////////////////////
 

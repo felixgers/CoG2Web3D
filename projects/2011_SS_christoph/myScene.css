@@ -26,3 +26,20 @@ span.key {
 	text-align:center;
 	vertical-align:middle;
 }
+
+span#key {
+	font-weight:bold;
+	padding:2px;
+	border:1px solid #9ab;
+	background-color:#def;
+}
+span#count {
+	font-weight:bold;
+	padding:2px;
+	border:1px solid #9ab;
+	background-color:#def;
+}
+
+pre, p {
+	margin-left:14px;
+}

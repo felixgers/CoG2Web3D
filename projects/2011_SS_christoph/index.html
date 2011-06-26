@@ -1,75 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>COG WebGL SS 2011 - Christoph</title>
-<link rel="stylesheet" type="text/css" href="../../css/webGL.css" />
-
-<script type="text/javascript" src="../../app/events.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>COG WebGL SS 2011 - Christoph</title>
+	<link rel="stylesheet" type="text/css" href="../../css/webGL.css" />
+	<script type="text/javascript" src="myEvents.js"></script>
+	<link rel="stylesheet" type="text/css" href="myScene.css">
 </head>
 
 <body style="width: 600px;">
 	<h1>COG WebGL SS 2011 - Christoph</h1>
 
-	<h3>Semester duties:</h3>
-	<ul>
-		<li>Create a scene graph system with basic nodes: <a
+	<h2>Semester duties:</h2>
+	
+	<h3>Create a Scene Graph</h3>
+		<p>Create a scene graph system with basic nodes: <a
 			href="../../scene/scene.js">scene/scene.js</a> <a
 			href="../../scene/nodes.js">scene/nodes.js</a>
-		</li>
+		</p>
 
-		<li>Create an interactive camera, with which one can sufficiently
+
+	<h3>Create An Interactive Camera</h3>
+		<p>Create an interactive camera, with which one can sufficiently
 			navigate in the 3D space.<br>Defined in: <a
-			href="../template/nodes.js">projects/template/nodes.js</a>
-		</li>
-
-		<li>Make shaders loadable from distinct shader code files.<br>
-			See Tests below.</a>
-		</li>
-
-		<li>Create a <b><a href="../template/my.html">template
-					scene</a> </b>, which shows basic features and structure of the
-			BeuthGameEngine.</li>
-
-		<li>Stop and continue WebGL animation when blur and focus the
-			window.</li>
-
-		<li>Try to develop a light node for the scene graph.</li>
-	</ul>
-	<br>
-
-	<h3>Key Code Test For Camera Navigation</h3>
-	<p>
-		Hit a key on the keyboard:<br> hit count: <span id="count">0</span><br>
-		key code: <span id="key">-1</span><br>
-	</p>
-	<br>
-
-	<h3>Test: Loading of Shader as Simple Text File</h3>
-	<ul>
-		<li>Load synchronized with <code>XHTTPRequest</code>object =>
-			Blocking wait, but get shader code in time.</li>
-
-		<li>Force file load as mime type "text/plain": <code>request.overrideMimeType("text/plain");</code>
+			href="../../scene/cameraNodes.js">scene/cameraNodes.js</a>.
+			Therefore create event handling, which combines key and mouse
+			events. Defined in <a href="myEvents.js">myEvents.js</a>.
+			<br>
+			Key Code Test For Camera Navigation: Hit a key on the keyboard:
+			hit count: <span id="count">0</span> key code: <span id="key">-1</span><br>
+		</p>
+		
+	<h3>Synchronized Loading of Shader Files</h3>
+		<p>Make shaders loadable from distinct shader code files.
+			Load <b>synchronized</b> with <code>XHTTPRequest</code> object, 
+			which causes a blocking wait, but gets the shader code in time.
+			Force file load as mime type "text/plain": 
+			<code>request.overrideMimeType("text/plain");</code>
 			Makes sure that even on a local file system the browser will not try
-			to interpret the content as xml.</li>
+			to interpret the content as xml.
+			<br>
+			<a href="../../shader/simple.vertex" type="text/plain">shader/simple.vertex</a>
+			<button onclick="loadSync('../../shader/simple.vertex')">Load</button>
+			&nbsp;&nbsp;&nbsp;
+			<a href="../../shader/white.fragment" type="text/plain">shader/white.fragment</a>
+			<button onclick=" loadSync('../../shader/white.fragment')">Load</button>
+			<pre id="pre"> </pre>
+			<p id="status"></p>
+		</p>
 
-		<li></li>
+	<h3>Template Scene</h3>
+		<p>Create a <b><a href="../template/my.html">template
+			scene</a> </b>, which shows basic features and structure of the
+			BeuthGameEngine. Since I had some problems implementing the
+			official eventHandler structure in 
+			<a href="../../app/events.js">app/events.js</a> and get the camera
+			moving, I decided to create an own scene 
+			<b><a href="myScene.html">myScene.html</a></b>, 
+			which implements its own event handlers.
+		</p>
+
+	<h3>Template Scene</h3>
+		<p>Stop and continue WebGL animation when blur and focus the
+			window.</p>
+
+
+	<h3>Light Node</h3>
+		<p>Try to develop a light node for the scene graph.</p>
 	</ul>
 	<br>
-	<a href="../../shader/simple.vertex" type="text/plain">shader/simple.vertex</a>
-	<button onclick="loadSync('../../shader/simple.vertex')">Load</button>
-
-	<br>
-
-	<a href="../../shader/white.fragment" type="text/plain">shader/white.fragment</a>
-	<button onclick=" loadSync('../../shader/white.fragment')">Load</button>
-	<br>
-	<br>
-	<p id="status"></p>
-	<pre id="pre">
-	</pre>
-
 
 	<script type="text/javascript">
 		var key = document.getElementById("key");

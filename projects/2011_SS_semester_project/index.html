@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>COG WebGL SS 2011 - Andrea</title>
+	<link rel="stylesheet" type="text/css" href="../../css/webGL.css" />
+	 <script type="text/javascript" src="../../app/import.js"></script>
+	
+</head>
+
+<body onload="new MyApp().start('canvas');">
+	<h1 style="text-align:center">COG WebGL SS 2011 - Andrea</h1>
+	<div class="canvas">
+		<canvas id="canvas" width="800"></canvas>
+	</div>
+	<div id="debug"></div>
+	
+
+<script id="shader-vs" type="x-shader/x-vertex"> 
+	attribute vec3 aVertexPosition;
+    attribute vec4 aVertexColor;
+ 
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+	varying vec4 vColor;
+ 
+	void main(void) {
+    	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+		 vColor = aVertexColor;
+  	}
+</script> 
+	
+<script id="shader-fs" type="x-shader/x-fragment">
+   	#ifdef GL_ES
+    	precision highp float;
+    #endif
+	
+	varying vec4 vColor;
+    void main(void) {
+        gl_FragColor = vColor;
+    }
+</script>
+	
+   
+	
+	
+</body>
+</html>

@@ -47,10 +47,10 @@ MyScene.prototype.buildSceneGraph = function() {
 		var monkey=new Model('test.json',this.gl,this.shader);
 		g1.addChild(monkey);
 		
-		var g4 = new Group();
-		g4.addChild(new Translation(-6, -5, -80.0));
-		var table=new Model('table.json',this.gl,this.shader);
-		g4.addChild(table);
+//		var g4 = new Group();
+//		g4.addChild(new Translation(-6, -5, -80.0));
+//		var table=new Model('table.json',this.gl,this.shader);
+//		g4.addChild(table);
 
 		// Add all nodes to scene graph.
 		sceneGraph.addChild(camera); // <------- Camera
@@ -58,7 +58,7 @@ MyScene.prototype.buildSceneGraph = function() {
 		sceneGraph.addChild(g1);
 		//sceneGraph.addChild(g2);
 		//sceneGraph.addChild(g3);
-		sceneGraph.addChild(g4);
+//		sceneGraph.addChild(g4);
 		
 		
 		return sceneGraph;
