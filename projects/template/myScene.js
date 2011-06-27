@@ -31,16 +31,16 @@ MyScene.prototype.buildSceneGraph = function() {
 
 	// Create 3rd group with box.
 	var g3 = new Group();
-//	g3.addChild(new Translation(0, 0, -8.0));
-//	g3.addChild(new RotorY(1.0));
-//	g3.addChild(new Box(2.0, 2.0));
+	g3.addChild(new Translation(0, 0, -8.0));
+	g3.addChild(new RotorY(1.0));
+	g3.addChild(new Box(2.0,2.0,2.0));
 
 
 	// Add all nodes to scene graph.
 	sceneGraph.addChild(camera); // <------- Camera
 	sceneGraph.addChild(g1);
 	sceneGraph.addChild(g2);
-	//sceneGraph.addChild(g3);
+	sceneGraph.addChild(g3);
 
 	return sceneGraph;
 };
