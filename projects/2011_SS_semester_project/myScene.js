@@ -6,12 +6,11 @@ function MyScene(){}
 MyScene.prototype = new Scene;
 
 MyScene.prototype.setGLOptions=function(){
-//	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE);
+	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
-//	this.gl.blendFunc( this.gl.FUNC_ADD );
 	this.gl.blendFunc( this.gl.SRC_COLOR, this.gl.ONE_MINUS_CONSTANT_COLOR );
 	this.gl.enable(this.gl.BLEND);
-	this.gl.enable(this.gl.SAMPLE_COVERAGE);
+	this.gl.enable(this.gl.LINE_SMOOTH);
 };
 
 
@@ -47,6 +46,13 @@ MyScene.prototype.buildSceneGraph = function() {
 	g3.addChild(new Scale(0.15,0.15,0.15));		  
 	var bowl=new Model('models/bowl.json',this.gl,this.shader);
 	g3.addChild(bowl);
+	
+	var g4 = new Group();
+	g4.addChild(new Translation(0.5, 0, -5.0));
+	g4.addChild(new Rotate(1.8,3,0));
+	g4.addChild(new Scale(0.15,0.15,0.15));		  
+	var cup=new Model('models/cup.json',this.gl,this.shader);
+	g4.addChild(cup);
 
 
 	// Add all nodes to scene graph.
@@ -55,6 +61,6 @@ MyScene.prototype.buildSceneGraph = function() {
 	sceneGraph.addChild(g1);
 	sceneGraph.addChild(g2);
 	sceneGraph.addChild(g3);
-
+	sceneGraph.addChild(g4);
 	return sceneGraph;
 };

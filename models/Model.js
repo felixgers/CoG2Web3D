@@ -5,6 +5,7 @@ function Model(filename,gl,shader){
   this.vertexNormalBuffer;
   this.vertexTextureCoordBuffer=null;
   this.vertexIndexBuffer;
+  this.normalBuffer=null;
   this.texture;
   this.colorBuffer;
   this.gl=gl;
@@ -52,7 +53,14 @@ function Model(filename,gl,shader){
 				gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.cube.m), gl.STATIC_DRAW);
 				this.colorBuffer.itemSize = 4;
 				this.colorBuffer.numItems = data.cube.m.length / 2;
-			}			
+			}	
+			if(data.cube.n != null){
+				this.normalBuffer = gl.createBuffer();
+				gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+				gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.cube.n), gl.STATIC_DRAW);
+				this.normalBuffer.itemSize = 3;
+				this.normalBuffer.numItems = data.cube.n.length / 2;
+			}				
 		
 			this.vertexPositionBuffer = gl.createBuffer();
 			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPositionBuffer);
@@ -125,7 +133,10 @@ function Model(filename,gl,shader){
 						gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 						gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 					}
-				  
+					if(normalBuffer!=null){
+						gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+						gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+				    }				  
 					gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vertexIndexBuffer);
 					
 					
