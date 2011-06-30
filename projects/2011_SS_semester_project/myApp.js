@@ -6,7 +6,7 @@ MyApp.prototype.getScene = function() {
 };
 
 MyApp.prototype.getShader = function() {
-	return new Shader().init(this.gl, "../../shader/color.vertex", "../../shader/color.fragment");
+	return new Shader().init(this.gl, "../../shader/lighting.vertex", "../../shader/lighting.fragment");
 };
 
 MyApp.prototype.getEventManager = function() {

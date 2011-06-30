@@ -290,7 +290,7 @@ var ColladaParser=function(){
 				JSObject.cube.m=this.material;
 			}
 			if(this.normals.length>0){
-				//JSObject.cube.n=this.normals;
+				JSObject.cube.n=this.normals;
 			}
 			// Das Objekt zu JSON kodieren
 			var jsonCode = JSON.stringify(JSObject);

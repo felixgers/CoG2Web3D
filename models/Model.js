@@ -55,11 +55,12 @@ function Model(filename,gl,shader){
 				this.colorBuffer.numItems = data.cube.m.length / 2;
 			}	
 			if(data.cube.n != null){
+			    // Normale fuer Beleuchtung
 				this.normalBuffer = gl.createBuffer();
-				gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+				gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
 				gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.cube.n), gl.STATIC_DRAW);
 				this.normalBuffer.itemSize = 3;
-				this.normalBuffer.numItems = data.cube.n.length / 2;
+				this.normalBuffer.numItems = data.cube.n.length / 3;
 			}				
 		
 			this.vertexPositionBuffer = gl.createBuffer();
@@ -134,9 +135,17 @@ function Model(filename,gl,shader){
 						gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 					}
 					if(normalBuffer!=null){
-						gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+						//beleuchtung funktioniert noch nicht richtig
+						//beschreibung : https://developer.mozilla.org/de/WebGL/Beleuchtung_in_WebGL
+						gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
 						gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
-				    }				  
+						//var normalMatrix = mat4.inverse(mvMatrix);
+						
+						//normalMatrix = mat4.transpose(normalMatrix);
+						var nUniform = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
+						gl.uniformMatrix4fv(nUniform, false, new Float32Array(flatten(normalBuffer)));
+
+     			   }				  
 					gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vertexIndexBuffer);
 					
 					
@@ -255,16 +264,7 @@ Animation = function(){
 		var tempPMatrix = new glMatrixArrayType(16);
 		var tempMvMatrix = new glMatrixArrayType(16);
 
-		// Store values in temp matrices.
-		//mat4.set(this.pMatrix, tempPMatrix);
-		//mat4.set(this.mvMatrix, tempMvMatrix);
-		
 		mat4.translate(this.mvMatrix,this.position);
-		
-		//mat4.set(tempPMatrix,this.pMatrix);
-		//mat4.set(tempMvMatrix,this.mvMatrix);
-		//this.matrices.mvPopMatrix();
-		//this.setMatrixUniforms();
 		
 		
 	}
@@ -277,3 +277,14 @@ Animation = function(){
 		this.gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, mvMatrix);
 	}
 } 
+
+function flatten(array){
+    var flat = [];
+    for (var i = 0, l = array.length; i < l; i++){
+        var type = Object.prototype.toString.call(array[i]).split(' ').pop().split(']').shift().toLowerCase();
+        if (type) { flat = flat.concat(/^(array|collection|arguments|object)$/.test(type) ? flatten(array[i]) : array[i]); }
+    }
+	return flat;
+}
+
+

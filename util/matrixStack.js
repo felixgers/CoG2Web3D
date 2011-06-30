@@ -78,3 +78,11 @@ MatrixStack.prototype.ortho = function(left, right, bottom, top, near, far) {
 MatrixStack.prototype.lookAt = function(eye, center, up) {
 	mat4.lookAt(eye, center, up, this.top);
 };
+
+MatrixStack.prototype.inverse = function() {
+	return mat4.inverse(this.top);
+};
+
+MatrixStack.prototype.transpose = function() {
+	return mat4.transpose(this.top);
+};

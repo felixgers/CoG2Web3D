@@ -1,5 +1,6 @@
 importScript("../../models/Model.js");
 importScript("../../util/jquery.js");
+
 importScript("json2.js");
 
 function MyScene(){}
