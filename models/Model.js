@@ -98,7 +98,15 @@ function Model(filename,gl,shader){
 				gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.mesh.mat), gl.STATIC_DRAW);
 				this.colorBuffer.itemSize = 4;
 				this.colorBuffer.numItems = data.mesh.mat.length / 2;
-			}			
+			}
+			if(data.mesh.norm != null){
+			    // Normale fuer Beleuchtung
+				this.normalBuffer = gl.createBuffer();
+				gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
+				gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data.mesh.norm), gl.STATIC_DRAW);
+				this.normalBuffer.itemSize = 3;
+				this.normalBuffer.numItems = data.mesh.norm.length / 3;
+			}				
 		
 			this.vertexPositionBuffer = gl.createBuffer();
 			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPositionBuffer);

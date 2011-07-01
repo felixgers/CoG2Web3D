@@ -13,6 +13,7 @@ var ColladaParser=function(){
 	this.vertices;
 	this.textures;
 	this.indicies;
+	this.normals;
 	//for finale values of material
 	this.material=new Array();
 	//all values of material
@@ -182,7 +183,7 @@ var ColladaParser=function(){
 					//vertexSortedArray.push(vertices[indicieValue]);
 					indiciesForWeb.push(indicieValue);
 				}else if (offset==normalOffset){
-					//normalsSortedArray.push(normals[indicies[i]]);
+					normalsSortedArray.push(normals[indicieValue]);
 				}else if (offset==textureOffset){
 					textureSortedArray.push(textures[indicieValue]);
 				}else{
@@ -207,6 +208,7 @@ var ColladaParser=function(){
 			this.vertices=vertices;
 			this.textures=textureSortedArray;
 			this.indicies=indiciesForWeb;
+			this.normals=normalsSortedArray;
 		}
 	}
 	
@@ -287,7 +289,9 @@ var ColladaParser=function(){
 			if(this.material.length>0){
 				JSObject.cube.m=this.material;
 			}
-			
+			if(this.normals.length>0){
+				JSObject.cube.n=this.normals;
+			}
 			// Das Objekt zu JSON kodieren
 			var jsonCode = JSON.stringify(JSObject);
 			return jsonCode;

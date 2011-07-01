@@ -4,44 +4,33 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>COG WebGL SS 2011 - Andrea</title>
 	<link rel="stylesheet" type="text/css" href="../../css/webGL.css" />
-	 <script type="text/javascript" src="../../app/import.js"></script>
-	
+	<style type="text/css">
+		p { color:white; font-size:12px; }
+		h1{ color:white; font-size:20px; }
+		h2{ color:white; font-size:15px; }
+		li{ color:white; font-size:12px; }
+		a.hover,a.visited,a{ color:white; font-size:12px; } 
+</style>
 </head>
 
-<body onload="new MyApp().start('canvas');">
-	<h1 style="text-align:center">COG WebGL SS 2011 - Andrea</h1>
-	<div class="canvas">
-		<canvas id="canvas" width="800"></canvas>
-	</div>
-	<div id="debug"></div>
+<body bgcolor="black">
+	<h1 style="text-align:center">Von Blender zur BeuthGameEngine</h1>
 	
-
-<script id="shader-vs" type="x-shader/x-vertex"> 
-	attribute vec3 aVertexPosition;
-    attribute vec4 aVertexColor;
- 
-	uniform mat4 uMVMatrix;
-	uniform mat4 uPMatrix;
-	varying vec4 vColor;
- 
-	void main(void) {
-    	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-		 vColor = aVertexColor;
-  	}
-</script> 
+	<p>Die BeuthGameEngine bietet die M&ouml;glichkeit, Modelle aus Blender über eine Collada-Schnittstelle zu importieren. 
+	</br>Daf&uuml;r m&uuml;ssen einige Voraussetzungen erf&uuml;llt sein.
+	</p>
 	
-<script id="shader-fs" type="x-shader/x-fragment">
-   	#ifdef GL_ES
-    	precision highp float;
-    #endif
+	<h2>1. Die Modellierung</h2> 
+	<p>
+		<div style="width:40%;float:left">
+			<li>Es muss die Version 2.5 von Blender verwendet werden (<a target="_blank" href="http://www.blender.org/download/get-blender/">Blender herunterladen</a>)</li>
+		</div>
+		<div style="float:left;width:50%;">
+			<img src="cup.png" width="100%" height="100%"></img>
+		</div>
+	</p>
 	
-	varying vec4 vColor;
-    void main(void) {
-        gl_FragColor = vColor;
-    }
-</script>
-	
-   
+    
 	
 	
 </body>
