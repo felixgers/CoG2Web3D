@@ -51,9 +51,12 @@ MyScene.prototype.buildSceneGraph = function() {
 	var g4 = new Group();
 	g4.addChild(new Translation(0.5, 0, -5.0));
 	g4.addChild(new Rotate(1.8,3,0));
+	
 	g4.addChild(new Scale(0.15,0.15,0.15));		  
 	var cup=new Model('models/cup.json',this.gl,this.shader);
+	cup.setLighting(false);
 	g4.addChild(cup);
+	
 
 
 	// Add all nodes to scene graph.
