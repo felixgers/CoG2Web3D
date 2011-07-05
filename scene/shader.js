@@ -22,6 +22,13 @@ function Shader(){
 		// Create and initialize the shader program.
 		this.shaderProgram = initShaderProgram(gl, vertexShader, fragmentShader);
 
+		// Delete functions the are not used again after execution to free resources.
+		delete initShaderProgram;
+		delete initShader;
+		delete loadShaderFile;
+		delete getShaderSourceCodeFromHTMLTag;
+		delete init;
+		
 		return this;
 	};
 
@@ -54,12 +61,22 @@ function Shader(){
 		// Attach shader to shader program.
 		gl.attachShader(shaderProgram, vertexShader);
 		gl.attachShader(shaderProgram, fragmentShader);
+		
+		// setup attributes (optional)
+		// Bind custom attributes to their locations.
+		//gl.bindAttribLocation(shaderProgram, index,"myAttribute");
+		
+		// Link the shader into the shader program.
 		gl.linkProgram(shaderProgram);
 		// Check shader program.
 		if (! gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
 			alert("Could not initialise shader program");
 			return null;
 		}
+		// These are no longer needed, they are in the shader program.
+		gl.deleteShader(vertexShader);
+		gl.deleteShader(fragmentShader);
+		
 		// Use the shader program in the rendering pipeline.
 		gl.useProgram(shaderProgram);
 
@@ -74,7 +91,8 @@ function Shader(){
 		shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
 		gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
 
-		// Store location of matrices, as specific uniform variable within the linked program, in shaderProgram object
+		// Setup uniforms.
+		// Store location of matrices, as specific uniform variable within the linked program.
 		shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
 		shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
 

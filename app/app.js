@@ -18,6 +18,9 @@ function App() {
 	this.height = 500;
 	this.aspectRatio;
 	this.aspectRatio;
+	
+	// Shader source code.
+	// ("shader-vs", "shader-fs"); // Shader form HTML tag.
 	this.vetexShaderName = "../../shader/simple.vertex";
 	this.fragmentShaderName = "../../shader/white.fragment";
 
@@ -47,8 +50,6 @@ function App() {
 			this.gl = initGL(canvas);
 
 			// Create Shader
-			// ("shader-vs", "shader-fs"); // Shader form HTML tag.
-
 			this.shader = this.getShader();
 
 			// Create and start scene.
@@ -65,7 +66,7 @@ function App() {
 	 */
 	var initGL = function(canvas) {
 		try {
-			var gl = canvas.getContext("experimental-webgl");
+			var gl = canvas.getContext("experimental-webgl");//("webgl");
 			gl.viewport(0, 0, canvas.width, canvas.height);
 		} catch (e) {
 			alert("Error initialising WebGL.");
@@ -75,6 +76,12 @@ function App() {
 			alert("No gl context: Could not initialise WebGL.");
 			return null;
 		}
+		// Maybe GL corrected the size of the canvas, 
+		// because the implementation could not satisfy it.
+		// Now it is different form the on of the HTMLcanvas.
+		//canvas.width = gl.drawingBufferWidth;
+		//canvas.height = gl.drawingBufferHeight;
+		
 		return gl;
 	};
 

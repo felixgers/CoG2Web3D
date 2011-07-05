@@ -1,3 +1,70 @@
+
+/**
+ * Shape base class
+ * @returns {Shape}
+ */
+function Shape() {
+	// Vertex buffer.
+	this.vertexBuffer = null;
+	this.tesselationMode = 0;
+	
+	this.ShapeSuperInit = this.init;
+	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
+		this.ShapeSuperInit(gl, pMatrix, mvMatrix, shaderProgram);
+
+		// Default values for variables.
+		this.tesselationMode = gl.TRIANGLES;
+		
+		// Create vertex buffer for geometry and bind it.
+		this.vertexBuffer = gl.createBuffer();
+		this.vertexBuffer.itemSize = 3; // default
+		this.vertexBuffer.numItems = 0;
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+		// From here on the inheriting classes should fill the bound buffer.
+	};
+	
+	this.draw = function(time) { 
+		with(this) {
+			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);	
+			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+			
+			// Push the modified matrices into the the shader program,
+			// at the correct position, that we stored.
+			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix.top);
+			gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix.top);
+
+			gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
+		}
+	};
+}
+Shape.prototype = new Node;
+
+/**
+ * @returns {Shape}
+ */
+function ColoredShape() {
+	// Color buffer.
+	this.colorBuffer = null;
+	this.colorItemSize = 4; // default rgba
+	this.colorNumItems = 0;
+
+	this.superDraw = this.draw;	
+	this.draw = function(time) {
+		// First set the color then call super.
+		with(this) {
+			gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);	
+			gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, this.colorItemSize, gl.FLOAT, false, 0, 0);
+
+			gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
+			
+			superDraw(time);
+		}
+		
+	};
+}
+ColoredShape.prototype = new Shape;
+
+
 /**
  * 
  * @param width
@@ -7,12 +74,10 @@
 function Triangle(width, height)
 {
 	// Remember the bound super functions.
-	this.superInit = this.init;
+	this.TriangleSuperInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
-		this.superInit(gl, pMatrix, mvMatrix, shaderProgram);
-		// Create buffer for triangle vertex positions.
-		this.buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+		this.TriangleSuperInit(gl, pMatrix, mvMatrix, shaderProgram);
+
 		var w = width/2.0;
 		var h = height/2.0;
 		var vertices = [
@@ -20,10 +85,11 @@ function Triangle(width, height)
 		                -w, -h,  0.0,
 		                w, -h,  0.0
 		                ];
+		// Alternative: new WebGLFloatArray(vertices);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-		this.itemSize = 3;
-		this.numItems = 3;
-		this.tesselationMode = gl.TRIANGLES;
+		this.vertexBuffer.numItems = vertices.length / this.vertexBuffer.itemSize;
+		
+		delete init;
 	};
 }
 Triangle.prototype = new Shape;
@@ -37,12 +103,10 @@ Triangle.prototype = new Shape;
  */
 function Rectangle(width, height) {
 	// Remember the bound super functions.
-	this.superInit = this.init;
+	this.TriangleSuperInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
-		this.superInit(gl, pMatrix, mvMatrix, shaderProgram);
-		// Create buffer for square vertex positions.
-		this.buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+		this.TriangleSuperInit(gl, pMatrix, mvMatrix, shaderProgram);
+
 		var w = width/2.0;
 		var h = height/2.0;
 		var vertices = [
@@ -52,9 +116,10 @@ function Rectangle(width, height) {
 		                -w, -h,  0.0
 		                ];
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-		this.itemSize = 3;
-		this.numItems = 4;
+		this.vertexBuffer.numItems = vertices.length / this.vertexBuffer.itemSize;
 		this.tesselationMode = gl.TRIANGLE_STRIP;
+		
+		delete init;
 	};
 }
 Rectangle.prototype = new Shape;
@@ -69,12 +134,9 @@ Rectangle.prototype = new Shape;
  */
 function Box(width, height, depth)
 {
-	this.superInit = this.init;
+	this.BoxSuperInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
-		this.superInit(gl, pMatrix, mvMatrix, shaderProgram);
-		// Create buffer for triangle vertex positions.
-		this.buffer = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+		this.BoxSuperInit(gl, pMatrix, mvMatrix, shaderProgram);
 
 		var w = width/2.0;
 		var h = height/2.0;
@@ -95,28 +157,46 @@ function Box(width, height, depth)
 		}
 		// Build buffer data for triangles.
 		 var trisVertices = new Array;
-
 		// Indices of the vertices of the triangulated, rolled up box.
-		//var verticesIndexList = [3,4,2,1,3,2,7,3,1,5,7,1,5,1,2,6,5,2,6,2,4,4,8,6,8,4,3,7,8,3,5,8,7,6,5,7];
-		var verticesIndexList = [2,3,1,0,2,1,6,2,0,4,6,0,4,0,1,5,4,1,5,1,3,3,7,5,7,3,2,6,7,2,4,7,6,5,4,6];
+		var verticesIndexList = [3,4,2, 1,3,2, 7,3,1, 5,7,1, 5,1,2, 6,5,2, 6,2,4, 4,8,6, 8,4,3, 7,8,3, 6,8,7, 5,6,7];
+		// Index starts with 0.
+		//var verticesIndexList =   [2,3,1,0,2,1,6,2,0,4,6,0,4,0,1,5,4,1,5,1,3,3,7,5,7,3,2,6,7,2,4,7,6,5,4,6];
 		for( var index=0; index < verticesIndexList.length; index++){
-			trisVertices = trisVertices.concat(vertices[verticesIndexList[index]]);
+		//for( var index=30; index < 36; index++){
+			// Corner-index to xyz-vertex.
+			trisVertices = trisVertices.concat(vertices[verticesIndexList[index]-1]);
 		}
-//		for(var i=0; i<cornerList.length;i++){
-//			var c=cornerList[i];
-//		 	var start = (c-1) * 3;
-//		 	var end = start + 3;
-//		 	var vertex = corner.slice(start, end);
-//		 	vertices.concat(vertex);
-//	 	}
-
+		// Initialize the data buffer.
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(trisVertices), gl.STATIC_DRAW);
-		this.itemSize = 3;
-		this.numItems = verticesIndexList.length;
-		this.tesselationMode = gl.TRIANGLES;
+		this.vertexBuffer.numItems = trisVertices.length / this.vertexBuffer.itemSize;		
+		
+		// Create color buffer.
+		this.colorBuffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+		var colors = new Array;
+		// One Color per face.
+		for( var index=0; index < trisVertices.length; index+=6){
+			var indexColorBase = 1+index/6;
+			// Avoid black (and white);f
+			if(! (indexColorBase & 7) ) {indexColorBase++;}
+			for(var t=0; t<6;t++){ // All points of one triangle get the same color.
+				var red = indexColorBase & 1;
+				var green = indexColorBase & 2;
+				var blue = indexColorBase & 4;
+//				// Avoid black (and white);
+//				red = (red + 1.0)*0.5;
+//				green = (green + 1.0)*0.5;
+//				blue = (blue + 1.0)*0.5;
+				colors.push(red, green, blue, 1.0);
+			}
+		}
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+		this.colorNumItems = this.vertexBuffer.numItems;
+		
+		delete init;
 	};
 }
-Box.prototype = new Shape;
+Box.prototype = new ColoredShape;
 
 ////////////////////dependent imports ////////////////////
 

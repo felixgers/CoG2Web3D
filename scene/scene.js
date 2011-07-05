@@ -42,7 +42,7 @@ function Scene()
 			alert("The scene graph has no camera node.\nUsing default perspective.");
 		}
 
-		this.InitGL();
+		this.initGL();
 
 		return this;
 	};
@@ -50,7 +50,7 @@ function Scene()
 	/**
 	 * Start the scene, scene time.
 	 */
-	this.InitGL = function() {
+	this.initGL = function() {
 		with(this){
 			gl.clearColor(0.0, 0.0, 0.0, 1.0);
 			gl.enable(gl.DEPTH_TEST);

@@ -111,43 +111,20 @@ function RotorY(speed) {
 RotorY.prototype = new Node;
 
 /**
- * Y Rotation rotor
- * animates a y rotation
+ * Rotation rotor
  * @param speed as frequency (rotations per second)
  */
-function Rotate(x,y,z) { 
+function Rotate(xSpeed,ySpeed,zSpeed) {
+	xSpeed *= 2.0 * Math.PI;
+	ySpeed *= 2.0 * Math.PI;
+	zSpeed *= 2.0 * Math.PI;
 	this.draw = function(time) {
-		this.mvMatrix.rotateX(x);
-		this.mvMatrix.rotateY(y);
-		this.mvMatrix.rotateZ(z);
+		this.mvMatrix.rotateX(xSpeed * time);
+		this.mvMatrix.rotateY(ySpeed * time);
+		this.mvMatrix.rotateZ(zSpeed * time);
 	};
 }
 Rotate.prototype = new Node;
-/**
- * Shape base class
- * @param gl
- * @returns {Shape}
- */
-function Shape() {
-	this.buffer = null;
-	this.itemSize = 0;
-	this.numItems = 0;
-	this.tesselationMode = 0;
-
-	this.draw = function(time) { 
-		with(this) {
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);	
-			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.itemSize, gl.FLOAT, false, 0, 0);
-			// Push the modified matrices into the the shader program,
-			// at the correct position, that we stored.
-			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix.top);
-			gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix.top);
-
-			gl.drawArrays(this.tesselationMode, 0, this.numItems);
-		}
-	};
-}
-Shape.prototype = new Node;
 
 
 ////////////////////dependent imports ////////////////////
