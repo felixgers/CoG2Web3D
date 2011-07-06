@@ -5,30 +5,64 @@
 	<title>COG WebGL SS 2011 - Andrea</title>
 	<link rel="stylesheet" type="text/css" href="../../css/webGL.css" />
 	<style type="text/css">
-		p { color:white; font-size:12px; }
+		p,div { color:white; font-size:12px; }
 		h1{ color:white; font-size:20px; }
 		h2{ color:white; font-size:15px; }
 		li{ color:white; font-size:12px; }
+		
 		a.hover,a.visited,a{ color:white; font-size:12px; } 
 </style>
+
+
+
+<!-- Start visuallightbox.com HEAD section -->
+  <link rel="stylesheet" href="engine/css/vlightbox1.css" type="text/css" />
+<link rel="stylesheet" href="engine/css/visuallightbox.css" type="text/css" media="screen" />
+<script src="engine/js/prototype.js" type="text/javascript"></script>
+		<script src="engine/js/scriptaculous.js?load=effects,builder" type="text/javascript"></script>
+		<script src="engine/js/visuallightbox.js" type="text/javascript"></script>
+		<script src="engine/js/vlbdata.js" type="text/javascript"></script>
+<!-- End visuallightbox.com HEAD section -->
 </head>
+
+
 
 <body bgcolor="black">
 	<h1 style="text-align:center">Von Blender zur BeuthGameEngine</h1>
 	
-	<p>Die BeuthGameEngine bietet die M&ouml;glichkeit, Modelle aus Blender über eine Collada-Schnittstelle zu importieren. 
-	</br>Daf&uuml;r m&uuml;ssen einige Voraussetzungen erf&uuml;llt sein.
-	</p>
+<p>Die BeuthGameEngine bietet die M&ouml;glichkeit, Modelle aus Blender über eine Collada-Schnittstelle zu importieren. 
+</br>Daf&uuml;r m&uuml;ssen einige Voraussetzungen erf&uuml;llt sein.
+</p>
+</br>
+
+<!-- Start visuallightbox.com BODY section id=1 -->
+<div id="vlightbox1">
+<a class="vlightbox1" href="data/images1/blender.jpg" title="1. Es muss die Version 2.5 von Blender verwendet werden"><img src="data/thumbnails1/blender.jpg" alt="1. Es muss die Version 2.5 von Blender verwendet werden"/>1. Es muss die Version 2.5 von Blender verwendet werden</a>
+<a class="vlightbox1" href="data/images1/addmesh.jpg" title="2. Mesh hinzufügen"><img src="data/thumbnails1/addmesh.jpg" alt="2. Mesh hinzufügen"/>2. Mesh hinzufügen</a>
+<a class="vlightbox1" href="data/images1/quadtotris.jpg" title="3. Für die BeuthGameEngine müssen Vierecke zu Dreiecken umgewandelt werden.
+1. Alle Vertices markieren
+2. Edit-Modus, Mesh/Faces/QuadsToTris"><img src="data/thumbnails1/quadtotris.jpg" alt="3. Für die BeuthGameEngine müssen Vierecke zu Dreiecken umgewandelt werden.
+1. Alle Vertices markieren
+2. Edit-Modus, Mesh/Faces/QuadsToTris"/>3. Für die BeuthGameEngine müssen Vierecke zu Dreiecken umgewandelt werden.<br/>1. Alle Vertices markieren<br/>2. Edit-Modus, Mesh/Faces/QuadsToTris</a>
+<a class="vlightbox1" href="data/images1/exportcollada.jpg" title="4. Collada exportieren"><img src="data/thumbnails1/exportcollada.jpg" alt="4. Collada exportieren"/>4. Collada exportieren</a>
+<a class="vlightbox1" href="data/images1/colladecheck.jpg" title="5. Bitte die exportierte Collada-Datei überprüfen. Im Tag polylist/vcount darf nur der Wert 3 vorkommen. Stehen dort Vieren, dann hat das die Methode QuadsToTris nicht funktioniert. Bitte 3. wiederholen."><img src="data/thumbnails1/colladecheck.jpg" alt="5. Bitte die exportierte Collada-Datei überprüfen. Im Tag polylist/vcount darf nur der Wert 3 vorkommen. Stehen dort Vieren, dann hat das die Methode QuadsToTris nicht funktioniert. Bitte 3. wiederholen."/>5. Bitte die exportierte Collada-Datei überprüfen. Im Tag polylist/vcount darf nur der Wert 3 vorkommen. Stehen dort Vieren, dann hat das die Methode QuadsToTris nicht funktioniert. Bitte 3. wiederholen.</a>
+<a class="vlightbox1" href="data/images1/converttojson.jpg" title="6. Das Tool zum Konverieren aufrufen."><img src="data/thumbnails1/converttojson.jpg" alt="6. Das Tool zum Konverieren aufrufen."/>6. Das Tool zum Konverieren aufrufen.</a>
+<a class="vlightbox1" href="data/images1/addtoscene.jpg" title="7. Das Modell zur Scene hinzufügen"><img src="data/thumbnails1/addtoscene.jpg" alt="7. Das Modell zur Scene hinzufügen"/>7. Das Modell zur Scene hinzufügen</a>
+<a class="vlightbox1" href="data/images1/scenegreytorus.jpg" title="8. Freuen"><img src="data/thumbnails1/scenegreytorus.jpg" alt="8. Freuen"/>8. Freuen</a>
+<a class="vlightbox1" href="data/images1/coloring.jpg" title="9. Farbige Modelle über den Menüpunkt Materials in Blender"><img src="data/thumbnails1/coloring.jpg" alt="9. Farbige Modelle über den Menüpunkt Materials in Blender"/>9. Farbige Modelle über den Menüpunkt Materials in Blender</a>
+<a class="vlightbox1" href="data/images1/sceneredtorus.jpg" title="10. Das farbige Modell im Web"><img src="data/thumbnails1/sceneredtorus.jpg" alt="10. Das farbige Modell im Web"/>10. Das farbige Modell im Web</a>
+<a class="vlightbox1" href="data/images1/join.jpg" title="11. Momentan werden Szenen mit mehreren Modellen noch nicht unterstützt. Man kann aber in Blender mehrere Objekte über Join zusammenführen"><img src="data/thumbnails1/join.jpg" alt="11. Momentan werden Szenen mit mehreren Modellen noch nicht unterstützt. Man kann aber in Blender mehrere Objekte über Join zusammenführen"/>11. Momentan werden Szenen mit mehreren Modellen noch nicht unterstützt. Man kann aber in Blender mehrere Objekte über Join zusammenführen</a>
+<a class="vlightbox1" href="data/images1/scene2torus.jpg" title="2. Das zusammengführte Modell im Web"><img src="data/thumbnails1/scene2torus.jpg" alt="2. Das zusammengführte Modell im Web"/>2. Das zusammengführte Modell im Web</a>
+<a class="vlb" style="display:none" href="http://visuallightbox.com">jQuery Popup Window by VisualLightBox.com v4.8</a>
+</div>
+<!-- End visuallightbox.com BODY section -->
+
+
+
+
+
 	
-	<h2>1. Die Modellierung</h2> 
-	<p>
-		<div style="width:40%;float:left">
-			<li>Es muss die Version 2.5 von Blender verwendet werden (<a target="_blank" href="http://www.blender.org/download/get-blender/">Blender herunterladen</a>)</li>
-		</div>
-		<div style="float:left;width:50%;">
-			<img src="cup.png" width="100%" height="100%"></img>
-		</div>
-	</p>
+	
 	
     
 	

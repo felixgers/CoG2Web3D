@@ -11,14 +11,18 @@ function Model(filename,gl,shader){
   this.gl=gl;
   this.loaded=false; 
   this.hasAnimations=false;  
-  
+  this.lighting=true;  
   this.animation;
   
    $.ajaxSetup({'beforeSend': function(xhr){
 		if (xhr.overrideMimeType)
 			xhr.overrideMimeType("text/json");
 		}
-	}); 		
+	}); 	
+
+   Model.prototype.setLighting=function(isLighting){
+		this.lighting=isLighting;
+	}
   
    Model.prototype.setTexture=function(texture){
    		this.texture=texture;
@@ -142,18 +146,19 @@ function Model(filename,gl,shader){
 						gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 						gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
 					}
-					if(normalBuffer!=null){
-						//beleuchtung funktioniert noch nicht richtig
-						//beschreibung : https://developer.mozilla.org/de/WebGL/Beleuchtung_in_WebGL
-						gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-						gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
-						//var normalMatrix = mat4.inverse(mvMatrix);
-						
-						//normalMatrix = mat4.transpose(normalMatrix);
-						var nUniform = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
-						gl.uniformMatrix4fv(nUniform, false, new Float32Array(flatten(normalBuffer)));
-
-     			   }				  
+					if(this.lighting){
+						if(normalBuffer!=null){
+							//beleuchtung funktioniert noch nicht richtig
+							//beschreibung : https://developer.mozilla.org/de/WebGL/Beleuchtung_in_WebGL
+							gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+							gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+							//var normalMatrix = mat4.inverse(mvMatrix);
+							
+							//normalMatrix = mat4.transpose(normalMatrix);
+							var nUniform = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
+							gl.uniformMatrix4fv(nUniform, false, new Float32Array(flatten(normalBuffer)));
+						}
+					}
 					gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vertexIndexBuffer);
 					
 					
