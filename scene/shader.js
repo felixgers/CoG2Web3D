@@ -4,12 +4,24 @@
  * Names for shader can be files/urls or HTML ids.
  */
 function Shader(){
+	
+	// Public members.
 	this.shaderProgram;
 
+	// Private members.
+	var vertexShaderAttrib;
+	
 	/*
 	 *  Load shader source code and initialize vertex an fragment shader.
+	 * @param gl
+	 * @param vertexShaderName
+	 * @param fragmentShaderName
+	 * @param vertexShaderAttrib :  Array parameter for the vertex shader attributes.
+	 * @returns {Shader}
 	 */
-	this.init = function(gl, vertexShaderName, fragmentShaderName) {
+	this.init = function(gl, vertexShaderName, fragmentShaderName, _vertexShaderAttrib) {
+		
+		vertexShaderAttrib = _vertexShaderAttrib;
 
 		var vertexShaderSourceCode = getShaderSourceCodeFromHTMLTag(vertexShaderName)
 		|| loadShaderFile(vertexShaderName);
@@ -80,10 +92,10 @@ function Shader(){
 		// Use the shader program in the rendering pipeline.
 		gl.useProgram(shaderProgram);
 
-		// Set parameter and variables for shader program.
+		// Setup attributes for vertex shader.
 		//
 		// glGetAttribLocation: returns index of generic vertex attribute that is bound to that attribute variable.
-		// We store the position of the attribute in the shader program into an new object variable. 
+		// We store the position of the attribute in the shader program into an new object variable.
 		shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
 		// Tell WebGL that we will want to provide values for the attribute using an array.
 		gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
