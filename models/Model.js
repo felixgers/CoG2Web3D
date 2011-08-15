@@ -7,7 +7,7 @@ function Model(filename,gl,shader){
   this.vertexIndexBuffer;
   this.normalBuffer=null;
   this.texture;
-  this.colorBuffer;
+  this.colorBuffer=null;
   this.gl=gl;
   this.loaded=false; 
   this.hasAnimations=false;  
