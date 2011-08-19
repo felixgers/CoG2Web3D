@@ -1,0 +1,60 @@
+.main{
+	width:1024px;
+	text-align:center;	
+	margin: 0 auto;
+}
+h1.caption_1{
+  padding-left: 0px; /*The padding is just there to move the h1 element to the center of the div */
+  padding-top: 17px;
+  font-family: Rockwell, Georgia, "Times New Roman", Times, serif;
+  font-size: 50px;
+  color: #0D4383;
+  text-shadow: rgba(0,0,0,0.5) -1px 0, rgba(0,0,0,0.3) 0 -1px, rgba(255,255,255,0.5) 0 1px, rgba(0,0,0,0.3) -1px -2px;
+
+}
+h2.caption_2{
+  padding-left: 0px; /*The padding is just there to move the h1 element to the center of the div */
+  padding-top: 0px;
+  font-family: Rockwell, Georgia, "Times New Roman", Times, serif;
+  font-size: 20px;
+  color: #0D4383;
+  text-shadow: rgba(0,0,0,0.5) -1px 0, rgba(0,0,0,0.3) 0 -1px, rgba(255,255,255,0.5) 0 1px, rgba(0,0,0,0.3) -1px -2px;
+}
+div.caption_2{
+  z-index:2;
+}
+.collada{
+	border:1px solid #003471;
+}
+.json{
+	border:1px solid #003471;
+}
+.parse{
+	float:left;
+	padding-left:10px;
+	padding-right:10px;
+	/*width:25%;*/
+	position:relative;	
+}
+.canvas{
+	/* outline: 1px solid white;*/
+	/*width:55%;*/
+	position:relative;
+	float:left;
+}
+
+.canvas div{
+	color:white;
+}
+body{
+	background: #CCFFCC; /*alternative Hintergrundfarbe für IE*/
+	background: -webkit-gradient(linear, 0 0, 0 20%, from(#CCFF66), to(#fff));
+	background: -moz-linear-gradient(-90deg,#003471, #fff  20%);
+		
+	height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+
+
+}
+

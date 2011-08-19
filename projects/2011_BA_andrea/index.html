@@ -1,0 +1,76 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>COG WebGL SS 2011 - Andrea</title>
+	<link rel="stylesheet" type="text/css" href="my.css" />
+	 <script type="text/javascript" src="../../app/import.js"></script>
+
+	<script type="text/javascript" src="../../models/Model.js"></script>
+	<script type="text/javascript" src="parser/parser2.js"></script>
+	<script type="text/javascript" src="parser/tinyxmlw3cdom.js"></script>
+	<script type="text/javascript" src="parser/tinyxmlsax.js"></script>
+	<script type="text/javascript" src="parser/tinyxmlxpath.js"></script>
+	<script type="text/javascript" src="parser/json2.js"></script>
+	<script type="text/javascript" src="parser/xmldom.js"></script>
+</head>
+
+<body onload="new MyApp().start('canvas');">
+	
+<div class="main">
+	<div>
+		<h1 class="caption_1">Beuth Game Engine </h1>
+	</div>
+	<div class="caption_2">	
+			<h2 class="caption_2">Collada Parser</h2>
+		</div>
+	<div  class="parse">
+		<div>
+			<textarea class="collada" id="collada_area" name="collada" cols="50" rows="13" value=""></textarea>
+		</div>
+		<div>
+				<input type="button" value="Parsen" id="parse_button" onClick="parse(document.getElementById('collada_area'),document.getElementById('json_area'));"/>
+		</div>
+		<div style="width:25%;position:relative">
+				JSON:
+		</div>
+		<div>
+				<textarea class="json" id="json_area" name="json" cols="50" rows="13" ></textarea>
+		</div>
+	</div>
+	<div class="canvas">
+		<canvas id="canvas" width="800"></canvas>
+	</div>
+	<div id="debug" class="debug"></div>
+</div>	
+
+<script id="shader-vs" type="x-shader/x-vertex"> 
+	attribute vec3 aVertexPosition;
+    attribute vec4 aVertexColor;
+ 
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+	varying vec4 vColor;
+ 
+	void main(void) {
+    	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+		 vColor = aVertexColor;
+  	}
+</script> 
+	
+<script id="shader-fs" type="x-shader/x-fragment">
+   	#ifdef GL_ES
+    	precision highp float;
+    #endif
+	
+	varying vec4 vColor;
+    void main(void) {
+        gl_FragColor = vColor;
+    }
+</script>
+
+   
+	
+	
+</body>
+</html>
