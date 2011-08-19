@@ -4,18 +4,11 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>COG WebGL SS 2011 - Andrea</title>
 	<link rel="stylesheet" type="text/css" href="my.css" />
-	 <script type="text/javascript" src="../../app/import.js"></script>
 
-	<script type="text/javascript" src="../../models/Model.js"></script>
-	<script type="text/javascript" src="parser/parser2.js"></script>
-	<script type="text/javascript" src="parser/tinyxmlw3cdom.js"></script>
-	<script type="text/javascript" src="parser/tinyxmlsax.js"></script>
-	<script type="text/javascript" src="parser/tinyxmlxpath.js"></script>
-	<script type="text/javascript" src="parser/json2.js"></script>
-	<script type="text/javascript" src="parser/xmldom.js"></script>
+
 </head>
 
-<body onload="new MyApp().start('canvas');">
+<body onload="myController.load();">
 	
 <div class="main">
 	<div>
@@ -29,13 +22,13 @@
 			<textarea class="collada" id="collada_area" name="collada" cols="50" rows="13" value=""></textarea>
 		</div>
 		<div>
-				<input type="button" value="Parsen" id="parse_button" onClick="parse(document.getElementById('collada_area'),document.getElementById('json_area'));"/>
+				<input type="button" value="Parsen" id="parse_button" />
 		</div>
 		<div style="width:25%;position:relative">
 				JSON:
 		</div>
 		<div>
-				<textarea class="json" id="json_area" name="json" cols="50" rows="13" ></textarea>
+			<textarea class="json" id="json_area" name="json" cols="50" rows="13" ></textarea>
 		</div>
 	</div>
 	<div class="canvas">
@@ -68,6 +61,17 @@
         gl_FragColor = vColor;
     }
 </script>
+	
+    <script type="text/javascript" src="../../util/jquery.js"></script>
+	<script type="text/javascript" src="../../app/import.js"></script>
+    <script type="text/javascript" src="../../models/Model.js"></script>
+	<script type="text/javascript" src="parser/controller.js"></script>
+	<script type="text/javascript" src="parser/parser.js"></script>
+	<script type="text/javascript" src="parser/tinyxmlw3cdom.js"></script>
+	<script type="text/javascript" src="parser/tinyxmlsax.js"></script>
+	<script type="text/javascript" src="parser/tinyxmlxpath.js"></script>
+	<script type="text/javascript" src="parser/json2.js"></script>
+	<script type="text/javascript" src="parser/xmldom.js"></script>
 
    
 	

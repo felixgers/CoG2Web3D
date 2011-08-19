@@ -1,4 +1,4 @@
-function Model(filename,gl,shader){
+function Model(gl,shader){
   this.vertices;
   this.colors;
   this.vertexPositionBuffer;
@@ -18,7 +18,16 @@ function Model(filename,gl,shader){
 		if (xhr.overrideMimeType)
 			xhr.overrideMimeType("text/json");
 		}
-	}); 	
+	});
+
+   Model.prototype.loadJsonFile = function(filename){
+		this.load(filename,this);
+   }  
+
+   Model.prototype.loadJsonDirect = function(jsonData){
+		this.data=JSON.parse(jsonData);
+	    this.loadData();
+   }     
 
    Model.prototype.setLighting=function(isLighting){
 		this.lighting=isLighting;
@@ -176,6 +185,7 @@ function Model(filename,gl,shader){
    
    
 	Model.prototype.load=function(url,model) {
+		
 		 var that=model;
 		
 		 try { var request = new XMLHttpRequest(); }
@@ -214,7 +224,7 @@ function Model(filename,gl,shader){
 	}
 	*/
 	
-	this.load(filename,this);
+	
 	
 }
 
