@@ -1,5 +1,5 @@
 importScript("../../models/Model.js");
-importScript("../../util/jquery.js");
+importScript("../../ext/jquery.js");
 importScript("json2.js");
 
 function MyScene(){}
@@ -15,7 +15,8 @@ MyScene.prototype.buildSceneGraph = function() {
 
 		
 		var g1 = new Group();
-		var monkey=new Model('monkey.json',this.gl,this.shader);
+		var monkey=new Model(this.gl,this.shader);
+        monkey.loadJsonFile('monkey.json');
 		if(monkey.hasAnimations){
 		    monkey.animation.setMatrices(this.matrices);
 			g1.addChild(monkey.animation);
@@ -30,7 +31,8 @@ MyScene.prototype.buildSceneGraph = function() {
 		g2.addChild(new Translation(0, -1.5, -5.0));
 		g2.addChild(new Rotate(1.8,0,0.4));
 		g2.addChild(new Scale(0.03469776,0.05087215,0.6585168));		  
-		var test=new Model('table.json',this.gl,this.shader);
+		var test=new Model(this.gl,this.shader);
+        test.loadJsonFile('table.json');
 		g2.addChild(test);
 		
 		
