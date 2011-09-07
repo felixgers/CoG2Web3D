@@ -1,8 +1,8 @@
 // First import all required JS modules
 // Therefore the HTML document must load the script star.js first.
 // More importScript statements may follow at the end of JS files to cover dependencies.
-importScript("../../util/glMatrix.js");
-importScript("../../util/matrixStack.js");
+importScript("../../ext/glMatrix.js");
+importScript("../../ext/matrixStack.js");
 
 importScript("../../scene/shader.js");
 importScript("../../scene/nodes.js");
