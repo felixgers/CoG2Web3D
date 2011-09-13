@@ -54,19 +54,14 @@ BGE.Shape.ColoredShape = function() {
 	this.superDraw = this.draw;	
 	this.draw = function(time) {
 		// First set the color then call super.
-		with(this) {
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);	
-			gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, this.colorItemSize, gl.FLOAT, false, 0, 0);
-
-			gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
-			
-			superDraw(time);
-		}
-		
+        var gl=this.gl;
+	    gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+		gl.vertexAttribPointer(this.shaderProgram.vertexColorAttribute, this.colorItemSize, gl.FLOAT, false, 0, 0);
+    	gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
+		this.superDraw(time);
 	};
 }
 BGE.Shape.ColoredShape.prototype = new BGE.Shape;
-
 
 /**
  * 
@@ -208,5 +203,5 @@ BGE.Shape.ColoredShape.Box.prototype = new BGE.Shape.ColoredShape;
 
 ////////////////////dependent imports ////////////////////
 
-importScript("../../scene/cameraNodes.js");
+BGE.importScript("../../scene/cameraNodes.js");
 

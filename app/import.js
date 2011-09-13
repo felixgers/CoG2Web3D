@@ -1,34 +1,12 @@
 // First import all required JS modules
 // Therefore the HTML document must load the script star.js first.
 // More importScript statements may follow at the end of JS files to cover dependencies.
-
+//define the only one global variable for this application
+var BGE = BGE || {};
 /**
  * importScript javascripts
  * @param javascriptPath optinalHTMLelement
  */
-importScript = function(javascriptPath) {
-	var script = document.createElement("script");
-	script.setAttribute("type", "text/javascript");
-	script.setAttribute("src", javascriptPath);
-	var absPath = script.src;
-	var parentElement = "head";
-	if(arguments.length > 1){parentElement = arguments[1];}
-	document.getElementsByTagName(parentElement)[0].appendChild(script);
-}
-
-importScript("../../ext/glMatrix.js");
-importScript("../../ext/matrixStack.js");
-
-importScript("../../scene/shader.js");
-importScript("../../scene/nodes.js");
-importScript("../../scene/scene.js");
-
-importScript("../../app/events.js");
-importScript("../../app/app.js");
-
-//define the only one global variable for this application
-var BGE = BGE || {};
-
 /**
  *
  * @param ns_string = name of namespace
@@ -53,6 +31,34 @@ BGE.namespace = function (ns_string) {
     }
     return parent;
 };
+
+BGE.namespace("importScript");
+
+BGE.importScript=function(javascriptPath) {
+	var script = document.createElement("script");
+	script.setAttribute("type", "text/javascript");
+	script.setAttribute("src", javascriptPath);
+	var absPath = script.src;
+	var parentElement = "head";
+	if(arguments.length > 1){parentElement = arguments[1];}
+	document.getElementsByTagName(parentElement)[0].appendChild(script);
+}
+
+
+
+BGE.importScript("../../ext/glMatrix.js");
+BGE.importScript("../../ext/matrixStack.js");
+
+BGE.importScript("../../scene/shader.js");
+BGE.importScript("../../scene/nodes.js");
+BGE.importScript("../../scene/scene.js");
+
+BGE.importScript("../../app/events.js");
+BGE.importScript("../../app/app.js");
+
+
+
+
 
 
 

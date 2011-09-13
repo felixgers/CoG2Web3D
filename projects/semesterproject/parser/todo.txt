@@ -1,7 +1,0 @@
-TODO
-
-bessere Abfrage, ob triangles oder vertices
-abfrage ob überhaupt normals etc. da sind
-auslesen nicht auf cube beschraenken sondern name bei json angeben
-könnte der shader nicht vor dem erzeugen der scene bekannt sein?
-modelManager zum verwalten der Modelle, Vermeidung von mehrfachem Laden

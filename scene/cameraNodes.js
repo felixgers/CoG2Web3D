@@ -58,63 +58,61 @@ BGE.Node.PositionCamera = function(verticalFieldOfView, aspectratio, nearClipPla
 
 
 	this.draw = function(time) {
-		with(this){
+        var pMatrix=this.pMatrix;
+		var fov = this.verticalFieldOfView;
+        var ar  = this.aspectratio;
+        var nc  = this.nearClipPlane;
+        var fc  = this.farClipPlane;
+        var pos = this.position;
+        var yrt = this.yrotation;
+        var xrt = this.xrotation;
+        var ind = this.smoothIndex;
+        var arrF = this.smoothArrayF;
+        var arrS = this.smoothArrayS;
 
-			var fov = this.verticalFieldOfView;
-			var ar  = this.aspectratio;
-			var nc  = this.nearClipPlane;
-			var fc  = this.farClipPlane;
-			var pos = this.position;
-			var yrt = this.yrotation;
-			var xrt = this.xrotation;
-			var ind = this.smoothIndex;
-			var arrF = this.smoothArrayF;
-			var arrS = this.smoothArrayS;
+		ind++;
+        if(ind>=8) ind = 0;
+        arrF[ind] = this.speedF;
+        arrS[ind] = this.speedS;
+        this.smoothIndex = ind;
+        var i = 0;
 
-			ind++;
-			if(ind>=8) ind = 0;
-			arrF[ind] = this.speedF;
-			arrS[ind] = this.speedS;
-			this.smoothIndex = ind;
-			var i = 0;
+        // get smoothed speeds
+        var vF = 0.0;
+        var vS = 0.0;
+        for(i=0;i<8;i++) {
+            vF += arrF[i];
+            vS += arrS[i];
+        }
+        vF/=8.0;
+        vS/=8.0;
 
-			// get smoothed speeds
-			var vF = 0.0;
-			var vS = 0.0;
-			for(i=0;i<8;i++) {
-				vF += arrF[i];
-				vS += arrS[i];
-			}
-			vF/=8.0;
-			vS/=8.0;
+        // get velocity vector
+        var cosx = Math.cos(xrt);
+        var xv =  -Math.sin(yrt) * cosx;
+        var yv =                  Math.sin(xrt);
+        var zv = Math.cos(yrt) * cosx;
 
-			// get velocity vector
-			var cosx = Math.cos(xrt);
-			var xv =  -Math.sin(yrt) * cosx;
-			var yv =                  Math.sin(xrt);
-			var zv = Math.cos(yrt) * cosx;
+        // forward backward
+        if(vF != 0.0) {
+            pos[0] += vF *  xv;
+            pos[1] += vF *  yv;
+            pos[2] += vF *  zv;
+        }
 
-			// forward backward
-			if(vF != 0.0) {
-				pos[0] += vF *  xv;
-				pos[1] += vF *  yv;
-				pos[2] += vF *  zv;
-			}
+        // shift left right
+        if(vS != 0.0) {
+            // The rest of a cross product with a z-axis
+            pos[0] += vS * -zv;
+            pos[2] += vS * xv;
+        }
 
-			// shift left right 
-			if(vS != 0.0) {
-				// The rest of a cross product with a z-axis
-				pos[0] += vS * -zv;   
-				pos[2] += vS * xv; 
-			}
+        mat4.perspective(fov, ar, nc, fc, pMatrix.top);
+        mat4.rotateX(pMatrix.top, xrt);
+        mat4.rotateY(pMatrix.top, yrt);
+        mat4.translate(pMatrix.top, pos);
 
-			mat4.perspective(fov, ar, nc, fc, pMatrix.top);
-			mat4.rotateX(pMatrix.top, xrt);
-			mat4.rotateY(pMatrix.top, yrt);
-			mat4.translate(pMatrix.top, pos);
-
-			this.position = pos;
-		}
+        this.position = pos;
 	};
 };
 BGE.Node.PositionCamera.prototype = new BGE.Node;

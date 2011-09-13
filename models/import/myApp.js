@@ -12,9 +12,15 @@ $(document).ready(function(){
    
    var myApp=new BGE.MyApp();
    myApp.start('canvas');
-   $("#parse_button").click(function() {
-        var json=myApp.parse(document.getElementById('collada_area').value);
 
+   $.ajaxSetup({'beforeSend': function(xhr){
+		if (xhr.overrideMimeType)
+			xhr.overrideMimeType("text/json");
+		}
+   });
+
+   $("#parse_button").click(function() {
+       var json=myApp.parse(document.getElementById('collada_area').value);
 	   if(json!=null){
 			myApp.scene.addNewModel(json);
 			$("#json_area").val(json);

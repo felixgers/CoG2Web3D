@@ -207,5 +207,5 @@ function CanvasMouseEventManager(canvas, eventCallback, downMoveCallBack) {
 
 ////////////////////dependent imports ////////////////////
 
-importScript("myEvents.js");
+BGE.importScript("myEvents.js");
 

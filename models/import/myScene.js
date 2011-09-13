@@ -1,7 +1,6 @@
-importScript("../../models/Model.js");
-importScript("../../ext/jquery.js");
-
-importScript("json2.js");
+BGE.importScript("../../models/Model.js");
+BGE.importScript("../../ext/jquery.js");
+BGE.importScript("json2.js");
 
 
 BGE.namespace("MyScene");
@@ -29,7 +28,7 @@ BGE.MyScene.prototype.addNewModel = function (modelData){
     var translation = node.Translation;
     var rotation = node.Rotate;
 
-	var newModel=new BGE.Model(this.gl,this.shader);
+	var newModel=new BGE.Model(this.gl);
 
 	newModel.loadJsonDirect(modelData);
 	var g2 = new node.Group();
@@ -58,7 +57,7 @@ BGE.MyScene.prototype.buildSceneGraph = function() {
 	var camera = new node.PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
 
 	var g1 = new group();
-	var myModel=new model(this.gl,this.shader);
+	var myModel=new model(this.gl);
 	myModel.loadJsonFile('models/colorCube.json');
 
 	g1.addChild(new translation(0, 2, -20.0));

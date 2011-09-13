@@ -29,32 +29,28 @@ BGE.App = function() {
     this.timerHandle = null;
 
     this.init = function(canvasId) {
-        with (this) {
-            this.canvasId = canvasId;
-            var canvas = document.getElementById(canvasId);
-            this.canvas = canvas;
-            canvas.width = width;
-            canvas.height = height;
-            this.aspectRatio = width / height;
 
-            // DEBUG
-            // --------------------------------------------
-            this.lastTime = 0.0;
-            this.debug = document.createElement("div");
-            this.canvas.parentNode.appendChild(this.debug);
-            // --------------------------------------------
+        this.canvasId = canvasId;
+        var canvas = document.getElementById(canvasId);
+        this.canvas = canvas;
+        canvas.width = this.width;
+        canvas.height = this.height;
+        this.aspectRatio = this.width / this.height;
+        // DEBUG
+        // --------------------------------------------
+        this.lastTime = 0.0;
+        this.debug = document.createElement("div");
+        this.canvas.parentNode.appendChild(this.debug);
+        // --------------------------------------------
 
-            this.gl = initGL(canvas);
+        this.gl = initGL(canvas);
+        // Create Shader
+        this.shader = this.getShader();
+        // Create and start scene.
+         this.scene = this.getScene();
+         // Create event manager with objects
+         this.eventManager = new MyEventManager().init(this);
 
-            // Create Shader
-            this.shader = this.getShader();
-
-            // Create and start scene.
-            this.scene = this.getScene();
-
-            // Create event manager with objects
-            this.eventManager = new MyEventManager().init(this);
-        }
     };
 
 
@@ -86,19 +82,17 @@ BGE.App = function() {
 
 
     this.startLoop = function() {
-        with (this) {
-            // Check if loop is already running.
-            if (this.timerHandle) {
-                return;
-            }
-            // Start interval
-            var startDate = new Date();
-            this.startTime = startDate.getTime() / 1000.0;
-            var self = this;
-            this.timerHandle = window.setInterval(function() {
-                self.update();
-            }, (1000.0 / this.framerate));
-        }
+       // Check if loop is already running.
+       if (this.timerHandle) {
+           return;
+       }
+        // Start interval
+        var startDate = new Date();
+        this.startTime = startDate.getTime() / 1000.0;
+        var self = this;
+        this.timerHandle = window.setInterval(function() {
+            self.update();
+        }, (1000.0 / this.framerate));
     };
 
     /**
@@ -168,5 +162,5 @@ BGE.App.prototype.clear = function() {
 
 ////////////////////dependent imports ////////////////////
 
-importScript("myApp.js");
+BGE.importScript("myApp.js");
 

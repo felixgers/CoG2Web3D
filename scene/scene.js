@@ -52,12 +52,9 @@ BGE.Scene = function()
 	 * Start the scene, scene time.
 	 */
 	this.initGL = function() {
-		with(this){
-			gl.clearColor(0.0, 0.0, 0.0, 1.0);
-			gl.enable(gl.DEPTH_TEST);
-
-			sceneGraph.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
-		}
+		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.gl.enable(this.gl.DEPTH_TEST);
+		this.sceneGraph.init(this.gl, this.pMatrix, this.mvMatrix, this.shader.shaderProgram);
 	};
 
 
@@ -103,20 +100,21 @@ BGE.Scene.prototype.buildSceneGraph = function() {
  * Draw animated scene and scene graph.
  */
 BGE.Scene.prototype.draw = function(time) {
-	with(this){
-		// Clear canvas an z-buffer.
-		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-		mvMatrix.identity();
-		pMatrix.identity();
+	var gl=this.gl;
+    var mvMatrix=this.mvMatrix;
+    var pMatrix=this.pMatrix;
+   	// Clear canvas an z-buffer.
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	mvMatrix.identity();
+	pMatrix.identity();
 
-		// Set some default frustrum.
-		if(!camera) {	
-			this.pMatrix.perspective(45.0, aspectratio, 1, 100);
-		}
-
-		update(time);
-		sceneGraph.draw(time);
+    // Set some default frustrum.
+	if(!this.camera) {
+		pMatrix.perspective(45.0, this.aspectratio, 1, 100);
 	}
+
+	this.update(time);
+	this.sceneGraph.draw(time);
 };
 
 /**
@@ -182,5 +180,5 @@ BGE.Scene.prototype.handleKeyUp = function(e) {
 
 ////////////////////dependent imports ////////////////////
 
-importScript("myScene.js");
+BGE.importScript("myScene.js");
 

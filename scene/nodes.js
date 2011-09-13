@@ -50,18 +50,17 @@ BGE.Node.Group = function() {
 	};
 
 
-	this.draw = function(time) { 
-		with(this) {
-			// Preserve the current transformation.
-			// Not for the perspective, assuming it does not change.
-			mvMatrix.push();
+	this.draw = function(time) {
+        var mvMatrix=this.mvMatrix;
+		// Preserve the current transformation.
+		// Not for the perspective, assuming it does not change.
+		mvMatrix.push();
 
-			for(var i=0; i<children.length; i++) {
-				this.children[i].draw(time);
-			}
-			// Go back up in transformation hierarchy.
-			mvMatrix.pop();
+		for(var i=0; i<this.children.length; i++) {
+		    this.children[i].draw(time);
 		}
+		// Go back up in transformation hierarchy.
+		mvMatrix.pop();
 	};
 }
 BGE.Node.Group.prototype = new BGE.Node;
@@ -135,5 +134,5 @@ BGE.Node.Rotate.prototype = new BGE.Node;
 
 ////////////////////dependent imports ////////////////////
 
-importScript("../../scene/basicShapeNodes.js");
+BGE.importScript("../../scene/basicShapeNodes.js");
 

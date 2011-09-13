@@ -1,7 +1,6 @@
 BGE.namespace("Model");
-BGE.Model = function(gl,shader){
+BGE.Model = function(gl){
   this.vertices;
-  this.colors;
   this.vertexPositionBuffer;
   this.vertexNormalBuffer;
   this.vertexTextureCoordBuffer=null;
@@ -14,15 +13,6 @@ BGE.Model = function(gl,shader){
   this.hasAnimations=false;
   this.lighting=true;
   this.animation;
-
-   $.ajaxSetup({'beforeSend': function(xhr){
-		if (xhr.overrideMimeType)
-			xhr.overrideMimeType("text/json");
-		}
-	});
-
-
-
      this.init=function(gl, pMatrix, mvMatrix, shaderProgram){
         this.gl=gl;
         this.shaderProgram=shaderProgram;
@@ -32,42 +22,36 @@ BGE.Model = function(gl,shader){
 };
 
 BGE.Model.prototype.draw = function(time){
-  with(this){
-        if(loaded){
-            gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
-            gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+  var gl=this.gl;
+  if (this.loaded) {
+     gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexPositionBuffer);
+     gl.vertexAttribPointer(this.shaderProgram.vertexPositionAttribute, this.vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-            if(vertexTextureCoordBuffer != null){
-                //todo texture
-            }else if(colorBuffer != null){
-                gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-                gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-            }
-            if(this.lighting){
+     if (this.vertexTextureCoordBuffer != null) {
+          //todo texture
+     } else if (this.colorBuffer != null) {
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+          gl.vertexAttribPointer(this.shaderProgram.vertexColorAttribute, this.colorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+     }
+     if (this.lighting) {
 
-            /*	if(normalBuffer!=null){
-                    //beleuchtung funktioniert noch nicht richtig
-                    //beschreibung : https://developer.mozilla.org/de/WebGL/Beleuchtung_in_WebGL
-                    gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-                    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
-                    //var normalMatrix = mat4.inverse(mvMatrix);
+          /*	if(normalBuffer!=null){
+           //beleuchtung funktioniert noch nicht richtig
+           //beschreibung : https://developer.mozilla.org/de/WebGL/Beleuchtung_in_WebGL
+           gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+           gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, normalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+           //var normalMatrix = mat4.inverse(mvMatrix);
 
-                    //normalMatrix = mat4.transpose(normalMatrix);
-                    var nUniform = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
-                    gl.uniformMatrix4fv(nUniform, false, new Float32Array(flatten(normalBuffer)));
-                }*/
-            }
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vertexIndexBuffer);
-
-
-
-            gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix.top);
-            gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix.top);
-
-            gl.drawElements(gl.TRIANGLES,vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-        }
-    }
-
+           //normalMatrix = mat4.transpose(normalMatrix);
+           var nUniform = gl.getUniformLocation(shaderProgram, "uNormalMatrix");
+           gl.uniformMatrix4fv(nUniform, false, new Float32Array(flatten(normalBuffer)));
+           }*/
+     }
+     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.vertexIndexBuffer);
+     gl.uniformMatrix4fv(this.shaderProgram.pMatrixUniform, false, this.pMatrix.top);
+     gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.mvMatrix.top);
+     gl.drawElements(gl.TRIANGLES, this.vertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+  }
 };
 
 
@@ -91,6 +75,7 @@ BGE.Model.prototype.setTexture=function(texture){
 BGE.Model.prototype.loadData=function(){
     //is json loaded
     if(this.data==null)return;
+
     var data=this.data;
     var gl=this.gl;
     if(data.mesh!=null){
