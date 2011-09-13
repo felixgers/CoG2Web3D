@@ -1,131 +1,134 @@
-/**
- * main application
- * 
- * @returns {App}
- */
-function App() {
-	var self = this;
-	// HTML Id of the Canvas in case there is more than one.
-	this.canvasId; 
-	this.canvas;
-	this.gl;
-	this.shader;
-	this.scene;
-	this.eventManager;
+BGE.namespace("App");
 
-	// Application parameter.
-	this.width = 500;
-	this.height = 500;
-	this.aspectRatio;
-	this.aspectRatio;
-	
-	// Shader source code.
-	// ("shader-vs", "shader-fs"); // Shader form HTML tag.
-	this.vetexShaderName = "../../shader/simple.vertex";
-	this.fragmentShaderName = "../../shader/white.fragment";
+BGE.App = function() {
+    var self = this;
+    // HTML Id of the Canvas in case there is more than one.
+    this.canvasId;
+    this.canvas;
+    this.gl;
+    this.shader;
+    this.scene;
+    this.eventManager;
 
-	// Loop parameter and variables.
-	this.framerate = 30.0;	
-	this.verticalViewAngle = 45.0;
-	this.intervalTimer = null;	
-	this.startTime = 0.0; 
-	this.timerHandle = null;
+    // Application parameter.
+    this.width = 500;
+    this.height = 500;
+    this.aspectRatio;
+    this.aspectRatio;
 
-	this.init = function(canvasId) {
-		with (this) {
-			this.canvasId = canvasId;
-			var canvas = document.getElementById(canvasId);
-			this.canvas = canvas;
-			canvas.width = width;
-			canvas.height = height;
-			this.aspectRatio = width / height;
+    // Shader source code.
+    // ("shader-vs", "shader-fs"); // Shader form HTML tag.
+    this.vetexShaderName = "../../shader/simple.vertex";
+    this.fragmentShaderName = "../../shader/white.fragment";
 
-			// DEBUG
-			// --------------------------------------------
-			this.lastTime = 0.0;
-			this.debug = document.createElement("div");
-			this.canvas.parentNode.appendChild(this.debug);
-			// --------------------------------------------
+    // Loop parameter and variables.
+    this.framerate = 30.0;
+    this.verticalViewAngle = 45.0;
+    this.intervalTimer = null;
+    this.startTime = 0.0;
+    this.timerHandle = null;
 
-			this.gl = initGL(canvas);
+    this.init = function(canvasId) {
+        with (this) {
+            this.canvasId = canvasId;
+            var canvas = document.getElementById(canvasId);
+            this.canvas = canvas;
+            canvas.width = width;
+            canvas.height = height;
+            this.aspectRatio = width / height;
 
-			// Create Shader
-			this.shader = this.getShader();
+            // DEBUG
+            // --------------------------------------------
+            this.lastTime = 0.0;
+            this.debug = document.createElement("div");
+            this.canvas.parentNode.appendChild(this.debug);
+            // --------------------------------------------
 
-			// Create and start scene.
-			this.scene = this.getScene();
+            this.gl = initGL(canvas);
 
-			// Create event manager with objects
-			this.eventManager = new MyEventManager().init( this );	
-		}
-	};
+            // Create Shader
+            this.shader = this.getShader();
 
-	/** 
-	 * @param canvas
-	 * @returns
-	 */
-	var initGL = function(canvas) {
-		try {
-			var gl = canvas.getContext("experimental-webgl");//("webgl");
-			gl.viewport(0, 0, canvas.width, canvas.height);
-		} catch (e) {
-			alert("Error initialising WebGL.");
-			return null;
-		}
-		if (!gl) {
-			alert("No gl context: Could not initialise WebGL.");
-			return null;
-		}
-		// Maybe GL corrected the size of the canvas, 
-		// because the implementation could not satisfy it.
-		// Now it is different form the on of the HTMLcanvas.
-		//canvas.width = gl.drawingBufferWidth;
-		//canvas.height = gl.drawingBufferHeight;
-		
-		return gl;
-	};
+            // Create and start scene.
+            this.scene = this.getScene();
+
+            // Create event manager with objects
+            this.eventManager = new MyEventManager().init(this);
+        }
+    };
 
 
-	this.startLoop = function() {
-		with(this){	
-			// Check if loop is already running.
-			if(this.timerHandle){ return; }
-			// Start interval
-			var startDate = new Date();
-			this.startTime = startDate.getTime()/1000.0;
-			var self = this;
-			this.timerHandle = window.setInterval( function(){self.update();}, (1000.0/this.framerate));
-		}
-	};
+    /**
+     * @param canvas
+     * @returns gl
+     */
+    var initGL = function(canvas) {
+        try {
+            var gl = canvas.getContext("experimental-webgl");//("webgl");
+            gl.viewport(0, 0, canvas.width, canvas.height);
 
-	/**
-	 * Stop scene time
-	 */
-	this.stopLoop = function() {
-		if(this.timerHandle){
-			window.clearInterval(this.timerHandle);
-			this.timerHandle = null;
-		}
-	};	
+        } catch (e) {
+            alert("Error initialising WebGL.");
+            return null;
+        }
+        if (!gl) {
+            alert("No gl context: Could not initialise WebGL.");
+            return null;
+        }
+        // Maybe GL corrected the size of the canvas,
+        // because the implementation could not satisfy it.
+        // Now it is different form the on of the HTMLcanvas.
+        //canvas.width = gl.drawingBufferWidth;
+        //canvas.height = gl.drawingBufferHeight;
 
-	/**
-	 * Main loop.
-	 * Called by window interval handler
-	 */
-	this.update = function() {
+        return gl;
+    };
 
-		// Calculate time
-		var newDate = new Date();
-		var time = (newDate.getTime() / 1000.0) - this.startTime;
 
-		this.scene.draw(time);
+    this.startLoop = function() {
+        with (this) {
+            // Check if loop is already running.
+            if (this.timerHandle) {
+                return;
+            }
+            // Start interval
+            var startDate = new Date();
+            this.startTime = startDate.getTime() / 1000.0;
+            var self = this;
+            this.timerHandle = window.setInterval(function() {
+                self.update();
+            }, (1000.0 / this.framerate));
+        }
+    };
 
-		// DEBUG
-		// --------------------------------------------
-		this.debug.innerHTML = Math.round(10/(time-this.lastTime))/10.0+" fps";
-		this.lastTime = time;
-		// --------------------------------------------
-	};
+    /**
+     * Stop scene time
+     */
+    this.stopLoop = function() {
+        if (this.timerHandle) {
+            window.clearInterval(this.timerHandle);
+            this.timerHandle = null;
+        }
+    };
+
+    /**
+     * Main loop.
+     * Called by window interval handler
+     */
+    this.update = function() {
+
+        // Calculate time
+        var newDate = new Date();
+        var time = (newDate.getTime() / 1000.0) - this.startTime;
+
+        this.scene.draw(time);
+
+        // DEBUG
+        // --------------------------------------------
+        this.debug.innerHTML = Math.round(10 / (time - this.lastTime)) / 10.0 + " fps";
+        this.lastTime = time;
+        // --------------------------------------------
+    };
 
 };
 
@@ -133,9 +136,9 @@ function App() {
 /**
  * Public entry point for the application.
  */
-App.prototype.start = function(canvasId) {
-	this.init(canvasId);
-	this.startLoop();
+BGE.App.prototype.start = function(canvasId) {
+    this.init(canvasId);
+    this.startLoop();
 };
 
 
@@ -144,8 +147,8 @@ App.prototype.start = function(canvasId) {
  * or simply override the variables used within the method in the MyApp class.
  * @returns {Shader}
  */
-App.prototype.getShader = function() {
-	return new Shader().init(this.gl, this.vetexShaderName, this.fragmentShaderName );
+BGE.App.prototype.getShader = function() {
+    return new BGE.Shader().init(this.gl, this.vetexShaderName, this.fragmentShaderName);
 };
 
 
@@ -154,8 +157,13 @@ App.prototype.getShader = function() {
  * or simply override the MyScene class.
  * @returns {Scene}
  */
-App.prototype.getScene = function() {
-	return new MyScene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
+BGE.App.prototype.getScene = function() {
+    return new BGE.MyScene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
+};
+
+BGE.App.prototype.clear = function() {
+
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 };
 
 ////////////////////dependent imports ////////////////////

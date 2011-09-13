@@ -1,9 +1,9 @@
-
+BGE.namespace("Shader");
 /*
  * Load shader source code and initialize shader and shader program.
  * Names for shader can be files/urls or HTML ids.
  */
-function Shader(){
+BGE.Shader = function(){
 	
 	// Public members.
 	this.shaderProgram;

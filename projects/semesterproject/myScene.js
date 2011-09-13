@@ -23,16 +23,16 @@ MyScene.prototype.buildSceneGraph = function() {
 		}
 		g1.addChild(new Translation(0, 2, -20.0));
 		g1.addChild(new RotorY(0.5));
-		g1.addChild(monkey);
+		//g1.addChild(monkey);
 		
 		
 		// Create 2st group with table.
 		var g2 = new Group();
-		g2.addChild(new Translation(0, -1.5, -5.0));
-		g2.addChild(new Rotate(1.8,0,0.4));
-		g2.addChild(new Scale(0.03469776,0.05087215,0.6585168));		  
+		g2.addChild(new Translation(0, 2, -20.0));
+        g2.addChild(new Scale(0.06, 0.06, 0.06));
+	    g2.addChild(new RotorY(0.5));
 		var test=new Model(this.gl,this.shader);
-        test.loadJsonFile('table.json');
+        test.loadJsonFile('garage.json');
 		g2.addChild(test);
 		
 		

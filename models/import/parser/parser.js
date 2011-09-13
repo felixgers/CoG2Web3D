@@ -100,7 +100,7 @@ var ColladaParser=function(){
 			}
 			//step 1 read VERTEX ******************************************************************************
 			var node=this.selectSemanticNode(geometryNode,"VERTEX");
-			var vertexOffset=this.getOffset(node);
+         	var vertexOffset=this.getOffset(node);
 			allOffsets.push(vertexOffset);		
 			var vertexId=this.getRealVertexId(geometryNode,this.getSourceId(node));		
 			
@@ -215,9 +215,9 @@ var ColladaParser=function(){
 		var scenechilds=this.parseSceneInformations(docRoot);
 		var geometryNode;
 		var materialNode;
-         alert(scenechilds);
+   
 		for(var i=0;i<scenechilds.getLength();i++){
-            alert("hier");
+
 		    //search for geometry informations
 			geometryNode=scenechilds.item(i);
 			geometryNode=geometryNode.selectNodeSet("//instance_geometry");			

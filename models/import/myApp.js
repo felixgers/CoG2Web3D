@@ -1,22 +1,16 @@
-function MyApp(){
+
+BGE.namespace("MyApp");
+BGE.MyApp = function(){
 	this.vetexShaderName = "../../shader/color.vertex";
 	this.fragmentShaderName = "../../shader/color.fragment";
-
-	
 }
-MyApp.prototype = new App;
+BGE.MyApp.prototype = new BGE.App;
 
-MyApp.prototype.clear=function(){
-	  //this.gl.clearRect(0, 0, this.width, this.height);
-	  var w = this.width;
-	  this.canvas.width = 1;
-	  this.canvas.width = w;
-	  
-};
+
 
 $(document).ready(function(){
    
-   var myApp=new MyApp();
+   var myApp=new BGE.MyApp();
    myApp.start('canvas');
    $("#parse_button").click(function() {
         var json=myApp.parse(document.getElementById('collada_area').value);
@@ -34,13 +28,21 @@ $(document).ready(function(){
        	myApp.clear();
 		
    });
-   
+
+   console.log("check globals:");
+   console.log("Type App: " + typeof(window.App));
+   console.log("Type Scene: " + typeof(window.Scene));
+   console.log("Type Shape: " + typeof(window.Shape));
+   console.log("Type EventManager: " + typeof window.EventManager);
+   console.log("Type MyApp: " + typeof(window.MyApp));
+   console.log("Type MyScene: " + typeof window.MyScene);
+   console.log("Type Group: " + typeof window.Group);
  });
 
 
 
 
-MyApp.prototype.parse = function (data) {
+BGE.MyApp.prototype.parse = function (data) {
 
     var json;
     if (data != null && data.length != 0) {

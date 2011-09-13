@@ -3,12 +3,15 @@ importScript("../../ext/jquery.js");
 
 importScript("json2.js");
 
-function MyScene(){
+
+BGE.namespace("MyScene");
+
+BGE.MyScene=function(){
 	var sceneGraph;
 }
-MyScene.prototype = new Scene;
+BGE.MyScene.prototype = new BGE.Scene;
 
-MyScene.prototype.setGLOptions=function(){
+BGE.MyScene.prototype.setGLOptions=function(){
 	this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 	this.gl.blendFunc( this.gl.SRC_COLOR, this.gl.ONE_MINUS_CONSTANT_COLOR );
@@ -16,50 +19,51 @@ MyScene.prototype.setGLOptions=function(){
 	this.gl.enable(this.gl.LINE_SMOOTH);
 };
 
-MyScene.prototype.clear=function(){
+BGE.MyScene.prototype.clear=function(){
 	this.sceneGraph.clear();
 };
 
-MyScene.prototype.addNewModel = function (modelData){
-	
-	var monkey=new Model(this.gl,this.shader);
-	monkey.loadJsonDirect(modelData);
-	var g2 = new Group();
-	/*
-	if(monkey.hasAnimations){
-		monkey.animation.setMatrices(this.matrices);
-		g2.addChild(monkey.animation);
-	}
-	*/
-	g2.addChild(new Translation(0, 3, -20.0));
-	g2.addChild(new RotorY(0.5));
-	g2.addChild(monkey);
+BGE.MyScene.prototype.addNewModel = function (modelData){
+	//declaring dependencies
+    var node = BGE.Node;
+    var translation = node.Translation;
+    var rotation = node.Rotate;
+
+	var newModel=new BGE.Model(this.gl,this.shader);
+
+	newModel.loadJsonDirect(modelData);
+	var g2 = new node.Group();
+
+	g2.addChild(new translation(0, 3, -20.0));
+	g2.addChild(new rotation(0,0.5,0));
+	g2.addChild(newModel);
 
 	this.sceneGraph.addChild(g2);
 	this.sceneGraph.reload();
-}
+};
 
 
-MyScene.prototype.buildSceneGraph = function() {
+BGE.MyScene.prototype.buildSceneGraph = function() {
+    //declaring dependencies
+    var node = BGE.Node;
+    var model = BGE.Model;
+    var group = node.Group;
+    var translation = node.Translation;
+    var rotation = node.Rotate;
 
-	this.setGLOptions();
+    this.setGLOptions();
 
 	// Create some special Nodes.
-	this.sceneGraph = new MyGroup();
-	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
+	this.sceneGraph = new group();
+	var camera = new node.PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
 
-	var g1 = new Group();
-	var monkey=new Model(this.gl,this.shader);
-	monkey.loadJsonFile('models/colorCube.json');
-	if(monkey.hasAnimations){
-		monkey.animation.setMatrices(this.matrices);
-		g1.addChild(monkey.animation);
-	}
-	g1.addChild(new Translation(0, 2, -20.0));
-	g1.addChild(new RotorY(0.5));
-	g1.addChild(monkey);
+	var g1 = new group();
+	var myModel=new model(this.gl,this.shader);
+	myModel.loadJsonFile('models/colorCube.json');
 
-	
+	g1.addChild(new translation(0, 2, -20.0));
+	g1.addChild(new rotation(0,0.5,0));
+	g1.addChild(myModel);
 
 	// Add all nodes to scene graph.
 	this.sceneGraph.addChild(camera); // <------- Camera
@@ -69,54 +73,3 @@ MyScene.prototype.buildSceneGraph = function() {
 	return this.sceneGraph;
 };
 
-function MyGroup() {
-	this.groupFlag = true;
-	this.children = new Array();
-	this.addChild = function(child) {
-		this.children.push(child);
-	};
-	this.gl;
-	this.pMatrix;
-	this.mvMatrix;
-	this.shaderProgram;
-	
-	this.superInit = this.init;
-	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
-		this.superInit(gl, pMatrix, mvMatrix, shaderProgram);
-		this.gl=gl;
-		this.pMatrix=pMatrix;
-		this.mvMatrix=mvMatrix;
-		this.shaderProgram=shaderProgram;
-		
-		for(var i=0; i<this.children.length; i++) {
-			this.children[i].init(gl, pMatrix, mvMatrix, shaderProgram);
-		}
-	};	
-	
-	MyGroup.prototype.reload=function(){
-		for(var i=0; i<this.children.length; i++) {
-			this.children[i].init(this.gl, this.pMatrix, this.mvMatrix, this.shaderProgram);
-		}
-	}
-	
-	MyGroup.prototype.clear=function(){
-	    	    
-	    this.children=[];
-	}
-
-
-	this.draw = function(time) { 
-		with(this) {
-			// Preserve the current transformation.
-			// Not for the perspective, assuming it does not change.
-			mvMatrix.push();
-			
-			for(var i=0; i<children.length; i++) {
-				this.children[i].draw(time);
-			}
-			// Go back up in transformation hierarchy.
-			mvMatrix.pop();
-		}
-	};
-}
-MyGroup.prototype = new Node;

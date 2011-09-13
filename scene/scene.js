@@ -1,3 +1,4 @@
+BGE.namespace("Scene");
 /**
  * Scene
  * 
@@ -7,7 +8,7 @@
  * @param framerate
  * @returns {Scene}
  */
-function Scene() 
+BGE.Scene = function()
 {
 	// Variables used in the draw method.
 	this.gl;
@@ -84,7 +85,7 @@ function Scene()
  * Override this method to create a scene graph.
  * @returns {Group}
  */
-Scene.prototype.buildSceneGraph = function() {
+BGE.Scene.prototype.buildSceneGraph = function() {
 	// Create some special Nodes
 	var sceneGraph = new Group();
 	var camera = new PositionCamera(this.verticalViewAngle, this.aspectRatio , 1, 1000);
@@ -101,7 +102,7 @@ Scene.prototype.buildSceneGraph = function() {
 /**
  * Draw animated scene and scene graph.
  */
-Scene.prototype.draw = function(time) {
+BGE.Scene.prototype.draw = function(time) {
 	with(this){
 		// Clear canvas an z-buffer.
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -121,7 +122,7 @@ Scene.prototype.draw = function(time) {
 /**
  * Handle animation and interaction in the scene and the scene graph.
  */
-Scene.prototype.update = function(time) {
+BGE.Scene.prototype.update = function(time) {
 };
 
 
@@ -129,14 +130,14 @@ Scene.prototype.update = function(time) {
  * Override to handle events.
  * @param event
  */
-Scene.prototype.handleMouseEvent = function(e) {
+BGE.Scene.prototype.handleMouseEvent = function(e) {
 };
 
 /**
  * Override to handle events.
  * @param event
  */
-Scene.prototype.handleKeyDown = function(e) {	
+BGE.Scene.prototype.handleKeyDown = function(e) {
 	switch (e.keycode) {
 	case 38: // up arrow
 		if(up)
@@ -175,7 +176,7 @@ Scene.prototype.handleKeyDown = function(e) {
  * Override to handle events.
  * @param event
  */
-Scene.prototype.handleKeyUp = function(e) {
+BGE.Scene.prototype.handleKeyUp = function(e) {
 };
 
 

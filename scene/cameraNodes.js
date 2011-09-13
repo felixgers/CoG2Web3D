@@ -1,4 +1,4 @@
-
+BGE.namespace("Node.PerspectiveCamera");
 /**
  * Simple perspective campera 
  * 
@@ -6,7 +6,7 @@
  * @param aspectratio
  * @returns {PerspectiveCamera}
  */
-function PerspectiveCamera(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
+BGE.Node.PerspectiveCamera = function(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
 {
 	this.cameraFlag = true;
 	this.verticalFieldOfView = verticalFieldOfView;
@@ -21,20 +21,18 @@ function PerspectiveCamera(verticalFieldOfView, aspectratio, nearClipPlane, farC
 		var fc = this.farClipPlane;
 		mat4.perspective(fov, ar, nc, fc, this.pMatrix.top);
 	};
-}
-PerspectiveCamera.prototype = new Node;
+};
+BGE.Node.PerspectiveCamera.prototype = new BGE.Node;
 
-
+BGE.namespace("Node.PositionCamera");
 /**
- * 
-
  * @param verticalFieldOfView
  * @param aspectratio
  * @param nearClipPlane
  * @param farClipPlane
  * @returns {PositionCamera}
  */
-function PositionCamera(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
+BGE.Node.PositionCamera = function(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
 {
 	this.cameraFlag = true;
 	this.verticalFieldOfView = verticalFieldOfView;
@@ -119,8 +117,6 @@ function PositionCamera(verticalFieldOfView, aspectratio, nearClipPlane, farClip
 		}
 	};
 };
-PositionCamera.prototype = new Node;
+BGE.Node.PositionCamera.prototype = new BGE.Node;
 
-////////////////////dependent imports ////////////////////
 
-importScript("../../scene/specialNodes.js");

@@ -4,12 +4,12 @@
  * 
  */
 
-
+BGE.namespace("Node");
 /**
  * Base node
  * @returns {Node}
  */
-function Node() {
+BGE.Node=function() {
 	this.gl;
 	this.pMatrix;
 	this.mvMatrix;
@@ -29,12 +29,12 @@ function Node() {
 	this.draw = function(time) {};
 }
 
-
+BGE.namespace("Node.Group");
 /**
  * 
  * @returns {Group}
  */
-function Group() {
+BGE.Node.Group = function() {
 	this.groupFlag = true;
 	this.children = new Array();
 	this.addChild = function(child) {
@@ -47,7 +47,8 @@ function Group() {
 		for(var i=0; i<this.children.length; i++) {
 			this.children[i].init(gl, pMatrix, mvMatrix, shaderProgram);
 		}
-	};	
+	};
+
 
 	this.draw = function(time) { 
 		with(this) {
@@ -63,9 +64,23 @@ function Group() {
 		}
 	};
 }
-Group.prototype = new Node;
+BGE.Node.Group.prototype = new BGE.Node;
 
+BGE.Node.Group.prototype.reload=function(){
+		for(var i=0; i<this.children.length; i++) {
+			this.children[i].init(this.gl, this.pMatrix, this.mvMatrix, this.shaderProgram);
+		}
+	}
 
+BGE.Node.Group.prototype.clear=function(){
+        while(this.children.length>1){
+            this.children.pop();
+        }
+
+	}
+//in file transitions
+
+BGE.namespace("Node.Translation");
 /**
  * Translation node. 
  * @param x
@@ -73,14 +88,16 @@ Group.prototype = new Node;
  * @param z
  * @returns {Translation}
  */
-function Translation(x, y, z) {
+BGE.Node.Translation = function (x, y, z) {
 	this.trans = new Array(x,y,z);
 	this.draw = function(time) {
 		this.mvMatrix.translate(this.trans);
 	};
 }
-Translation.prototype = new Node;
+BGE.Node.Translation.prototype = new BGE.Node;
 
+
+BGE.namespace("Node.Scale");
 /**
  * Scale node 
  * @param x
@@ -88,33 +105,22 @@ Translation.prototype = new Node;
  * @param z
  * @returns {Scale}
  */
-function Scale(x, y, z) {
+BGE.Node.Scale = function(x, y, z) {
 	this.scale = new Array(x,y,z);
 	this.draw = function(time) { 
 		this.mvMatrix.scale(this.scale);
 	};
 }
-Scale.prototype = new Node();
+BGE.Node.Scale.prototype = new BGE.Node;
 
 
-/**
- * Y Rotation rotor
- * animates a y rotation
- * @param speed as frequency (rotations per second)
- */
-function RotorY(speed) { 
-	this.speed = speed;
-	this.draw = function(time) {
-		this.mvMatrix.rotateY(Math.PI * this.speed * time);
-	};
-}
-RotorY.prototype = new Node;
 
+BGE.namespace("Node.Rotate");
 /**
  * Rotation rotor
  * @param speed as frequency (rotations per second)
  */
-function Rotate(xSpeed,ySpeed,zSpeed) {
+BGE.Node.Rotate = function(xSpeed,ySpeed,zSpeed) {
 	xSpeed *= 2.0 * Math.PI;
 	ySpeed *= 2.0 * Math.PI;
 	zSpeed *= 2.0 * Math.PI;
@@ -124,7 +130,7 @@ function Rotate(xSpeed,ySpeed,zSpeed) {
 		this.mvMatrix.rotateZ(zSpeed * time);
 	};
 }
-Rotate.prototype = new Node;
+BGE.Node.Rotate.prototype = new BGE.Node;
 
 
 ////////////////////dependent imports ////////////////////

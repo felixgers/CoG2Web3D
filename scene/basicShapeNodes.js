@@ -1,17 +1,20 @@
-
+BGE.namespace("Node.Shape");
 /**
  * Shape base class
  * @returns {Shape}
  */
-function Shape() {
+BGE.Shape = function() {
 	// Vertex buffer.
 	this.vertexBuffer = null;
 	this.tesselationMode = 0;
 	
-	this.ShapeSuperInit = this.init;
+	//this.ShapeSuperInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
-		this.ShapeSuperInit(gl, pMatrix, mvMatrix, shaderProgram);
-
+		//this.ShapeSuperInit(gl, pMatrix, mvMatrix, shaderProgram);
+        this.gl=gl;
+        this.pMatrix=pMatrix;
+        this.mvMatrix = mvMatrix;
+        this.shaderProgram = shaderProgram;
 		// Default values for variables.
 		this.tesselationMode = gl.TRIANGLES;
 		
@@ -24,25 +27,25 @@ function Shape() {
 	};
 	
 	this.draw = function(time) { 
-		with(this) {
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);	
-			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+		var _gl=this.gl;
+		_gl.bindBuffer(_gl.ARRAY_BUFFER, this.vertexBuffer);
+		_gl.vertexAttribPointer(this.shaderProgram.vertexPositionAttribute, this.vertexBuffer.itemSize, _gl.FLOAT, false, 0, 0);
 			
-			// Push the modified matrices into the the shader program,
-			// at the correct position, that we stored.
-			gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix.top);
-			gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix.top);
+		// Push the modified matrices into the the shader program,
+		// at the correct position, that we stored.
+		_gl.uniformMatrix4fv(this.shaderProgram.pMatrixUniform, false, this.pMatrix.top);
+		_gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.mvMatrix.top);
+		_gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
 
-			gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
-		}
 	};
 }
-Shape.prototype = new Node;
+BGE.Node.Shape.prototype = new BGE.Node;
 
 /**
  * @returns {Shape}
  */
-function ColoredShape() {
+BGE.namespace("Shape.ColoredShape");
+BGE.Shape.ColoredShape = function() {
 	// Color buffer.
 	this.colorBuffer = null;
 	this.colorItemSize = 4; // default rgba
@@ -62,7 +65,7 @@ function ColoredShape() {
 		
 	};
 }
-ColoredShape.prototype = new Shape;
+BGE.Shape.ColoredShape.prototype = new BGE.Shape;
 
 
 /**
@@ -71,7 +74,8 @@ ColoredShape.prototype = new Shape;
  * @param height
  * @returns {Triangle}
  */
-function Triangle(width, height)
+BGE.namespace("Shape.Triangle");
+BGE.Shape.Triangle = function(width, height)
 {
 	// Remember the bound super functions.
 	this.TriangleSuperInit = this.init;
@@ -92,7 +96,7 @@ function Triangle(width, height)
 		delete init;
 	};
 }
-Triangle.prototype = new Shape;
+BGE.Shape.Triangle.prototype = new BGE.Shape;
 
 
 /**
@@ -101,7 +105,8 @@ Triangle.prototype = new Shape;
  * @param height
  * @returns {Rectangle}
  */
-function Rectangle(width, height) {
+BGE.namespace("Shape.Rectangle");
+BGE.Shader.Rectangle = function(width, height) {
 	// Remember the bound super functions.
 	this.TriangleSuperInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
@@ -122,17 +127,19 @@ function Rectangle(width, height) {
 		delete init;
 	};
 }
-Rectangle.prototype = new Shape;
+BGE.Shape.Rectangle.prototype = new BGE.Shape;
 
 
 
 /**
- * 
+ *
  * @param width
  * @param height
- * @returns {Triangle}
+ * @param depth
+ * @returns {ColoredShape}
  */
-function Box(width, height, depth)
+BGE.namespace("Shape.ColoredShape.Box");
+BGE.Shape.ColoredShape.Box = function (width, height, depth)
 {
 	this.BoxSuperInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
@@ -151,9 +158,9 @@ function Box(width, height, depth)
 				var jh = j*h; // y
 				for(var k=1;k>=-1;k-=2){
 					var kd= k*d; // z
-					vertices.push(new Array(iw,jh,kd));	
-				} 	
-			} 
+					vertices.push(new Array(iw,jh,kd));
+				}
+			}
 		}
 		// Build buffer data for triangles.
 		 var trisVertices = new Array;
@@ -168,8 +175,8 @@ function Box(width, height, depth)
 		}
 		// Initialize the data buffer.
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(trisVertices), gl.STATIC_DRAW);
-		this.vertexBuffer.numItems = trisVertices.length / this.vertexBuffer.itemSize;		
-		
+		this.vertexBuffer.numItems = trisVertices.length / this.vertexBuffer.itemSize;
+
 		// Create color buffer.
 		this.colorBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
@@ -192,11 +199,12 @@ function Box(width, height, depth)
 		}
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 		this.colorNumItems = this.vertexBuffer.numItems;
-		
+
 		delete init;
 	};
 }
-Box.prototype = new ColoredShape;
+BGE.Shape.ColoredShape.Box.prototype = new BGE.Shape.ColoredShape;
+
 
 ////////////////////dependent imports ////////////////////
 
