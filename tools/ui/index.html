@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Beuth Game Engine - Collada Parser</title>
-	<link rel="stylesheet" type="text/css" href="my.css" />
+	<link rel="stylesheet" type="text/css" href="style/my.css" />
 
 
 </head>
@@ -41,34 +41,29 @@
 	<div id="debug" class="debug"></div>
 </div>	
 
-<script id="shader-vs" type="x-shader/x-vertex"> 
-	attribute vec3 aVertexPosition;
-    attribute vec4 aVertexColor;
- 
-	uniform mat4 uMVMatrix;
-	uniform mat4 uPMatrix;
-	varying vec4 vColor;
- 
-	void main(void) {
-    	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-		 vColor = aVertexColor;
-  	}
-</script> 
-	
-<script id="shader-fs" type="x-shader/x-fragment">
-   	#ifdef GL_ES
-    	precision highp float;
-    #endif
-	
-	varying vec4 vColor;
-    void main(void) {
-        gl_FragColor = vColor;
-    }
-</script>
+
 	<script type="text/javascript" src="../../app/import.js"></script>
-    <script type="text/javascript" src="../../ext/jquery.js"></script>
-	<script type="text/javascript" src="../Model.js"></script>
-    <script type="text/javascript" src="parser/parser.js"></script>
+    <script type="text/javascript" src="../../ext/glMatrix.js"></script>
+    <script type="text/javascript" src="../../ext/matrixStack.js"></script>
+    <script type="text/javascript" src="../../scene/scene.js"></script>
+    <script type="text/javascript" src="../../app/events.js"></script>
+    <script type="text/javascript" src="../../app/app.js"></script>
+    <script type="text/javascript" src="../../scene/shader.js"></script>
+    <script type="text/javascript" src="../../scene/nodes.js"></script>
+    <script type="text/javascript" src="../../scene/cameraNodes.js"></script>
+    <script type="text/javascript" src="../../scene/basicShapeNodes.js"></script>
+    <script type="text/javascript" src="../../dojo/dojo.js"></script>
+    <script type="text/javascript" src="../models/model.js"></script>
+     <script type="text/javascript" src="uiController.js"></script>
+    <script type="text/javascript" src="viewerApp.js"></script>
+
+
+
+
+
+
+
+    <script type="text/javascript" src="../parser/parser.js"></script>
 	<script type="text/javascript" src="../../ext/tinyxmlw3cdom.js"></script>
 	<script type="text/javascript" src="../../ext/tinyxmlsax.js"></script>
 	<script type="text/javascript" src="../../ext/tinyxmlxpath.js"></script>

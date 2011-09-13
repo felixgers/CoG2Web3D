@@ -1,166 +1,147 @@
 BGE.namespace("App");
-
 BGE.App = function() {
-    var self = this;
-    // HTML Id of the Canvas in case there is more than one.
-    this.canvasId;
-    this.canvas;
-    this.gl;
-    this.shader;
-    this.scene;
-    this.eventManager;
+    var gl,
+        shader,
+        scene,
+        eventManager,
+        width = 500,
+        height = 500,
+        aspectRatio,
+        // Loop parameter and variables.
+        framerate = 30.0,
+        startTime = 0.0,
+        timerHandle = null,
+        name,
+        canvas,
+        //default ("shader-vs", "shader-fs"); // Shader form HTML tag.
+        vertexShaderName = "../../shader/simple.vertex",
+        fragmentShaderName = "../../shader/white.fragment",
 
-    // Application parameter.
-    this.width = 500;
-    this.height = 500;
-    this.aspectRatio;
-    this.aspectRatio;
+        init = function(_canvas,_vertexShaderName,_fragmentShaderName) {
+            // Shader source code.
+            if (_vertexShaderName!== undefined) {
+                vertexShaderName = _vertexShaderName;
+            }
+            if (_fragmentShaderName!== undefined) {
+                fragmentShaderName = _fragmentShaderName;
+            }
+  
+            canvas=_canvas;
+            canvas.width = width;
+            canvas.height = height;
+            aspectRatio = width / height;
+            gl = initGL(canvas);
+            // Create Shader
+            shader = new BGE.Shader().init(gl, vertexShaderName, fragmentShaderName);
+            // Create event manager with objects
+            //muss von aussen gesetzt werden
+            // this.eventManager = new MyEventManager().init(this);
+        },
 
-    // Shader source code.
-    // ("shader-vs", "shader-fs"); // Shader form HTML tag.
-    this.vetexShaderName = "../../shader/simple.vertex";
-    this.fragmentShaderName = "../../shader/white.fragment";
+        /**
+         * @param canvas
+         * @returns gl
+         */
+        initGL = function(canvas) {
+            try {
+                var gl = canvas.getContext("experimental-webgl");//("webgl");
+                gl.viewport(0, 0, canvas.width, canvas.height);
 
-    // Loop parameter and variables.
-    this.framerate = 30.0;
-    this.verticalViewAngle = 45.0;
-    this.intervalTimer = null;
-    this.startTime = 0.0;
-    this.timerHandle = null;
+            } catch (e) {
+                alert("Error initialising WebGL.");
+                return null;
+            }
+            if (!gl) {
+                alert("No gl context: Could not initialise WebGL.");
+                return null;
+            }
+            // Maybe GL corrected the size of the canvas,
+            // because the implementation could not satisfy it.
+            // Now it is different form the on of the HTMLcanvas.
+            //canvas.width = gl.drawingBufferWidth;
+            //canvas.height = gl.drawingBufferHeight;
+            return gl;
+        },
 
-    this.init = function(canvasId) {
+        startLoop = function() {
+           // Check if loop is already running.
+           if (timerHandle) {
+               return;
+           }
+            // Start interval
+            var startDate = new Date();
+            startTime = startDate.getTime() / 1000.0;
 
-        this.canvasId = canvasId;
-        var canvas = document.getElementById(canvasId);
-        this.canvas = canvas;
-        canvas.width = this.width;
-        canvas.height = this.height;
-        this.aspectRatio = this.width / this.height;
-        // DEBUG
-        // --------------------------------------------
-        this.lastTime = 0.0;
-        this.debug = document.createElement("div");
-        this.canvas.parentNode.appendChild(this.debug);
-        // --------------------------------------------
+            timerHandle = window.setInterval(function() {
+                update();
+            }, (1000.0 / framerate));
+        },
 
-        this.gl = initGL(canvas);
-        // Create Shader
-        this.shader = this.getShader();
-        // Create and start scene.
-         this.scene = this.getScene();
-         // Create event manager with objects
-         this.eventManager = new MyEventManager().init(this);
+        /**
+         * Stop scene time
+         */
+        stopLoop = function() {
+            if (timerHandle) {
+                window.clearInterval(timerHandle);
+                timerHandle = null;
+            }
+        },
 
-    };
+        /**
+         * Main loop.
+         * Called by window interval handler
+         */
+        update = function() {
+            // Calculate time
+            var newDate = new Date();
+            var time = (newDate.getTime() / 1000.0) - startTime;
+            scene.draw(time);
+            // DEBUG
+            // --------------------------------------------
+            //this.debug.innerHTML = Math.round(10 / (time - this.lastTime)) / 10.0 + " fps";
+            //lastTime = time;
+            // --------------------------------------------
+        },
+        clear = function() {
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        },
 
-
-    /**
-     * @param canvas
-     * @returns gl
-     */
-    var initGL = function(canvas) {
-        try {
-            var gl = canvas.getContext("experimental-webgl");//("webgl");
-            gl.viewport(0, 0, canvas.width, canvas.height);
-
-        } catch (e) {
-            alert("Error initialising WebGL.");
-            return null;
+        getGL = function(){
+            return gl;
+        },
+        setScene = function(_scene){
+            scene=_scene;
+        },
+        getShader=function(){
+            return shader;
+        },
+        getAspectRatio=function(){
+            return aspectRatio;
+        },
+        getCanvas=function(){
+            return canvas;
+        },
+        getName=function(){
+            return name;
+        },
+        setName=function(_name){
+            name=_name;
+        };
+        //revealing public API
+        return {
+            init:init,
+            getGL:getGL,
+            getShader:getShader,
+            getAspectRatio:getAspectRatio,
+            getCanvas:getCanvas,
+            setScene:setScene,
+            start:startLoop,
+            stop:stopLoop,
+            clear:clear,
+            setName:setName,
+            getName:getName
         }
-        if (!gl) {
-            alert("No gl context: Could not initialise WebGL.");
-            return null;
-        }
-        // Maybe GL corrected the size of the canvas,
-        // because the implementation could not satisfy it.
-        // Now it is different form the on of the HTMLcanvas.
-        //canvas.width = gl.drawingBufferWidth;
-        //canvas.height = gl.drawingBufferHeight;
-
-        return gl;
-    };
-
-
-    this.startLoop = function() {
-       // Check if loop is already running.
-       if (this.timerHandle) {
-           return;
-       }
-        // Start interval
-        var startDate = new Date();
-        this.startTime = startDate.getTime() / 1000.0;
-        var self = this;
-        this.timerHandle = window.setInterval(function() {
-            self.update();
-        }, (1000.0 / this.framerate));
-    };
-
-    /**
-     * Stop scene time
-     */
-    this.stopLoop = function() {
-        if (this.timerHandle) {
-            window.clearInterval(this.timerHandle);
-            this.timerHandle = null;
-        }
-    };
-
-    /**
-     * Main loop.
-     * Called by window interval handler
-     */
-    this.update = function() {
-
-        // Calculate time
-        var newDate = new Date();
-        var time = (newDate.getTime() / 1000.0) - this.startTime;
-
-        this.scene.draw(time);
-
-        // DEBUG
-        // --------------------------------------------
-        this.debug.innerHTML = Math.round(10 / (time - this.lastTime)) / 10.0 + " fps";
-        this.lastTime = time;
-        // --------------------------------------------
-    };
-
 };
 
 
-/**
- * Public entry point for the application.
- */
-BGE.App.prototype.start = function(canvasId) {
-    this.init(canvasId);
-    this.startLoop();
-};
-
-
-/**
- * Override this method to apply another shader program
- * or simply override the variables used within the method in the MyApp class.
- * @returns {Shader}
- */
-BGE.App.prototype.getShader = function() {
-    return new BGE.Shader().init(this.gl, this.vetexShaderName, this.fragmentShaderName);
-};
-
-
-/**
- * Override this method to apply another scene for the application
- * or simply override the MyScene class.
- * @returns {Scene}
- */
-BGE.App.prototype.getScene = function() {
-    return new BGE.MyScene().init(this.gl, this.canvas, this.aspectRatio, this.shader);
-};
-
-BGE.App.prototype.clear = function() {
-
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-};
-
-////////////////////dependent imports ////////////////////
-
-BGE.importScript("myApp.js");
 

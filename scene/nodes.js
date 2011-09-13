@@ -16,15 +16,15 @@ BGE.Node=function() {
 	this.shaderProgram;
 
 	this.cameraFlag = false;
-	this.rootFlag = false;
+    this.rootFlag = false;
 	this.groupFlag = false;
 
-	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
-		this.gl = gl;
-		this.pMatrix = pMatrix;
-		this.mvMatrix = mvMatrix;
-		this.shaderProgram = shaderProgram;
-	};	
+	this.init = function(_gl, _pMatrix, _mvMatrix, _shaderProgram){
+		this.gl = _gl;
+		this.pMatrix = _pMatrix;
+		this.mvMatrix = _mvMatrix;
+		this.shaderProgram = _shaderProgram;
+	};
 
 	this.draw = function(time) {};
 }

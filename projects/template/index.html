@@ -5,11 +5,9 @@
 	<title>COG WebGL Template</title>
 	<link rel="stylesheet" type="text/css" href="../../css/webGL.css">
 	<link rel="stylesheet" type="text/css" href="my.css">
-	
-	<script type="text/javascript" src="../../app/import.js"></script>
 </head>
 
-<body onload="new BGE.MyApp().start('canvas');">
+<body>
 
 	<h1>COG WebGL Template</h1>
 	
@@ -41,31 +39,19 @@
 		</div>
 	</div>
 	
-	<div>
-		<a href="../../index.html">Back to main page</a>
-	</div>
-	
-<!-- 	
-<script id="shader-vs" type="x-shader/x-vertex"> 
-	attribute vec3 aVertexPosition;
- 
-	uniform mat4 uMVMatrix;
-	uniform mat4 uPMatrix;
- 
-	void main(void) {
-    	gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
-  	}
-</script> 
-	
-<script id="shader-fs" type="x-shader/x-fragment">
-   	#ifdef GL_ES
-    	precision highp float;
-    #endif
-    void main(void) {
-        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
-    }
-</script>
--->
+
 
 </body>
 </html>
+<script type="text/javascript" src="../../app/import.js"></script>
+    <script type="text/javascript" src="../../ext/glMatrix.js"></script>
+    <script type="text/javascript" src="../../ext/matrixStack.js"></script>
+    <script type="text/javascript" src="../../scene/scene.js"></script>
+    <script type="text/javascript" src="../../app/app.js"></script>
+    <script type="text/javascript" src="../../scene/shader.js"></script>
+    <script type="text/javascript" src="../../scene/nodes.js"></script>
+    <script type="text/javascript" src="../../scene/cameraNodes.js"></script>
+    <script type="text/javascript" src="../../scene/basicShapeNodes.js"></script>
+    <script type="text/javascript" src="../../dojo/dojo.js"></script>
+
+    <script type="text/javascript" src="uiController.js"></script>
