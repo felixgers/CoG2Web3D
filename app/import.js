@@ -2,7 +2,7 @@
 // Therefore the HTML document must load the script star.js first.
 // More importScript statements may follow at the end of JS files to cover dependencies.
 //define the only one global variable for this application
-var BGE = BGE || {};
+//var BGE = BGE || {};
 /**
  * importScript javascripts
  * @param javascriptPath optinalHTMLelement
@@ -11,6 +11,7 @@ var BGE = BGE || {};
  *
  * @param ns_string = name of namespace
  */
+/*
 BGE.namespace = function (ns_string) {
 
     var parts = ns_string.split('.'),
@@ -31,9 +32,9 @@ BGE.namespace = function (ns_string) {
     }
     return parent;
 };
+*/
 
-BGE.namespace("importScript");
-
+dojo.provide("BGE.importScript");
 BGE.importScript=function(javascriptPath) {
 	var script = document.createElement("script");
 	script.setAttribute("type", "text/javascript");
@@ -45,16 +46,6 @@ BGE.importScript=function(javascriptPath) {
 }
 
 
-
-BGE.importScript("../../ext/glMatrix.js");
-BGE.importScript("../../ext/matrixStack.js");
-
-BGE.importScript("../../scene/shader.js");
-BGE.importScript("../../scene/nodes.js");
-BGE.importScript("../../scene/scene.js");
-
-BGE.importScript("../../app/events.js");
-BGE.importScript("../../app/app.js");
 
 
 

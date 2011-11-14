@@ -1,4 +1,26 @@
-BGE.namespace("App");
+dojo.registerModulePath("BGE.importScript","../app/import");
+dojo.registerModulePath("BGE.Scene","../scene/scene");
+dojo.registerModulePath("BGE.Node","../scene/nodes");
+dojo.registerModulePath("BGE.Camera","../scene/cameraNodes");
+dojo.registerModulePath("BGE.Shape","../scene/basicShapeNodes");
+dojo.registerModulePath("BGE.Shader","../scene/shader");
+dojo.registerModulePath("BGE.Model","../tools/models/model");
+
+dojo.require("BGE.Scene");
+dojo.require("BGE.Node");
+dojo.require("BGE.Camera");
+dojo.require("BGE.Shape");
+dojo.require("BGE.Shader");
+dojo.require("BGE.Model");
+dojo.require("BGE.importScript");
+
+BGE.importScript("../../ext/glMatrix.js");
+BGE.importScript("../../ext/matrixStack.js");
+
+//load external libraries
+
+
+dojo.provide("BGE.App");
 BGE.App = function() {
     var gl,
         shader,
@@ -33,9 +55,19 @@ BGE.App = function() {
             gl = initGL(canvas);
             // Create Shader
             shader = new BGE.Shader().init(gl, vertexShaderName, fragmentShaderName);
+            createScene();
             // Create event manager with objects
             //muss von aussen gesetzt werden
             // this.eventManager = new MyEventManager().init(this);
+        },
+        createScene=function(){
+            var sceneGraph=new BGE.Node.Group(),
+                camera=new BGE.Camera.PositionCamera(45.0, 1 , 1, 1000);
+
+            scene=new BGE.Scene();
+            scene.init(gl,canvas,aspectRatio,shader);
+            sceneGraph.addChild(camera);
+            scene.setSceneGraph(sceneGraph);
         },
 
         /**
@@ -112,6 +144,9 @@ BGE.App = function() {
         setScene = function(_scene){
             scene=_scene;
         },
+        add=function(_group){
+           scene.add(_group);
+        }
         getShader=function(){
             return shader;
         },
@@ -120,13 +155,8 @@ BGE.App = function() {
         },
         getCanvas=function(){
             return canvas;
-        },
-        getName=function(){
-            return name;
-        },
-        setName=function(_name){
-            name=_name;
         };
+
         //revealing public API
         return {
             init:init,
@@ -138,8 +168,7 @@ BGE.App = function() {
             start:startLoop,
             stop:stopLoop,
             clear:clear,
-            setName:setName,
-            getName:getName
+            add:add
         }
 };
 

@@ -1,4 +1,4 @@
-BGE.namespace("ViewerApp");
+dojo.provide("BGE.ViewerApp");
 BGE.ViewerApp=(function(){
        //app instance erzeugen
    var vertexShaderName = "../../shader/color.vertex",
@@ -16,7 +16,7 @@ BGE.ViewerApp=(function(){
           gl=viewerApp.getGL();
           aspectRatio=viewerApp.getAspectRatio();
           //scene erzeugen
-          firstScene = BGE.Scene;
+          firstScene = new BGE.Scene();
           //scene initialisieren
           firstScene.init(gl,viewerApp.getCanvas(),aspectRatio,viewerApp.getShader());
           sceneGraph=buildSceneGraph();
@@ -42,7 +42,7 @@ BGE.ViewerApp=(function(){
 
                 // Create some special Nodes.
                 sceneGraph = new group();
-                camera = new node.PositionCamera(45.0, 1 , 1, 1000);
+                camera = new BGE.Camera.PositionCamera(45.0, 1 , 1, 1000);
 
                 myGroup = new group();
 
@@ -71,9 +71,11 @@ BGE.ViewerApp=(function(){
        parseXML=function(_data){
            var json,
                parser;
+           dojo.registerModulePath("BGE.ColladaParser","../tools/parser/parser");
+           dojo.require("BGE.ColladaParser");
 
            if (_data != null && _data.length != 0) {
-             parser = new ColladaParser();
+             parser = new BGE.ColladaParser();
              json = parser.parseCollada(_data);
              return json;
            }

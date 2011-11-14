@@ -1,10 +1,4 @@
-/**
- *
- * Basic nodes for scene graph.
- * 
- */
-
-BGE.namespace("Node");
+dojo.provide("BGE.Node");
 /**
  * Base node
  * @returns {Node}
@@ -29,7 +23,7 @@ BGE.Node=function() {
 	this.draw = function(time) {};
 }
 
-BGE.namespace("Node.Group");
+
 /**
  * 
  * @returns {Group}
@@ -57,14 +51,13 @@ BGE.Node.Group = function() {
 		mvMatrix.push();
 
 		for(var i=0; i<this.children.length; i++) {
-		    this.children[i].draw(time);
+            this.children[i].draw(time);
 		}
 		// Go back up in transformation hierarchy.
 		mvMatrix.pop();
 	};
 }
 BGE.Node.Group.prototype = new BGE.Node;
-
 BGE.Node.Group.prototype.reload=function(){
 		for(var i=0; i<this.children.length; i++) {
 			this.children[i].init(this.gl, this.pMatrix, this.mvMatrix, this.shaderProgram);
@@ -79,7 +72,7 @@ BGE.Node.Group.prototype.clear=function(){
 	}
 //in file transitions
 
-BGE.namespace("Node.Translation");
+
 /**
  * Translation node. 
  * @param x
@@ -96,7 +89,6 @@ BGE.Node.Translation = function (x, y, z) {
 BGE.Node.Translation.prototype = new BGE.Node;
 
 
-BGE.namespace("Node.Scale");
 /**
  * Scale node 
  * @param x
@@ -113,8 +105,8 @@ BGE.Node.Scale = function(x, y, z) {
 BGE.Node.Scale.prototype = new BGE.Node;
 
 
+;
 
-BGE.namespace("Node.Rotate");
 /**
  * Rotation rotor
  * @param speed as frequency (rotations per second)
@@ -134,5 +126,5 @@ BGE.Node.Rotate.prototype = new BGE.Node;
 
 ////////////////////dependent imports ////////////////////
 
-BGE.importScript("../../scene/basicShapeNodes.js");
+//BGE.importScript("../../scene/basicShapeNodes.js");
 

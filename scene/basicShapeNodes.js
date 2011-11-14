@@ -1,4 +1,4 @@
-BGE.namespace("Node.Shape");
+dojo.provide("BGE.Shape");
 /**
  * Shape base class
  * @returns {Shape}
@@ -39,12 +39,12 @@ BGE.Shape = function() {
 
 	};
 }
-BGE.Node.Shape.prototype = new BGE.Node;
+BGE.Shape.prototype = new BGE.Node;
 
 /**
  * @returns {Shape}
  */
-BGE.namespace("Shape.ColoredShape");
+dojo.provide("BGE.Shape.ColoredShape");
 BGE.Shape.ColoredShape = function() {
 	// Color buffer.
 	this.colorBuffer = null;
@@ -74,7 +74,8 @@ BGE.Shape.ColoredShape.prototype = new BGE.Shape;
  * @param height
  * @returns {Triangle}
  */
-BGE.namespace("Shape.Triangle");
+
+dojo.provide("BGE.Shape.Triangle");
 BGE.Shape.Triangle = function(width, height)
 {
 	// Remember the bound super functions.
@@ -105,8 +106,8 @@ BGE.Shape.Triangle.prototype = new BGE.Shape;
  * @param height
  * @returns {Rectangle}
  */
-BGE.namespace("Shape.Rectangle");
-BGE.Shader.Rectangle = function(width, height) {
+dojo.provide("BGE.Shape.Rectangle");
+BGE.Shape.Rectangle = function(width, height) {
 	// Remember the bound super functions.
 	this.TriangleSuperInit = this.init;
 	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
@@ -138,7 +139,6 @@ BGE.Shape.Rectangle.prototype = new BGE.Shape;
  * @param depth
  * @returns {ColoredShape}
  */
-BGE.namespace("Shape.ColoredShape.Box");
 BGE.Shape.ColoredShape.Box = function (width, height, depth)
 {
 	this.BoxSuperInit = this.init;

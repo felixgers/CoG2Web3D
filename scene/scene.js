@@ -1,4 +1,3 @@
-BGE.namespace("Scene");
 /**
  * Scene
  *
@@ -8,7 +7,8 @@ BGE.namespace("Scene");
  * @param framerate
  * @returns {Scene}
  */
-BGE.Scene = (function()
+dojo.provide("BGE.Scene");
+BGE.Scene = function()
 {
 	// Variables used in the draw method.
 	var gl,
@@ -34,17 +34,6 @@ BGE.Scene = (function()
 
 		    pMatrix = new MatrixStack();
 		    mvMatrix = new MatrixStack();
-
-		    // Set the scene graph
-		    /*this.sceneGraph = this.buildSceneGraph();
-
-		    //this.camera = this.recursiveSceneHasCamera(this.sceneGraph);
-		    if(!this.camera) {
-			    alert("The scene graph has no camera node.\nUsing default perspective.");
-		    }
-		    */
-
-		    //initGL();
 	    },
 
         /**
@@ -55,6 +44,12 @@ BGE.Scene = (function()
             gl.enable(gl.DEPTH_TEST);
             sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
         },
+        add=function(group){
+            if (group instanceof BGE.Node.Group){
+                group.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
+                sceneGraph.addChild(group);
+            }
+        }
         setSceneGraph=function(_sceneGraph){
             sceneGraph=_sceneGraph;
             camera = recursiveSceneHasCamera(sceneGraph);
@@ -63,6 +58,9 @@ BGE.Scene = (function()
 		    }
 		    initGL();
         },
+        getSceneGraph=function(){
+            return sceneGraph;
+        }
 
         /**
          * This method checks if the scene graph has a camera node attached.
@@ -142,10 +140,12 @@ BGE.Scene = (function()
         return{
           init:init,
           setSceneGraph:setSceneGraph,
+          getSceneGraph:getSceneGraph,
           draw:draw,
-          clear:clear
+          clear:clear,
+          add:add
         };
-}());
+};
 
 
 

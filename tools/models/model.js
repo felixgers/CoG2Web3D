@@ -1,4 +1,4 @@
-BGE.namespace("Model");
+dojo.provide("BGE.Model");
 BGE.Model = function(gl){
   this.vertices;
   this.vertexPositionBuffer;

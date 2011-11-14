@@ -1,4 +1,4 @@
-BGE.namespace("Node.PerspectiveCamera");
+dojo.provide("BGE.Camera");
 /**
  * Simple perspective campera 
  * 
@@ -6,7 +6,7 @@ BGE.namespace("Node.PerspectiveCamera");
  * @param aspectratio
  * @returns {PerspectiveCamera}
  */
-BGE.Node.PerspectiveCamera = function(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
+BGE.Camera.PerspectiveCamera = function(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
 {
 	this.cameraFlag = true;
 	this.verticalFieldOfView = verticalFieldOfView;
@@ -22,9 +22,8 @@ BGE.Node.PerspectiveCamera = function(verticalFieldOfView, aspectratio, nearClip
 		mat4.perspective(fov, ar, nc, fc, this.pMatrix.top);
 	};
 };
-BGE.Node.PerspectiveCamera.prototype = new BGE.Node;
+BGE.Camera.PerspectiveCamera.prototype = new BGE.Node;
 
-BGE.namespace("Node.PositionCamera");
 /**
  * @param verticalFieldOfView
  * @param aspectratio
@@ -32,7 +31,7 @@ BGE.namespace("Node.PositionCamera");
  * @param farClipPlane
  * @returns {PositionCamera}
  */
-BGE.Node.PositionCamera = function(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
+BGE.Camera.PositionCamera = function(verticalFieldOfView, aspectratio, nearClipPlane, farClipPlane)
 {
 	this.cameraFlag = true;
 	this.verticalFieldOfView = verticalFieldOfView;
@@ -115,6 +114,6 @@ BGE.Node.PositionCamera = function(verticalFieldOfView, aspectratio, nearClipPla
         this.position = pos;
 	};
 };
-BGE.Node.PositionCamera.prototype = new BGE.Node;
+BGE.Camera.PositionCamera.prototype = new BGE.Node;
 
 

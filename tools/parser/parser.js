@@ -1,4 +1,5 @@
-var ColladaParser=function(){
+dojo.provide("BGE.ColladaParser");
+BGE.ColladaParser=function(){
 
 	this.vertices;
 	this.textures;

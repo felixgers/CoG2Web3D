@@ -1,4 +1,4 @@
-BGE.namespace("Shader");
+dojo.provide("BGE.Shader");
 /*
  * Load shader source code and initialize shader and shader program.
  * Names for shader can be files/urls or HTML ids.
