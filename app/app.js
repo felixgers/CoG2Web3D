@@ -33,7 +33,6 @@ BGE.App = function() {
         framerate = 30.0,
         startTime = 0.0,
         timerHandle = null,
-        name,
         canvas,
         //default ("shader-vs", "shader-fs"); // Shader form HTML tag.
         vertexShaderName = "../../shader/simple.vertex",
@@ -144,9 +143,6 @@ BGE.App = function() {
         setScene = function(_scene){
             scene=_scene;
         },
-        add=function(_group){
-           scene.add(_group);
-        }
         getShader=function(){
             return shader;
         },
@@ -155,7 +151,13 @@ BGE.App = function() {
         },
         getCanvas=function(){
             return canvas;
-        };
+        },
+        add=function(name){
+          return scene.add(name);
+        },
+        addNode=function(group){
+           scene.addNode(group);
+        }
 
         //revealing public API
         return {
@@ -168,7 +170,8 @@ BGE.App = function() {
             start:startLoop,
             stop:stopLoop,
             clear:clear,
-            add:add
+            add:add,
+            addNode:addNode
         }
 };
 

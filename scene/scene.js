@@ -7,6 +7,10 @@
  * @param framerate
  * @returns {Scene}
  */
+
+dojo.registerModulePath("BGE.ObjectCreator","../scene/objectCreator");
+dojo.require("BGE.ObjectCreator");
+
 dojo.provide("BGE.Scene");
 BGE.Scene = function()
 {
@@ -25,6 +29,7 @@ BGE.Scene = function()
 	    // Viewing parameter.
 	    aspectRatio,
 	    verticalViewAngle = 45.0,
+        objectCreator=BGE.ObjectCreator,
 
 	    init = function(_gl, _canvas, _aspectRatio, _shader) {
 		    gl = _gl;
@@ -44,12 +49,25 @@ BGE.Scene = function()
             gl.enable(gl.DEPTH_TEST);
             sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
         },
-        add=function(group){
+        add=function(name){
+            var o;
+            if (name === "triangle"){
+                o=objectCreator.triangle();
+                sceneGraph.addChild(o.shape);
+                sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
+            }else if (name === "coordinateSystem"){
+                o=objectCreator.coordinateSystem();
+                sceneGraph.addChild(o.shape);
+                sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
+            }
+            return o;
+        },
+        addNode=function(group){
             if (group instanceof BGE.Node.Group){
                 group.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
                 sceneGraph.addChild(group);
             }
-        }
+         },
         setSceneGraph=function(_sceneGraph){
             sceneGraph=_sceneGraph;
             camera = recursiveSceneHasCamera(sceneGraph);
@@ -60,7 +78,7 @@ BGE.Scene = function()
         },
         getSceneGraph=function(){
             return sceneGraph;
-        }
+        },
 
         /**
          * This method checks if the scene graph has a camera node attached.
@@ -143,7 +161,8 @@ BGE.Scene = function()
           getSceneGraph:getSceneGraph,
           draw:draw,
           clear:clear,
-          add:add
+          add:add,
+          addNode:addNode
         };
 };
 

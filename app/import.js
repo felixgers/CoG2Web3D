@@ -1,5 +1,5 @@
 // First import all required JS modules
-// Therefore the HTML document must load the script star.js first.
+// Therefore the HTML document must load the script star.dojo first.
 // More importScript statements may follow at the end of JS files to cover dependencies.
 //define the only one global variable for this application
 //var BGE = BGE || {};

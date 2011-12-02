@@ -1,6 +1,6 @@
 // =========================================================================
 //
-// tinyxmlxpath.js - a partially W3C compliant XPath parser for XML for <SCRIPT> (compressed)
+// tinyxmlxpath.dojo - a partially W3C compliant XPath parser for XML for <SCRIPT> (compressed)
 //
 // version 3.1
 //
@@ -31,7 +31,7 @@
 //
 // Contains text (used within comments to methods) from the
 //  XML Path Language (XPath) Version 1.0 W3C Recommendation
-//  Copyright © 16 November 1999 World Wide Web Consortium,
+//  Copyright ï¿½ 16 November 1999 World Wide Web Consortium,
 //  (Massachusetts Institute of Technology,
 //  European Research Consortium for Informatics and Mathematics, Keio University).
 //  All Rights Reserved.

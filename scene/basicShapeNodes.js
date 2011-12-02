@@ -75,7 +75,7 @@ BGE.Shape.ColoredShape.prototype = new BGE.Shape;
  * @returns {Triangle}
  */
 
-dojo.provide("BGE.Shape.Triangle");
+//dojo.provide("BGE.Shape.Triangle");
 BGE.Shape.Triangle = function(width, height)
 {
 	// Remember the bound super functions.
@@ -93,11 +93,22 @@ BGE.Shape.Triangle = function(width, height)
 		// Alternative: new WebGLFloatArray(vertices);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 		this.vertexBuffer.numItems = vertices.length / this.vertexBuffer.itemSize;
-		
-		delete init;
+		 // Create color buffer.
+		this.colorBuffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+      	this.colorNumItems = this.vertexBuffer.numItems;
+
+        var colors = [
+            1.0, 0.0, 0.0, 1.0,
+            0.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 1.0
+        ];
+            
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+		//delete init;
 	};
 }
-BGE.Shape.Triangle.prototype = new BGE.Shape;
+BGE.Shape.Triangle.prototype = new BGE.Shape.ColoredShape;
 
 
 /**
@@ -106,7 +117,7 @@ BGE.Shape.Triangle.prototype = new BGE.Shape;
  * @param height
  * @returns {Rectangle}
  */
-dojo.provide("BGE.Shape.Rectangle");
+//dojo.provide("BGE.Shape.Rectangle");
 BGE.Shape.Rectangle = function(width, height) {
 	// Remember the bound super functions.
 	this.TriangleSuperInit = this.init;
@@ -124,12 +135,87 @@ BGE.Shape.Rectangle = function(width, height) {
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 		this.vertexBuffer.numItems = vertices.length / this.vertexBuffer.itemSize;
 		this.tesselationMode = gl.TRIANGLE_STRIP;
-		
-		delete init;
+
+
+		//delete init;
 	};
 }
 BGE.Shape.Rectangle.prototype = new BGE.Shape;
 
+//dojo.provide("BGE.Shape.Triangle");
+BGE.Shape.Line = function(begin,end)
+{
+    // Color buffer.
+	this.colorBuffer = null;
+	this.colorItemSize = 4; // default rgba
+	this.colorNumItems = 0;
+    // Vertex buffer.
+	this.vertexBuffer = null;
+	this.tesselationMode = 0;
+
+	this.draw = function(time) {
+		// First set the color then call super.
+		with(this) {
+			gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+			gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, this.colorItemSize, gl.FLOAT, false, 0, 0);
+
+			gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
+
+            var _gl=this.gl;
+		    _gl.bindBuffer(_gl.ARRAY_BUFFER, this.vertexBuffer);
+		    _gl.vertexAttribPointer(this.shaderProgram.vertexPositionAttribute, this.vertexBuffer.itemSize, _gl.FLOAT, false, 0, 0);
+
+		    // Push the modified matrices into the the shader program,
+		    // at the correct position, that we stored.
+		    _gl.uniformMatrix4fv(this.shaderProgram.pMatrixUniform, false, this.pMatrix.top);
+		    _gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.mvMatrix.top);
+		    _gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
+
+			//superDraw(time);
+		}
+
+	};
+	// Remember the bound super functions.
+
+	this.init = function(gl, pMatrix, mvMatrix, shaderProgram){
+		this.gl=gl;
+        this.pMatrix=pMatrix;
+        this.mvMatrix = mvMatrix;
+        this.shaderProgram = shaderProgram;
+		// Default values for variables.
+		this.tesselationMode = gl.LINE_LOOP;
+        //this.tesselationMode = gl.TRIANGLES;
+		// Create vertex buffer for geometry and bind it.
+		this.vertexBuffer = gl.createBuffer();
+		this.vertexBuffer.itemSize = 3; // default
+		this.vertexBuffer.numItems = 0;
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
+
+		var vertices = [
+		                 begin.x,  begin.y,  begin.z,
+		                 end.x, end.y, end.z
+		];
+		// Alternative: new WebGLFloatArray(vertices);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+		this.vertexBuffer.numItems = vertices.length / this.vertexBuffer.itemSize;
+		 // Create color buffer.
+
+		this.colorBuffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+      	this.colorNumItems = this.vertexBuffer.numItems;
+
+        var colors = [
+            1.0, 0.0, 0.0, 1.0,
+            0.0, 1.0, 0.0, 1.0,
+            0.0, 0.0, 1.0, 1.0
+        ];
+
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+		//delete init;
+
+	};
+}
+BGE.Shape.Line.prototype = new BGE.Node;
 
 
 /**
@@ -200,13 +286,8 @@ BGE.Shape.ColoredShape.Box = function (width, height, depth)
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 		this.colorNumItems = this.vertexBuffer.numItems;
 
-		delete init;
+		//delete init;
 	};
 }
 BGE.Shape.ColoredShape.Box.prototype = new BGE.Shape.ColoredShape;
-
-
-////////////////////dependent imports ////////////////////
-
-//importScript("../../scene/cameraNodes.js");
 

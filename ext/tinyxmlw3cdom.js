@@ -1,6 +1,6 @@
 // =========================================================================
 //
-// tinyxmlw3cdom.js - a W3C compliant DOM parser for XML for <SCRIPT> (compressed)
+// tinyxmlw3cdom.dojo - a W3C compliant DOM parser for XML for <SCRIPT> (compressed)
 //
 // version 3.1
 //
@@ -26,7 +26,7 @@
 //
 // Contains text (used within comments to methods) from the
 //  XML Path Language (XPath) Version 1.0 W3C Recommendation
-//  Copyright © 16 November 1999 World Wide Web Consortium,
+//  Copyright ï¿½ 16 November 1999 World Wide Web Consortium,
 //  (Massachusetts Institute of Technology,
 //  European Research Consortium for Informatics and Mathematics, Keio University).
 //  All Rights Reserved.
@@ -39,7 +39,7 @@ return classCollectionStr;}
 DOMException = function(code) { this._class = addClass(this._class, "DOMException"); this.code = code;}; DOMException.INDEX_SIZE_ERR = 1; DOMException.DOMSTRING_SIZE_ERR = 2; DOMException.HIERARCHY_REQUEST_ERR = 3; DOMException.WRONG_DOCUMENT_ERR = 4; DOMException.INVALID_CHARACTER_ERR = 5; DOMException.NO_DATA_ALLOWED_ERR = 6; DOMException.NO_MODIFICATION_ALLOWED_ERR = 7; DOMException.NOT_FOUND_ERR = 8; DOMException.NOT_SUPPORTED_ERR = 9; DOMException.INUSE_ATTRIBUTE_ERR = 10; DOMException.INVALID_STATE_ERR = 11; DOMException.SYNTAX_ERR = 12; DOMException.INVALID_MODIFICATION_ERR = 13; DOMException.NAMESPACE_ERR = 14; DOMException.INVALID_ACCESS_ERR = 15; DOMImplementation = function() { this._class = addClass(this._class, "DOMImplementation"); this._p = null; this.preserveWhiteSpace = false; this.namespaceAware = true; this.errorChecking = true;}; DOMImplementation.prototype.escapeString = function DOMNode__escapeString(str) { return __escapeString(str);}; DOMImplementation.prototype.unescapeString = function DOMNode__unescapeString(str) { return __unescapeString(str);}; DOMImplementation.prototype.hasFeature = function DOMImplementation_hasFeature(feature, version) { var ret = false; if (feature.toLowerCase() == "xml") { ret = (!version || (version == "1.0") || (version == "2.0"));}
 else if (feature.toLowerCase() == "core") { ret = (!version || (version == "2.0"));}
 return ret;}; DOMImplementation.prototype.loadXML = function DOMImplementation_loadXML(xmlStr) { var parser; try { parser = new XMLP(xmlStr);}
-catch (e) { alert("Error Creating the SAX Parser. Did you include xmlsax.js or tinyxmlsax.js in your web page?\nThe SAX parser is needed to populate XML for <SCRIPT>'s W3C DOM Parser with data.");}
+catch (e) { alert("Error Creating the SAX Parser. Did you include xmlsax.dojo or tinyxmlsax.dojo in your web page?\nThe SAX parser is needed to populate XML for <SCRIPT>'s W3C DOM Parser with data.");}
 var doc = new DOMDocument(this); this._parseLoop(doc, parser); doc._parseComplete = true; return doc;}; DOMImplementation.prototype.translateErrCode = function DOMImplementation_translateErrCode(code) { var msg = ""; switch (code) { case DOMException.INDEX_SIZE_ERR :
 msg = "INDEX_SIZE_ERR: Index out of bounds"; break; case DOMException.DOMSTRING_SIZE_ERR :
 msg = "DOMSTRING_SIZE_ERR: The resulting string is too long to fit in a DOMString"; break; case DOMException.HIERARCHY_REQUEST_ERR :

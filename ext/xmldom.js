@@ -1,6 +1,6 @@
 // =========================================================================
 //
-// xmldom.js - an XML DOM parser in JavaScript.
+// xmldom.dojo - an XML DOM parser in JavaScript.
 //
 //	This is the classic DOM that has shipped with XML for <SCRIPT>
 //  since the beginning. For a more standards-compliant DOM, you may

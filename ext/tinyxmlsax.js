@@ -1,6 +1,6 @@
 // =========================================================================
 //
-// tinyxmlsax.js - an XML SAX parser in JavaScript compressed for downloading
+// tinyxmlsax.dojo - an XML SAX parser in JavaScript compressed for downloading
 //
 // version 3.1
 //
