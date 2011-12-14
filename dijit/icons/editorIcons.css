@@ -9,6 +9,8 @@
 .dijitDisabled .dijitEditorIcon {
 	background-image: url('images/editorIconsDisabled.png'); 
 }
+
+
 .dijitEditorIconSep { background-position: 0; }
 .dijitEditorIconSave { background-position: -18px; }
 .dijitEditorIconPrint { background-position: -36px; }
