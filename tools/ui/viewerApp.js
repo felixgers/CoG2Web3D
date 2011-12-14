@@ -1,4 +1,8 @@
+dojo.registerModulePath("BGE.App","../app/app");
+dojo.require("BGE.App");
 dojo.provide("BGE.ViewerApp");
+dojo.registerModulePath("BGE.UploadHandler","../tools/ui/uploadHandler");
+dojo.require("BGE.UploadHandler");
 BGE.ViewerApp=(function(){
        //app instance erzeugen
    var vertexShaderName = "../../shader/color.vertex",
@@ -9,10 +13,12 @@ BGE.ViewerApp=(function(){
        sceneGraph,
        gl,
        aspectRatio,
+       myUploadHandler=BGE.UploadHandler;
 
        init=function(_canvas){
           viewerApp=new BGE.App();
-          viewerApp.init(_canvas,vertexShaderName,fragmentShaderName);
+          viewerApp.init(vertexShaderName,fragmentShaderName,_canvas);
+          viewerApp.setCanvasSize('500','500');
           gl=viewerApp.getGL();
           aspectRatio=viewerApp.getAspectRatio();
           //scene erzeugen
@@ -48,7 +54,6 @@ BGE.ViewerApp=(function(){
 
                 myModel=new model(gl);
                 myModel.loadJsonFile('../models/colorCube.json');
-
                 myGroup.addChild(new translation(0, 2, -20.0));
                 myGroup.addChild(new rotation(0,0.5,0));
                 myGroup.addChild(myModel);
@@ -107,7 +112,11 @@ BGE.ViewerApp=(function(){
            init:init,
            setCanvasClear:setCanvasClear,
            parseXML:parseXML,
-           addNewModel:addNewModel
+           addNewModel:addNewModel,
+           checkFileUploadAvailable:myUploadHandler.checkFileUploadAvailable,
+           handleUpload:myUploadHandler.handleUpload,
+           handleDragOver:myUploadHandler.handleDragOver,
+           handleDrop:myUploadHandler.handleDrop
        };
 }());
 

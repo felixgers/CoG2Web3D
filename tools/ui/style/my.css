@@ -20,15 +20,35 @@ h2.caption_2{
   color: #0D4383;
   text-shadow: rgba(0,0,0,0.5) -1px 0, rgba(0,0,0,0.3) 0 -1px, rgba(255,255,255,0.5) 0 1px, rgba(0,0,0,0.3) -1px -2px;
 }
+.dijitAccordionText{
+  font-family: Verdana, Arial, "Times New Roman";
+  font-size: 9px;
+}
+.dijitDialogTitle{
+  font-family: Verdana, Arial, "Times New Roman";
+  font-size: 9px !IMPORTANT;
+}
+.claro .dijitDialogTitle {
+    color: #0D4383 !important;
+}
+.dijitAccordionTitle {
+    color: #0D4383 !important;
+}
+
+.claro .dijitSplitContainer-dijitContentPane, .claro .dijitBorderContainer-dijitContentPane{
+    padding: 0px !IMPORTANT;
+}
+
 div.caption_2{
   z-index:2;
 }
-.collada{
-	border:1px solid #003471;
+.textarea{
+	width:475px;
+    min-height:440px;
+    max-height:440px;
+    border: none;
 }
-.json{
-	border:1px solid #003471;
-}
+
 .parse{
 	float:left;
 	padding-left:10px;
@@ -36,16 +56,46 @@ div.caption_2{
 	/*width:25%;*/
 	position:relative;	
 }
-.canvas{
-	/* outline: 1px solid white;*/
-	/*width:55%;*/
-	position:relative;
-	float:left;
-}
+
 
 .canvas div{
 	color:white;
 }
+
+.iconDelete{
+    background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+    background-image: url('../img/delete_16.png');
+}
+.iconParse{
+    background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+    background-image: url('../img/process_accept_16.png');
+}
+.iconUpload{
+    background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+    background-image: url('../img/upload_16.png');
+}
+.iconHelp{
+    background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	text-align: center;
+    background-image: url('../img/help_16.png');
+}
+.dijitDialogPaneContent{
+  font-family: Verdana, Arial, "Times New Roman";
+  font-size: 9px;
+  color: #0D4383 !important;
+}
+
 body{
 	background: #CCFFCC; /*alternative Hintergrundfarbe f�r IE*/
 	background: -webkit-gradient(linear, 0 0, 0 20%, from(#CCFF66), to(#fff));

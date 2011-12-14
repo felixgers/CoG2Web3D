@@ -16,34 +16,12 @@
 	</div>
 	<div class="caption_2">	
 			<h2 class="caption_2">Collada Parser</h2>
-		</div>
-
-      
-
-	<div  class="parse">
-        <div id="markup" style="width:300px; height: 300px"/>
-        <!--
-		<div>
-			<textarea class="collada" id="collada_area" name="collada" cols="50" rows="13" value=""></textarea>
-		</div>
-		<div>
-			<input type="button" value="Parsen" id="parse_button" />
-  		</div>
-		<div>
-		    <input type="button" value="Löschen" id="delete_button" />
-  	    </div>
-		<div style="width:25%;position:relative">
-				JSON:
-		</div>
-		<div>
-			<textarea class="json" id="json_area" name="json" cols="50" rows="13" ></textarea>
-		</div>
-		-->
 	</div>
+	<div id="markup"/></div>
 
-	<div class="canvas">
-		<canvas id="canvas" width="800"></canvas>
-	</div>
+	<canvas id="canvas" class="canvas"></canvas>
+    <input type="file" id="files" name="files[]" style="visibility:hidden;" />
+
 
 	<div id="debug" class="debug"></div>
 </div>	
@@ -55,5 +33,11 @@
     <!-- only for google chrome -->
     <script type="text/javascript" src="../../ext/glMatrix.js"></script>
     <script type="text/javascript" src="../../ext/matrixStack.js"></script>
+   <script type="text/javascript" src="../../ext/tinyxmlw3cdom.js"></script>
+   <script type="text/javascript" src="../../ext/tinyxmlsax.js"></script>
+   <script type="text/javascript" src="../../ext/tinyxmlxpath.js"></script>
+   <script type="text/javascript" src="../../ext/json2.js"></script>
+   <script type="text/javascript" src="../../ext/xmldom.js"></script>
+  
 </body>
 </html>

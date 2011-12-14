@@ -88,7 +88,7 @@ BGE.ColladaParser=function(){
 	this.parseGeometryData=function(docRoot,instanceGeometryNode,materials){
 		var meshId=this.getId(instanceGeometryNode,"url");
 		//search in library_geometry
-        alert(meshId);
+        //alert(meshId);
 		
 		var geometryNode=docRoot.selectNodeSet("//library_geometries/geometry[@id=" + meshId +"]/mesh");
 		if(geometryNode.item(0)!=null){
@@ -216,7 +216,7 @@ BGE.ColladaParser=function(){
 		var scenechilds=this.parseSceneInformations(docRoot);
 		var geometryNode;
 		var materialNode;
-   
+        //alert('parse collada');
 		for(var i=0;i<scenechilds.getLength();i++){
 
 		    //search for geometry informations
