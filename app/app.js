@@ -38,7 +38,7 @@ BGE.App = function() {
         vertexShaderName = "../../shader/simple.vertex",
         fragmentShaderName = "../../shader/white.fragment",
 
-        init = function(_canvas,_vertexShaderName,_fragmentShaderName) {
+        init = function(_vertexShaderName,_fragmentShaderName,_canvas) {
             // Shader source code.
             if (_vertexShaderName!== undefined) {
                 vertexShaderName = _vertexShaderName;
@@ -46,8 +46,13 @@ BGE.App = function() {
             if (_fragmentShaderName!== undefined) {
                 fragmentShaderName = _fragmentShaderName;
             }
-  
-            canvas=_canvas;
+            if ((_canvas === undefined) || (_canvas===null)){
+                canvas=document.createElement("canvas");
+                document.body.appendChild(canvas);
+            }else{
+                canvas=_canvas;
+            }
+
             canvas.width = width;
             canvas.height = height;
             aspectRatio = width / height;
@@ -59,7 +64,11 @@ BGE.App = function() {
             //muss von aussen gesetzt werden
             // this.eventManager = new MyEventManager().init(this);
         },
-        createScene=function(){
+        setCanvasSize = function(_width,_height){
+            canvas.width=_width;
+            canvas.height=_height;
+        },
+        createScene = function(){
             var sceneGraph=new BGE.Node.Group(),
                 camera=new BGE.Camera.PositionCamera(45.0, 1 , 1, 1000);
 
@@ -166,6 +175,7 @@ BGE.App = function() {
             getShader:getShader,
             getAspectRatio:getAspectRatio,
             getCanvas:getCanvas,
+            setCanvasSize:setCanvasSize,
             setScene:setScene,
             start:startLoop,
             stop:stopLoop,
