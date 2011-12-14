@@ -1,3 +1,5 @@
+dojo.registerModulePath("BGE.Model","../tools/models/model");
+dojo.require("BGE.Model");
 dojo.provide("BGE.ObjectCreator");
 BGE.ObjectCreator = (function() {
     //schritt1 object erzeugen
@@ -7,23 +9,31 @@ BGE.ObjectCreator = (function() {
     //weiter mit rotation scale
     //weitere objekte
     
-    var  createObject = function() {
-         var node = BGE.Node,
-             group = node.Group,
-             shape = BGE.Shape,
+    var node,
+        group,
+        shape,
+        obj,
+        gl,
+        setGL = function(_gl){
+           gl=_gl;
+        },
+        createObject = function() {
+            node = BGE.Node;
+            group = node.Group;
+            shape = BGE.Shape;
+
 
              obj = {
                 shape:new group(),
                 rotation:new node.Rotate(0,0,0),
-                //scale:new node.Scale(0, 0, 0),
+                scalation:new node.Scale(1,1,1),
                 translation:new node.Translation(-1,-1,-5)
              };
-            //turn around the world
-            //idee: extra node
-            //obj.shape.addChild(obj.rotation);
+
 
             obj.shape.addChild(obj.translation);
             obj.shape.addChild(obj.rotation);
+            obj.shape.addChild(obj.scalation);
             obj.translate=function(point){
                     point.x=point.x + -1;
                     point.y=point.y + -1;
@@ -35,10 +45,21 @@ BGE.ObjectCreator = (function() {
                    obj.rotation.rotate(point.x,point.y,point.z);
              };
 
+             obj.scale=function(point){
+                   obj.scalation.scale(point.x,point.y,point.z);
+             };
+
              return obj;
         },
+        addJSONModel = function(name){
+             var o = new createObject(),
+                 myModel=new BGE.Model(gl);
+                 myModel.loadJsonFile('../../tools/models/' + name + '.json');
+                 o.shape.addChild(myModel);
+                 return o;
+        },
         triangle=function(){
-            var tri=new createObject();
+            var tri = new createObject();
             tri.shape.addChild(new BGE.Shape.Triangle(1.0,1.0));
             return tri;
         },
@@ -62,8 +83,10 @@ BGE.ObjectCreator = (function() {
         };
 
         return{
+            setGL:setGL,
             triangle:triangle,
-            coordinateSystem:coordinateSystem
+            coordinateSystem:coordinateSystem,
+            addJSONModel:addJSONModel
         }
 
 

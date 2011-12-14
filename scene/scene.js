@@ -31,6 +31,8 @@ BGE.Scene = function()
 	    verticalViewAngle = 45.0,
         objectCreator=BGE.ObjectCreator,
 
+
+
 	    init = function(_gl, _canvas, _aspectRatio, _shader) {
 		    gl = _gl;
 		    canvas = _canvas;
@@ -39,6 +41,8 @@ BGE.Scene = function()
 
 		    pMatrix = new MatrixStack();
 		    mvMatrix = new MatrixStack();
+
+            objectCreator.setGL(gl);
 	    },
 
         /**
@@ -51,15 +55,23 @@ BGE.Scene = function()
         },
         add=function(name){
             var o;
-            if (name === "triangle"){
-                o=objectCreator.triangle();
-                sceneGraph.addChild(o.shape);
-                sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
-            }else if (name === "coordinateSystem"){
-                o=objectCreator.coordinateSystem();
-                sceneGraph.addChild(o.shape);
-                sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
+            switch (name){
+                case "triangle":
+                    o=objectCreator.triangle();
+                    break;
+                case "coordinateSystem":
+                    o=objectCreator.coordinateSystem();
+                    break;
+                case "cube":
+                    o=objectCreator.addJSONModel('colorCube');
+                    break;
+                case "monkey":
+                    o=objectCreator.addJSONModel('monkey');
+                    break;
+                default : return;
             }
+            sceneGraph.addChild(o.shape);
+            sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
             return o;
         },
         addNode=function(group){

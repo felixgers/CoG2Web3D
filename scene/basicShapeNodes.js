@@ -36,8 +36,7 @@ BGE.Shape = function() {
 		_gl.uniformMatrix4fv(this.shaderProgram.pMatrixUniform, false, this.pMatrix.top);
 		_gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.mvMatrix.top);
 		_gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
-
-	};
+     };
 }
 BGE.Shape.prototype = new BGE.Node;
 
@@ -59,7 +58,6 @@ BGE.Shape.ColoredShape = function() {
 			gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, this.colorItemSize, gl.FLOAT, false, 0, 0);
 
 			gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
-			
 			superDraw(time);
 		}
 		
@@ -142,7 +140,7 @@ BGE.Shape.Rectangle = function(width, height) {
 }
 BGE.Shape.Rectangle.prototype = new BGE.Shape;
 
-//dojo.provide("BGE.Shape.Triangle");
+/*
 BGE.Shape.Line = function(begin,end)
 {
     // Color buffer.
@@ -154,14 +152,10 @@ BGE.Shape.Line = function(begin,end)
 	this.tesselationMode = 0;
 
 	this.draw = function(time) {
-		// First set the color then call super.
-		with(this) {
-			gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
-			gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, this.colorItemSize, gl.FLOAT, false, 0, 0);
+		    var _gl=this.gl;
+            _gl.bindBuffer(_gl.ARRAY_BUFFER, this.colorBuffer);
+            _gl.vertexAttribPointer(this.shaderProgram.vertexColorAttribute, this.colorItemSize, _gl.FLOAT, false, 0, 0);
 
-			gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
-
-            var _gl=this.gl;
 		    _gl.bindBuffer(_gl.ARRAY_BUFFER, this.vertexBuffer);
 		    _gl.vertexAttribPointer(this.shaderProgram.vertexPositionAttribute, this.vertexBuffer.itemSize, _gl.FLOAT, false, 0, 0);
 
@@ -170,9 +164,9 @@ BGE.Shape.Line = function(begin,end)
 		    _gl.uniformMatrix4fv(this.shaderProgram.pMatrixUniform, false, this.pMatrix.top);
 		    _gl.uniformMatrix4fv(this.shaderProgram.mvMatrixUniform, false, this.mvMatrix.top);
 		    _gl.drawArrays(this.tesselationMode, 0, this.vertexBuffer.numItems);
-
+            //_gl.drawElements(this.tesselationMode, this.vertexBuffer.numItems,_gl.UNSIGNED_SHORT, 0);
 			//superDraw(time);
-		}
+		//}
 
 	};
 	// Remember the bound super functions.
@@ -192,16 +186,17 @@ BGE.Shape.Line = function(begin,end)
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexBuffer);
 
 		var vertices = [
-		                 begin.x,  begin.y,  begin.z,
-		                 end.x, end.y, end.z
+		    begin.x,  begin.y,  begin.z,
+		    end.x, end.y, end.z
 		];
 		// Alternative: new WebGLFloatArray(vertices);
 		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-		this.vertexBuffer.numItems = vertices.length / this.vertexBuffer.itemSize;
-		 // Create color buffer.
+		this.vertexBuffer.numItems = vertices.length/this.vertexBuffer.itemSize;
+      // Create color buffer.
 
 		this.colorBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+
       	this.colorNumItems = this.vertexBuffer.numItems;
 
         var colors = [
@@ -214,6 +209,78 @@ BGE.Shape.Line = function(begin,end)
 		//delete init;
 
 	};
+}
+BGE.Shape.Line.prototype = new BGE.Node;
+*/
+BGE.Shape.Line = function(begin,end)
+{
+
+	var colorBuffer = null,
+        // default rgba
+	    colorItemSize = 4,
+	    colorNumItems = 0,
+        vertexBuffer = null,
+        //array for vertices
+        vertices,
+        //array for colors
+        colors,
+	    tesselationMode = 0,
+        gl,
+        pMatrix,
+        mvMatrix,
+        shaderProgram,
+	    draw = function(time) {
+            gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+            gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, colorItemSize, gl.FLOAT, false, 0, 0);
+
+		    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+		    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+		    // Push the modified matrices into the the shader program,
+		    // at the correct position, that we stored.
+		    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix.top);
+		    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix.top);
+		    gl.drawArrays(tesselationMode, 0, vertexBuffer.numItems);
+    	},
+        init = function(_gl, _pMatrix, _mvMatrix, _shaderProgram){
+            gl=_gl;
+            pMatrix=_pMatrix;
+            mvMatrix = _mvMatrix;
+            shaderProgram = _shaderProgram;
+            // Default values for variables.
+            tesselationMode = gl.LINE_LOOP;
+
+            // Create vertex buffer for geometry and bind it.
+            vertexBuffer = gl.createBuffer();
+            vertexBuffer.itemSize = 3; // default
+            vertexBuffer.numItems = 0;
+            gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffer);
+
+            vertices = [
+                begin.x,  begin.y,  begin.z,
+                end.x, end.y, end.z
+            ];
+
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+            vertexBuffer.numItems = vertices.length/vertexBuffer.itemSize;
+
+            // Create color buffer.
+            colorBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+
+            colorNumItems = vertexBuffer.numItems;
+
+            colors = [
+                1.0, 0.0, 0.0, 1.0,
+                0.0, 1.0, 0.0, 1.0,
+                0.0, 0.0, 1.0, 1.0
+            ];
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+        };
+        return{
+            init:init,
+            draw:draw
+        };
 }
 BGE.Shape.Line.prototype = new BGE.Node;
 
