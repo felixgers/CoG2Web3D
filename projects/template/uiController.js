@@ -1,29 +1,37 @@
 dojo.ready(function(){
    //call this app module and
-   //init with canvas object from HTML page
+
    dojo.registerModulePath("BGE.App","../app/app");
    dojo.require("BGE.App");
    var viewerApp,
-       tri,
-       triangle=new BGE.Node.Group();
-
+       cube,
+       group=new BGE.Node.Group();
        viewerApp=new BGE.App();
-       viewerApp.init(dojo.byId("canvas"),"../../shader/color.vertex","../../shader/color.fragment");
+       viewerApp.init("../../shader/color.vertex","../../shader/color.fragment");
 
-       triangle.addChild(new BGE.Node.Translation(1,1,-4.0));
-       triangle.addChild(new BGE.Node.Rotate(0,1.0,0));
-       triangle.addChild(new BGE.Shape.ColoredShape.Box(1.0, 1.0,1.0));
-       //viewerApp.addNode(triangle);
+       //show coordinates for development
        viewerApp.add("coordinateSystem");
-       tri=viewerApp.add("triangle");
-       tri.translate({x:1,y:1,z:-5});
-       //tri.rotate({x:0,y:0.5,z:0});
+
+       //create child per app and translate,rotate,scale it
+       cube=viewerApp.add("cube");
+       cube.translate({x:1,y:1,z:-5});
+       cube.rotate({x:1,y:0.5,z:0});
+       cube.scale({x:0.2,y:0.2,z:0.2});
 
 
-       //tri.rotation.rotate(0.07,0.5,0.05);
-      //node hinzufuegen
+       // create and add child
+       /*
+       group.addChild(new BGE.Node.Translation(1,1,-4.0));
+       group.addChild(new BGE.Node.Rotate(0,1.0,0));
+       group.addChild(new BGE.Shape.ColoredShape.Box(1.0, 1.0,1.0));
+       viewerApp.addNode(group);
+       */
 
-
+       //simply add childs
+       /*
+       viewerApp.add("triangle");
+       viewerApp.add("monkey");
+       */
 
        //app starten
        viewerApp.start();
