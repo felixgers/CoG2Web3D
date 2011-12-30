@@ -8,12 +8,14 @@
  * @returns {Scene}
  */
 
-dojo.registerModulePath("BGE.ObjectCreator","../scene/objectCreator");
-dojo.require("BGE.ObjectCreator");
+dojo.registerModulePath("BGE.ModelManager", "../tools/models/modelManager");
+dojo.require("BGE.ModelManager");
 
 dojo.provide("BGE.Scene");
-BGE.Scene = function()
-{
+BGE.Scene = function () {
+
+    "use strict";
+
 	// Variables used in the draw method.
 	var gl,
 	    canvas,
@@ -29,78 +31,71 @@ BGE.Scene = function()
 	    // Viewing parameter.
 	    aspectRatio,
 	    verticalViewAngle = 45.0,
-        objectCreator=BGE.ObjectCreator,
+        modelManager = BGE.ModelManager,
+        up = false,
 
 
 
-	    init = function(_gl, _canvas, _aspectRatio, _shader) {
-		    gl = _gl;
-		    canvas = _canvas;
-		    aspectRatio = _aspectRatio;
-		    shader = _shader;
+	    init = function (p_gl, p_canvas, p_aspectRatio, p_shader) {
+		    gl = p_gl;
+		    canvas = p_canvas;
+		    aspectRatio = p_aspectRatio;
+		    shader = p_shader;
 
 		    pMatrix = new MatrixStack();
 		    mvMatrix = new MatrixStack();
-
-            objectCreator.setGL(gl);
 	    },
 
         /**
          * Start the scene, scene time.
          */
-        initGL = function() {
+        initGL = function () {
             gl.clearColor(0.0, 0.0, 0.0, 1.0);
             gl.enable(gl.DEPTH_TEST);
-            sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
+            sceneGraph.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
+            modelManager.init(gl, sceneGraph);
         },
-        add=function(name){
-            var o;
-            switch (name){
-                case "triangle":
-                    o=objectCreator.triangle();
-                    break;
-                case "coordinateSystem":
-                    o=objectCreator.coordinateSystem();
-                    break;
-                case "cube":
-                    o=objectCreator.addJSONModel('colorCube');
-                    break;
-                case "monkey":
-                    o=objectCreator.addJSONModel('monkey');
-                    break;
-                default : return;
+        add = function (name) {
+            var objects;
+            switch (name) {
+            case "triangle":
+                objects = modelManager.triangle();
+                objects[0].translate({x: 0, y: 0, z: -7});
+                break;
+            case "coordinateSystem":
+                objects = modelManager.coordinateSystem();
+                break;
+            case "cube":
+                objects = modelManager.addJSONModelByName('cube');
+                objects[0].translate({x: 0, y: 0, z: -7});
+                break;
+            case "monkey":
+                objects = modelManager.addJSONModelByName('monkey');
+                break;
+            default: return;
             }
-            sceneGraph.addChild(o.shape);
-            sceneGraph.init(gl,pMatrix,mvMatrix,shader.shaderProgram);
-            return o;
+            sceneGraph.addChild(objects[0].shape);
+            sceneGraph.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
+            return objects[0];
         },
-        addNode=function(group){
-            if (group instanceof BGE.Node.Group){
-                group.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
+        addNode = function (group) {
+            if (group instanceof BGE.Node.Group) {
                 sceneGraph.addChild(group);
+                sceneGraph.init(gl, pMatrix, mvMatrix, shader.shaderProgram);
             }
-         },
-        setSceneGraph=function(_sceneGraph){
-            sceneGraph=_sceneGraph;
-            camera = recursiveSceneHasCamera(sceneGraph);
-		    if(!camera) {
-			    alert("The scene graph has no camera node.\nUsing default perspective.");
-		    }
-		    initGL();
         },
-        getSceneGraph=function(){
-            return sceneGraph;
-        },
-
         /**
          * This method checks if the scene graph has a camera node attached.
          */
-        recursiveSceneHasCamera = function(node) {
-            if(node.groupFlag) {
-                var children = node.children;
-                for(var i=0; i<children.length; i++) {
+        recursiveSceneHasCamera = function (node) {
+            var i,
+                children;
+
+            if (node.groupFlag) {
+                children = node.children;
+                for (i = 0; i < children.length; i++) {
                     node = recursiveSceneHasCamera(children[i]);
-                    if(node) {
+                    if (node) {
                         return node;
                     }
                 }
@@ -109,73 +104,88 @@ BGE.Scene = function()
             }
             return null;
         },
-        draw = function(time) {
+        setSceneGraph = function (p_sceneGraph) {
+            sceneGraph = p_sceneGraph;
+            camera = recursiveSceneHasCamera(sceneGraph);
+		    if (!camera) {
+			    console.log("The scene graph has no camera node.\nUsing default perspective.");
+		    }
+		    initGL();
+        },
+        getSceneGraph = function () {
+            return sceneGraph;
+        },
+        update = function (time) {
+        },
+        draw = function (time) {
             // Clear canvas an z-buffer.
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
             mvMatrix.identity();
             pMatrix.identity();
 
             // Set some default frustrum.
-            if(!camera) {
+            if (!camera) {
                 pMatrix.perspective(45.0, this.aspectratio, 1, 100);
             }
 
             update(time);
             sceneGraph.draw(time);
         },
-        clear=function(){
+        clear = function () {
 	        sceneGraph.clear();
         },
-        update = function(time) {
+        handleMouseEvent = function (e) {
         },
-        handleMouseEvent = function(e) {
-        },
-        handleKeyDown = function(e) {
+        handleKeyDown = function (e) {
             switch (e.keycode) {
             case 38: // up arrow
-                if(up)
+                if (up) {
                     camera.speedF = 1.0;
-                else
+                } else {
                     this.camera.speedF = 0.0;
+                }
                 break;
 
             case 40: // down arrow
-                if(up)
+                if (up) {
                     this.camera.speedF = -1.0;
-                else
+                } else {
                     this.camera.speedF = 0.0;
+                }
                 break;
 
             case 37: // left arrow
-                if(up)
+                if (up) {
                     this.camera.speedS = -1.0;
-                else
+                } else {
                     this.camera.speedS = 0.0;
+                }
                 break;
 
             case 39: // right arrow
-                if(up)
+                if (up) {
                     this.camera.speedS = 1.0;
-                else
+                } else {
                     this.camera.speedS = 0.0;
+                }
                 break;
 
             default:
                 break;
             }
         },
-        handleKeyUp = function(e) {
+        handleKeyUp = function (e) {
         };
 
-        return{
-          init:init,
-          setSceneGraph:setSceneGraph,
-          getSceneGraph:getSceneGraph,
-          draw:draw,
-          clear:clear,
-          add:add,
-          addNode:addNode
-        };
+    return {
+        init: init,
+        setSceneGraph: setSceneGraph,
+        getSceneGraph: getSceneGraph,
+        draw: draw,
+        clear: clear,
+        add: add,
+        addNode: addNode
+    };
 };
 
 
