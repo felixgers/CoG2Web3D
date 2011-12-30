@@ -1,10 +1,10 @@
-dojo.registerModulePath("BGE.importScript","../app/import");
-dojo.registerModulePath("BGE.Scene","../scene/scene");
-dojo.registerModulePath("BGE.Node","../scene/nodes");
-dojo.registerModulePath("BGE.Camera","../scene/cameraNodes");
-dojo.registerModulePath("BGE.Shape","../scene/basicShapeNodes");
-dojo.registerModulePath("BGE.Shader","../scene/shader");
-dojo.registerModulePath("BGE.Model","../tools/models/model");
+dojo.registerModulePath("BGE.importScript", "../app/import");
+dojo.registerModulePath("BGE.Scene", "../scene/scene");
+dojo.registerModulePath("BGE.Node", "../scene/nodes");
+dojo.registerModulePath("BGE.Camera", "../scene/cameraNodes");
+dojo.registerModulePath("BGE.Shape", "../scene/basicShapeNodes");
+dojo.registerModulePath("BGE.Shader", "../scene/shader");
+dojo.registerModulePath("BGE.Model", "../tools/models/model");
 
 dojo.require("BGE.Scene");
 dojo.require("BGE.Node");
@@ -14,14 +14,15 @@ dojo.require("BGE.Shader");
 dojo.require("BGE.Model");
 dojo.require("BGE.importScript");
 
+//load external libraries
 BGE.importScript("../../ext/glMatrix.js");
 BGE.importScript("../../ext/matrixStack.js");
 
-//load external libraries
-
-
 dojo.provide("BGE.App");
-BGE.App = function() {
+BGE.App = function () {
+
+    "use strict";
+
     var gl,
         shader,
         scene,
@@ -38,19 +39,55 @@ BGE.App = function() {
         vertexShaderName = "../../shader/simple.vertex",
         fragmentShaderName = "../../shader/white.fragment",
 
-        init = function(_vertexShaderName,_fragmentShaderName,_canvas) {
+        /**
+         * @param canvas
+         * @returns gl
+         */
+        initGL = function (canvas) {
+            var tempGL;
+            try {
+                tempGL = canvas.getContext("experimental-webgl");//("webgl");
+                tempGL.viewport(0, 0, canvas.width, canvas.height);
+
+            } catch (e) {
+                console.error("Error initialising WebGL.");
+                return null;
+            }
+            if (!tempGL) {
+                console.error("No gl context: Could not initialise WebGL.");
+                return null;
+            }
+            // Maybe GL corrected the size of the canvas,
+            // because the implementation could not satisfy it.
+            // Now it is different form the on of the HTMLcanvas.
+            //canvas.width = gl.drawingBufferWidth;
+            //canvas.height = gl.drawingBufferHeight;
+            return tempGL;
+        },
+        createScene = function () {
+            var sceneGraph = new BGE.Node.Group(),
+                camera = new BGE.Camera.PositionCamera(45.0, 1, 1, 1000);
+
+            scene = new BGE.Scene();
+            scene.init(gl, canvas, aspectRatio, shader);
+            sceneGraph.addChild(camera);
+            scene.setSceneGraph(sceneGraph);
+        },
+
+        init = function (p_vertexShaderName, p_fragmentShaderName, p_canvas) {
+            
             // Shader source code.
-            if (_vertexShaderName!== undefined) {
-                vertexShaderName = _vertexShaderName;
+            if (p_vertexShaderName !== undefined) {
+                vertexShaderName = p_vertexShaderName;
             }
-            if (_fragmentShaderName!== undefined) {
-                fragmentShaderName = _fragmentShaderName;
+            if (p_fragmentShaderName !== undefined) {
+                fragmentShaderName = p_fragmentShaderName;
             }
-            if ((_canvas === undefined) || (_canvas===null)){
-                canvas=document.createElement("canvas");
+            if ((p_canvas === undefined) || (p_canvas === null)) {
+                canvas = document.createElement("canvas");
                 document.body.appendChild(canvas);
-            }else{
-                canvas=_canvas;
+            } else {
+                canvas = p_canvas;
             }
 
             canvas.width = width;
@@ -64,55 +101,32 @@ BGE.App = function() {
             //muss von aussen gesetzt werden
             // this.eventManager = new MyEventManager().init(this);
         },
-        setCanvasSize = function(_width,_height){
-            canvas.width=_width;
-            canvas.height=_height;
+        setCanvasSize = function (width, height) {
+            canvas.width = width;
+            canvas.height = height;
         },
-        createScene = function(){
-            var sceneGraph=new BGE.Node.Group(),
-                camera=new BGE.Camera.PositionCamera(45.0, 1 , 1, 1000);
 
-            scene=new BGE.Scene();
-            scene.init(gl,canvas,aspectRatio,shader);
-            sceneGraph.addChild(camera);
-            scene.setSceneGraph(sceneGraph);
-        },
 
         /**
-         * @param canvas
-         * @returns gl
-         */
-        initGL = function(canvas) {
-            try {
-                var gl = canvas.getContext("experimental-webgl");//("webgl");
-                gl.viewport(0, 0, canvas.width, canvas.height);
+         * Main loop.
+         * Called by window interval handler**/
+        update = function () {
+                   // Calculate time
+            var newDate = new Date(),
+                time = (newDate.getTime() / 1000.0) - startTime;
 
-            } catch (e) {
-                alert("Error initialising WebGL.");
-                return null;
-            }
-            if (!gl) {
-                alert("No gl context: Could not initialise WebGL.");
-                return null;
-            }
-            // Maybe GL corrected the size of the canvas,
-            // because the implementation could not satisfy it.
-            // Now it is different form the on of the HTMLcanvas.
-            //canvas.width = gl.drawingBufferWidth;
-            //canvas.height = gl.drawingBufferHeight;
-            return gl;
+            scene.draw(time);
         },
-
-        startLoop = function() {
+        startLoop = function () {
            // Check if loop is already running.
-           if (timerHandle) {
-               return;
-           }
+            if (timerHandle) {
+                return;
+            }
             // Start interval
             var startDate = new Date();
             startTime = startDate.getTime() / 1000.0;
 
-            timerHandle = window.setInterval(function() {
+            timerHandle = window.setInterval(function () {
                 update();
             }, (1000.0 / framerate));
         },
@@ -120,69 +134,55 @@ BGE.App = function() {
         /**
          * Stop scene time
          */
-        stopLoop = function() {
+        stopLoop = function () {
             if (timerHandle) {
                 window.clearInterval(timerHandle);
                 timerHandle = null;
             }
         },
 
-        /**
-         * Main loop.
-         * Called by window interval handler
-         */
-        update = function() {
-            // Calculate time
-            var newDate = new Date();
-            var time = (newDate.getTime() / 1000.0) - startTime;
-            scene.draw(time);
-            // DEBUG
-            // --------------------------------------------
-            //this.debug.innerHTML = Math.round(10 / (time - this.lastTime)) / 10.0 + " fps";
-            //lastTime = time;
-            // --------------------------------------------
-        },
-        clear = function() {
+
+        clear = function () {
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         },
 
-        getGL = function(){
+        getGL = function () {
             return gl;
         },
-        setScene = function(_scene){
-            scene=_scene;
+        setScene = function (p_scene) {
+            scene = p_scene;
         },
-        getShader=function(){
+        getShader = function () {
             return shader;
         },
-        getAspectRatio=function(){
+        getAspectRatio = function () {
             return aspectRatio;
         },
-        getCanvas=function(){
+        getCanvas = function () {
             return canvas;
         },
-        add=function(name){
-          return scene.add(name);
+        add = function (name) {
+            return scene.add(name);
         },
-        addNode=function(group){
-           scene.addNode(group);
+        addNode = function (group) {
+            scene.addNode(group);
         }
 
-        //revealing public API
-        return {
-            init:init,
-            getGL:getGL,
-            getShader:getShader,
-            getAspectRatio:getAspectRatio,
-            getCanvas:getCanvas,
-            setCanvasSize:setCanvasSize,
-            setScene:setScene,
-            start:startLoop,
-            stop:stopLoop,
-            clear:clear,
-            add:add,
-            addNode:addNode
-        }
+    //revealing public API
+    return {
+        init: init,
+        getGL: getGL,
+        getShader: getShader,
+        getAspectRatio: getAspectRatio,
+        getCanvas: getCanvas,
+        setCanvasSize: setCanvasSize,
+        setScene: setScene,
+        start: startLoop,
+        stop: stopLoop,
+        clear: clear,
+        add: add,
+        addNode: addNode
+    };
 };
 
 

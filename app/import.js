@@ -35,13 +35,19 @@ BGE.namespace = function (ns_string) {
 */
 
 dojo.provide("BGE.importScript");
-BGE.importScript=function(javascriptPath) {
-	var script = document.createElement("script");
+BGE.importScript = function (javascriptPath) {
+
+    "use strict";
+
+    var script,
+        absPath,
+        parentElement;
+    script = document.createElement("script");
 	script.setAttribute("type", "text/javascript");
 	script.setAttribute("src", javascriptPath);
-	var absPath = script.src;
-	var parentElement = "head";
-	if(arguments.length > 1){parentElement = arguments[1];}
+	absPath = script.src;
+	parentElement = "head";
+	if (arguments.length > 1) { parentElement = arguments[1]; }
 	document.getElementsByTagName(parentElement)[0].appendChild(script);
 }
 
