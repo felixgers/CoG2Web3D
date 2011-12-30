@@ -1,123 +1,116 @@
-dojo.registerModulePath("BGE.App","../app/app");
+dojo.registerModulePath("BGE.App", "../app/app");
 dojo.require("BGE.App");
 dojo.provide("BGE.ViewerApp");
-dojo.registerModulePath("BGE.UploadHandler","../tools/ui/uploadHandler");
+dojo.registerModulePath("BGE.UploadHandler", "../tools/ui/uploadHandler");
 dojo.require("BGE.UploadHandler");
-BGE.ViewerApp=(function(){
+dojo.registerModulePath("BGE.ModelManager", "../tools/models/modelManager");
+dojo.require("BGE.ModelManager");
+dojo.registerModulePath("BGE.ColladaParser", "../tools/parser/parser");
+dojo.require("BGE.ColladaParser");
+BGE.ViewerApp = (function () {
+    "use strict";
        //app instance erzeugen
-   var vertexShaderName = "../../shader/color.vertex",
-       fragmentShaderName = "../../shader/color.fragment",
-       viewerApp,
-       testApp,
-       firstScene,
-       sceneGraph,
-       gl,
-       aspectRatio,
-       myUploadHandler=BGE.UploadHandler;
-
-       init=function(_canvas){
-          viewerApp=new BGE.App();
-          viewerApp.init(vertexShaderName,fragmentShaderName,_canvas);
-          viewerApp.setCanvasSize('500','500');
-          gl=viewerApp.getGL();
-          aspectRatio=viewerApp.getAspectRatio();
-          //scene erzeugen
-          firstScene = new BGE.Scene();
-          //scene initialisieren
-          firstScene.init(gl,viewerApp.getCanvas(),aspectRatio,viewerApp.getShader());
-          sceneGraph=buildSceneGraph();
-          firstScene.setSceneGraph(sceneGraph);
-          //scene an app zuweisen
-          viewerApp.setScene(firstScene);
-          //app starten
-          viewerApp.start();
-       },
-       buildSceneGraph = function() {
+    var vertexShaderName = "../../shader/color.vertex",
+        fragmentShaderName = "../../shader/color.fragment",
+        viewerApp,
+        testApp,
+        firstScene,
+        sceneGraph,
+        gl,
+        aspectRatio,
+        myUploadHandler = BGE.UploadHandler,
+        modelManager = BGE.ModelManager,
+        setGLOptions = function () {
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.blendFunc(gl.SRC_COLOR, gl.ONE_MINUS_CONSTANT_COLOR);
+            gl.enable(gl.BLEND);
+            gl.enable(gl.LINE_SMOOTH);
+        },
+        buildSceneGraph = function () {
             //declaring dependencies
             var node = BGE.Node,
                 model = BGE.Model,
-                group = node.Group,
+                Group = node.Group,
                 translation = node.Translation,
                 rotation = node.Rotate,
                 sceneGraph,
                 camera,
-                myGroup,
-                myModel;
+                objects,
+                i;
 
-                setGLOptions();
+            setGLOptions();
 
-                // Create some special Nodes.
-                sceneGraph = new group();
-                camera = new BGE.Camera.PositionCamera(45.0, 1 , 1, 1000);
-
-                myGroup = new group();
-
-                myModel=new model(gl);
-                myModel.loadJsonFile('../models/colorCube.json');
-                myGroup.addChild(new translation(0, 2, -20.0));
-                myGroup.addChild(new rotation(0,0.5,0));
-                myGroup.addChild(myModel);
-                // Add all nodes to scene graph.
-                sceneGraph.addChild(camera); // <------- Camera
-                sceneGraph.addChild(myGroup);
-
+            // Create some special Nodes.
+            sceneGraph = new Group();
+            camera = new BGE.Camera.PositionCamera(45.0, 1, 1, 1000);
+            sceneGraph.addChild(camera); // <------- Camera
+            modelManager.init(gl, sceneGraph);
+            objects = modelManager.loadJsonFile('../models/cube.json');
+            for (i = 0; i < objects.length; i++) {
+                objects[i].rotate({x: 0, y: 0.5, z: 0});
+                objects[i].translate({x: 0, y: 0, z: -7});
+                sceneGraph.addChild(objects[i].shape);
+            }
             return sceneGraph;
-       },
-       setGLOptions = function(){
-           gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-	       gl.blendFunc( gl.SRC_COLOR, gl.ONE_MINUS_CONSTANT_COLOR );
-	       gl.enable(gl.BLEND);
-	       gl.enable(gl.LINE_SMOOTH);
-       },
-       setCanvasClear=function(){
-           firstScene.clear();
-           viewerApp.clear();
-       },
-       parseXML=function(_data){
-           var json,
-               parser;
-           dojo.registerModulePath("BGE.ColladaParser","../tools/parser/parser");
-           dojo.require("BGE.ColladaParser");
+        },
+        init = function (p_canvas) {
+            viewerApp = new BGE.App();
+            viewerApp.init(vertexShaderName, fragmentShaderName, p_canvas);
+            viewerApp.setCanvasSize('500', '500');
+            gl = viewerApp.getGL();
+            aspectRatio = viewerApp.getAspectRatio();
+            //scene erzeugen
+            firstScene = new BGE.Scene();
+            //scene initialisieren
+            firstScene.init(gl, viewerApp.getCanvas(), aspectRatio, viewerApp.getShader());
+            sceneGraph = buildSceneGraph();
+            firstScene.setSceneGraph(sceneGraph);
+            //scene an app zuweisen
+            viewerApp.setScene(firstScene);
+            //app starten
+            viewerApp.start();
+        },
+        setCanvasClear = function () {
+            firstScene.clear();
+            viewerApp.clear();
+        },
+        parseXML = function (p_data) {
+            var json,
+                parser;
 
-           if (_data != null && _data.length != 0) {
-             parser = new BGE.ColladaParser();
-             json = parser.parseCollada(_data);
-             return json;
-           }
-       },
-       addNewModel=function(json){
-           //declaring dependencies
-           var node = BGE.Node,
-               translation = node.Translation,
-               rotation = node.Rotate,
-               newModel,
-               myGroup;
 
-               newModel=new BGE.Model(gl);
-               newModel.loadJsonDirect(json);
-               myGroup = new node.Group();
+            if (p_data !== null && p_data.length !== 0) {
+                parser = BGE.ColladaParser;
+                json = parser.parseCollada(p_data);
+                return json;
+            }
+        },
+        addNewModel = function (json) {
+            //declaring dependencies
+            var newModel,
+                objects,
+                i;
 
-               myGroup.addChild(new translation(0, 3, -20.0));
-               myGroup.addChild(new rotation(0,0.5,0));
-               myGroup.addChild(newModel);
-
-               sceneGraph.addChild(myGroup);
-               sceneGraph.reload();
+            objects = modelManager.loadJsonDirect(json);
+            for (i = 0; i < objects.length; i++) {
+                objects[i].rotate({x: 0, y: 0.5, z: 0});
+                objects[i].translate({x: 0, y: 0, z: -7});
+                sceneGraph.addChild(objects[i].shape);
+            }
+            sceneGraph.reload();
         };
 
-
-
        //revealing public API
-       return{
-           init:init,
-           setCanvasClear:setCanvasClear,
-           parseXML:parseXML,
-           addNewModel:addNewModel,
-           checkFileUploadAvailable:myUploadHandler.checkFileUploadAvailable,
-           handleUpload:myUploadHandler.handleUpload,
-           handleDragOver:myUploadHandler.handleDragOver,
-           handleDrop:myUploadHandler.handleDrop
-       };
+    return {
+        init: init,
+        setCanvasClear: setCanvasClear,
+        parseXML: parseXML,
+        addNewModel: addNewModel,
+        checkFileUploadAvailable: myUploadHandler.checkFileUploadAvailable,
+        handleUpload: myUploadHandler.handleUpload,
+        handleDragOver: myUploadHandler.handleDragOver,
+        handleDrop: myUploadHandler.handleDrop
+    };
 }());
 
 

@@ -1,446 +1,439 @@
 dojo.provide("BGE.ColladaParser");
-BGE.ColladaParser=function(){
+BGE.ColladaParser = (function () {
 
-	this.vertices;
-	this.textures;
-	this.indicies;
-	this.normals;
-	//for finale values of material
-	this.material=new Array();
-	//all values of material
-	this.knownMaterial=new Array();	
-	
-	this.parser = new DOMImplementation();
-	this.objDom;
-	
-	this.selectSemanticNode=function(geometryNode,value){
-		node = geometryNode.item(0).selectNodeSet("//polylist/input[@semantic=" + value + "]");
-		if(node.item(0)==null){
-			node=geometryNode.item(0).selectNodeSet("//triangles/input[@semantic=" + value + "]");
-		}
-		return node;
-	}
-	
-	this.createMaterial=function(geometryNode){
-		var materialName;
-		var materialCount;
-		var node = geometryNode.item(0).selectNodeSet("//polylist[@material]");
-		if(node.item(0)==null){
-			node=geometryNode.item(0).selectNodeSet("//triangles[@material]");
-		}
-		if(node.item(0)!=null){
-		
-			materialName=node.item(0).getAttributes().getNamedItem("material").getNodeValue();
-			materialCount=node.item(0).getAttributes().getNamedItem("count").getNodeValue();
-			
-			//search in materialarray for MaterialName
-			if(materialName!=null){
-				var m;
-				var materialArray;
-				for(var i=0;i<this.knownMaterial.length;i++){
-					m=this.knownMaterial[i];
-					if(materialName.indexOf(m.name)!=-1){
-						materialArray=m.value;
-					}
-				}
-				if(materialArray!=null){
-					for(var i=0;i<=materialCount;i++){
-						this.material=this.material.concat(materialArray);
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
-	this.getOffset=function(node){
-		return node.item(0).getAttributes().getNamedItem("offset").getNodeValue();
-	}
-	
-	this.getSourceId=function(node){
-	    var normalId=node.item(0).getAttributes().getNamedItem("source").getNodeValue();
-		return this.substringSign(normalId,'#');
-	}
-	
-	this.getRealVertexId=function(geometryNode,vertexId){
-		//getting node vertices
-		node=geometryNode.item(0).selectNodeSet("//vertices[@id=" + vertexId + "]");
-		node=node.item(0).getFirstChild();
-		//read id of position-array
-		vertexId=node.getAttributes().getNamedItem("source").getNodeValue();
-		//remove '#'
-		return this.substringSign(vertexId,'#');
-	}
-	this.getId=function(node,attributeName){
-		var id=node.item(0).getAttributes().getNamedItem(attributeName).getNodeValue();
-		return this.substringSign(id,'#');
-	}
-	
-	this.getValueOfSource=function(node,source){
-		source=this.substringSign(source,"#");
-		tempNode=node.selectNodeSet("//float_array[@id=" + source + "]");
-		var value=tempNode.item(0).getFirstChild().getNodeValue();
-		//replace whitespaces with 
-		value=value.split(' ');
-		return value;
-	}
-	
-	this.parseGeometryData=function(docRoot,instanceGeometryNode,materials){
-		var meshId=this.getId(instanceGeometryNode,"url");
-		//search in library_geometry
-        //alert(meshId);
-		
-		var geometryNode=docRoot.selectNodeSet("//library_geometries/geometry[@id=" + meshId +"]/mesh");
-		if(geometryNode.item(0)!=null){
-			
-			var allOffsets=new Array();
-			
-			//read Material
-			if(this.knownMaterial!=null){
-				this.createMaterial(geometryNode);
-			}
-			//step 1 read VERTEX ******************************************************************************
-			var node=this.selectSemanticNode(geometryNode,"VERTEX");
-         	var vertexOffset=this.getOffset(node);
-			allOffsets.push(vertexOffset);		
-			var vertexId=this.getRealVertexId(geometryNode,this.getSourceId(node));		
-			
-			//step 2 read NORMALS *******************************************************************************
-			node=this.selectSemanticNode(geometryNode,"NORMAL");
-			var normalOffset=this.getOffset(node);
-			allOffsets.push(normalOffset);
-			var normalId=this.getSourceId(node);
-		
-			//step 2 read TEXCOORD *******************************************************************************
-			node=this.selectSemanticNode(geometryNode,"TEXCOORD");
-			if(node.item(0)!=null){
-				var textureOffset=this.getOffset(node);
-				allOffsets.push(textureOffset);
-				var textureId=this.getSourceId(node);
-			}	
-		
-			//step 3 read sources *******************************************************************************
-			
-			var sources=geometryNode.item(0).selectNodeSet("//source");
-			for(i=0;i<sources.length;i++){
-				node=sources.item(i);	
-				var sourceId=this.readAccessor(node);
-				var nodeId=node.getAttributes().getNamedItem("id").getNodeValue();
-				
-				if(nodeId==vertexId){
-					//node with vertices found
-					vertices=this.getValueOfSource(node,sourceId);
-				}else if (nodeId==normalId){
-					//read normals
-					normals=this.getValueOfSource(node,sourceId);
-				}else if (nodeId==textureId){
-					//read textures
-					textures=this.getValueOfSource(node,sourceId);				
-				}else{
-					alert("unknown source found");
-				}			
-			}
-			
-			//step 4 read indicies *****************************************************************************
-			var vertexIndicies;
-			var normalsIndicies;
-			
-			//read polylist node p
-			node= geometryNode.item(0).selectNodeSet("//polylist/p");
-			if(node.item(0)==null){
-				node= geometryNode.item(0).selectNodeSet("//triangles/p");
-			}
-			var indicies=node.item(0).getFirstChild().getNodeValue();
-		
-			//replace whitespaces with 
-			indicies=indicies.split(' ');
-			allOffsets.sort(this.numSort);
-			
-			//iterate thr. indicies
-			var offset=allOffsets[0];
-			var vertexSortedArray=new Array();
-			var normalsSortedArray=new Array();
-			var textureSortedArray=new Array();
-			var indiciesForWeb=new Array();
-			//nimmt den aktuellen Wert des IndiciesArrays auf
-			var indicieValue=0;
-			do{
-				indicieValue=indicies[0];
-				if(offset==vertexOffset){
-					//get vertexentry for this indicies				
-					//vertexSortedArray.push(vertices[indicieValue]);
-					indiciesForWeb.push(indicieValue);
-				}else if (offset==normalOffset){
-					normalsSortedArray.push(normals[indicieValue]);
-				}else if (offset==textureOffset){
-					textureSortedArray.push(textures[indicieValue]);
-				}else{
-					alert("unknown offset");
-				}
-				
-				//set next offset
-				if(offset==allOffsets.length-1){
-					offset=allOffsets[0];
-				}else{
-					offset++;
-				}
-				
-				//remove first indicies-part
-				indicies.shift();
-			}while(indicies.length>0);
-			
-			//for(var i=0;i<=vertexSortedArray.length;i++){
-				//indiciesForWeb.push(i);
-			//}
-			
-			this.vertices=vertices;
-			this.textures=textureSortedArray;
-			this.indicies=indiciesForWeb;
-			this.normals=normalsSortedArray;
-		}
-	}
-	
-	this.readAccessor=function(node){
-		//read accessor
-		node=node.selectNodeSet("//technique_common/accessor");
-		return node.item(0).getAttributes().getNamedItem("source").getNodeValue();
-	}
-	
-	this.parseCollada=function(data){
+    "use strict";
 
-		//create xmldocument 
-		var domDoc = this.parser.loadXML(data);		
-		//getting rootnode
-		var docRoot = domDoc.getDocumentElement();
-		
-		var scenechilds=this.parseSceneInformations(docRoot);
-		var geometryNode;
-		var materialNode;
-        //alert('parse collada');
-		for(var i=0;i<scenechilds.getLength();i++){
+	var vertices,
+	    textures,
+	    indicies,
+	    normals,
+	    //for finale values of material
+	    material,
+	    //all values of material
+	    knownMaterial,
+        //Values of transition
+        translateX,
+        translateY,
+        translateZ,
+        debug = true,
+        hasMaterial = false,
+        //true if one face is not triangulated
+        isNoTriangulated = false,
 
-		    //search for geometry informations
-			geometryNode=scenechilds.item(i);
-			geometryNode=geometryNode.selectNodeSet("//instance_geometry");			
-			if(geometryNode.item(0)!=null){				
-				//has node material
-				materialNode=geometryNode.item(0).selectNodeSet("//bind_material/technique_common/instance_material");
-				if(materialNode.item(0)!=null){
-					this.parseMaterialData(docRoot,materialNode);
-				}
-				
-				//instance_geometry
-				this.parseGeometryData(docRoot,geometryNode);
-			}
-		}
-		
-		//TODO abfangen, wenn animation null ist!!
-		//this.parseAnimations(docRoot);
-		
-		return this.createJSON();
-	}
+	    selectSemanticNode = function (geometryNode, value) {
+            var myNode;
+            myNode = geometryNode.item(0).selectNodeSet("//polylist/input[@semantic=" + value + "]");
+            if (myNode.item(0) === null) {
+                myNode = geometryNode.item(0).selectNodeSet("//triangles/input[@semantic=" + value + "]");
+            }
+            return myNode;
+	    },
+        checkTriangulation = function (node) {
+            var myNode,
+                vcount,
+                i;
+
+
+            myNode = node.item(0).selectNodeSet("//polylist/vcount");
+            if (myNode.item(0) === null) {
+                myNode = node.item(0).selectNodeSet("//triangles/vcount");
+            }
+            if (myNode.item(0)) {
+                vcount = myNode.item(0).getFirstChild().getNodeValue();
+                if (vcount !== null) {
+                    vcount = vcount.split(" ");
+                    for (i = 0; i < vcount.length; i++) {
+                        //if one of faces is not triangulated, we check no more, one message is enough
+                        if (!isNoTriangulated) {
+                            if (vcount[i] !== 3) {
+                                console.warn("There are faces with no triangulations. Please control your collada file and use the blender function quads to tris.");
+                                isNoTriangulated = true;
+                            }
+                        }
+                    }
+                }
+            } else {
+                console.error("No vcount found in collada file");
+            }
+        },
+	    createMaterial = function (geometryNode, indiciesLength) {
+            var materialName,
+                materialCount,
+                tempKnownMaterial,
+                materialArray,
+                myNode,
+                i;
+
+            if (!hasMaterial) {
+                tempKnownMaterial = knownMaterial[0];
+                for (i = 0; i <= indiciesLength; i++) {
+                    material = material.concat(tempKnownMaterial.value);
+                }
+                return;
+            }
+
+		    myNode = geometryNode.item(0).selectNodeSet("//polylist[@material]");
+            if (myNode.item(0) === null) {
+                myNode = geometryNode.item(0).selectNodeSet("//triangles[@material]");
+            }
+
+            if (myNode.item(0) !== null) {
+
+                materialName = myNode.item(0).getAttributes().getNamedItem("material").getNodeValue();
+                materialCount = myNode.item(0).getAttributes().getNamedItem("count").getNodeValue();
+
+                //search in materialarray for MaterialName
+                if (materialName !== null) {
+                    for (i = 0; i < knownMaterial.length; i++) {
+                        tempKnownMaterial = knownMaterial[i];
+                        if (materialName.indexOf(tempKnownMaterial.name) !== -1) {
+                            materialArray = tempKnownMaterial.value;
+                        }
+                    }
+
+                    if (materialArray !== null) {
+                        for (i = 0; i <= materialCount; i++) {
+                            material = material.concat(materialArray);
+                        }
+                    }
+                }
+            }
+            return null;
+	    },
 	
-	this.parseAnimations = function(docRoot){
-		var animationsNode = docRoot.selectNodeSet("//library_animations");
-		var animationChilds = animationsNode.item(0).getChildNodes();
-		var animationSingleNode;
-		
-		for(var i=0;i<animationChilds.getLength();i++){
-		    //search for geometry informations
-			animationSingleNode=animationChilds.item(i);
-			this.parseSingleAnimationNode(animationSingleNode);
-		}
-	}
+	    getOffset = function (node) {
+            return node.item(0).getAttributes().getNamedItem("offset").getNodeValue().toString();
+	    },
+        substringSign = function (str, sign) {
+            var posi = str.indexOf(sign);
+            if (posi !== -1) {
+                return str.substring(posi + 1, str.length);
+            }
+            return str;
+        },
 	
-	this.parseSingleAnimationNode=function(animationSingleNode){
+	    getSourceId = function (node) {
+	        var normalId;
+            normalId = node.item(0).getAttributes().getNamedItem("source").getNodeValue();
+		    return substringSign(normalId, "#");
+        },
 	
-		var channelNode=animationSingleNode.selectNodeSet("//channel").item(0);
-		if(channelNode!=null){
-			var target = channelNode.getAttributes().getNamedItem("target").getNodeValue();	
-			var posi=target.indexOf("/");	
-			if(posi!=-1){
-				target=target.slice(posi + 1);
-			}
-			var samplerId = channelNode.getAttributes().getNamedItem("source").getNodeValue();
-			samplerId = this.substringSign(samplerId,'#');
-			var samplerNode = animationSingleNode.selectNodeSet("//sampler[@id=" + samplerId + "]").item(0);
-			if(samplerNode!=null){
-				key=this.parseAnimationSource(samplerNode,animationSingleNode,"INPUT");
-				value=this.parseAnimationSource(samplerNode,animationSingleNode,"OUTPUT");
-			}
-		}
-		
-		switch(target){
-			case ("location.X") : {
-				scene.animation.locationX.value = value;
-				scene.animation.locationX.key =key;
-			};break;
-			case ("location.Y") : {
-				scene.animation.locationY.value = value;
-				scene.animation.locationY.key =key;
-			};break;
-			case ("location.Z") : {
-				scene.animation.locationZ.value = value;
-				scene.animation.locationZ.key =key;
-			};break;
+	    getRealVertexId = function (geometryNode, vertexId) {
+            var myNode;
+		    //getting node vertices
+		    myNode = geometryNode.item(0).selectNodeSet("//vertices[@id=" + vertexId + "]");
+		    myNode = myNode.item(0).getFirstChild();
+		    //read id of position-array
+		    vertexId = myNode.getAttributes().getNamedItem("source").getNodeValue();
+		    //remove '#'
+		    return substringSign(vertexId, '#');
+        },
+
+        getId = function (node, attributeName) {
+		    var id;
+            id = node.item(0).getAttributes().getNamedItem(attributeName).getNodeValue();
+		    return substringSign(id, '#');
+	    },
+	
+	    getValueOfSource = function (node, source) {
+            var myNode,
+                value;
+
+		    source = substringSign(source, "#");
+		    myNode = node.selectNodeSet("//float_array[@id=" + source + "]");
+		    value = myNode.item(0).getFirstChild().getNodeValue();
+		    //replace whitespaces with
+		    value = value.split(' ');
+		    return value;
+	    },
+
+        initArrays = function () {
+            vertices = [];
+	        textures = [];
+	        indicies = [];
+	        normals = [];
+            material = [];
+            knownMaterial = [];
+            translateX = [];
+            translateY = [];
+            translateZ = [];
+        },
+
+        numSort = function (a, b) {
+            return a - b;
+        },
+
+        readAccessor = function (node) {
+            //read accessor
+            node = node.selectNodeSet("//technique_common/accessor");
+            return node.item(0).getAttributes().getNamedItem("source").getNodeValue();
+        },
+
+        getValueOfIndicies = function (geometryNode) {
+            var myNode,
+                valueOfIndicies;
+
+            myNode = geometryNode.item(0).selectNodeSet("//polylist/p");
+
+            if (myNode.item(0) === null) {
+                myNode = geometryNode.item(0).selectNodeSet("//triangles/p");
+            }
+
+            valueOfIndicies = myNode.item(0).getFirstChild().getNodeValue();
+            //replace whitespaces with
+            valueOfIndicies = valueOfIndicies.split(' ');
+            return valueOfIndicies;
+        },
+
+	    parseGeometryData = function (docRoot, instanceGeometryNode, materials) {
+		    var meshId,
+                geometryNode,
+                allOffsets = [],
+                offset,
+                vertexOffset,
+                vertexId,
+                textureOffset,
+                normalOffset,
+                normalId,
+                textureId,
+                sources,
+                sourceId,
+                nodeId,
+                texturesTemp,
+			    normalsTemp,
+                valueOfIndicie,
+                indicieValue = 0,
+                myNode,
+                offsetStr,
+                i;
+
+            meshId = getId(instanceGeometryNode, "url");
+            console.debug("found meshid: " + meshId);
+
+            //search in library_geometry
+            geometryNode = docRoot.selectNodeSet("//library_geometries/geometry[@id=" + meshId + "]/mesh");
+            if (geometryNode.item(0) !== null) {
+
+                //step 1 read VERTEX ******************************************************************************
+                myNode = selectSemanticNode(geometryNode, "VERTEX");
+                vertexOffset = getOffset(myNode);
+                allOffsets.push(vertexOffset);
+                vertexId = getRealVertexId(geometryNode, getSourceId(myNode));
+
+                checkTriangulation(geometryNode);
+
+                //step 2 read NORMALS *******************************************************************************
+                myNode = selectSemanticNode(geometryNode, "NORMAL");
+                normalOffset = getOffset(myNode);
+                allOffsets.push(normalOffset);
+                normalId = getSourceId(myNode);
+
+                //step 2 read TEXCOORD *******************************************************************************
+                myNode = selectSemanticNode(geometryNode, "TEXCOORD");
+                if (myNode.item(0) !== null) {
+                    if (debug) { console.debug("Texture node found"); }
+                    textureOffset = getOffset(myNode);
+                    allOffsets.push(textureOffset);
+                    textureId = getSourceId(myNode);
+                } else {
+                    console.warn("Texture node was not found.");
+                }
+                myNode = null;
+
+                allOffsets.sort(numSort);
+
+                //step 3 read sources *******************************************************************************
+
+                sources = geometryNode.item(0).selectNodeSet("//source");
+                for (i = 0; i < sources.length; i++) {
+                    myNode = sources.item(i);
+                    sourceId = readAccessor(myNode);
+                    nodeId = myNode.getAttributes().getNamedItem("id").getNodeValue().toString();
+
+                    switch (nodeId) {
+                    case vertexId: vertices = getValueOfSource(myNode, sourceId); break;
+                    case normalId: normalsTemp = getValueOfSource(myNode, sourceId); break;
+                    case textureId: texturesTemp = getValueOfSource(myNode, sourceId); break;
+                    default: console.error("unknown source found");
+                    }
+                }
 			
-			case ("rotationX.ANGLE") : {
-				scene.animation.rotationXAngle.value = value;
-				scene.animation.rotationXAngle.key =key;
-			};break;
-			case ("rotationY.ANGLE") : {
-				scene.animation.rotationYAngle.value = value;
-				scene.animation.rotationYAngle.key =key;
-			};break;
-			case ("rotationZ.ANGLE") : {
-				scene.animation.rotationZAngle.value = value;
-				scene.animation.rotationZAngle.key =key;
-			};break;
-			
-			case ("scale.X") : {
-				scene.animation.scaleX.value = value;
-				scene.animation.scaleX.key =key;
-			};break;
-			case ("scale.Y") : {
-				scene.animation.scaleY.value = value;
-				scene.animation.scaleY.key =key;
-			};break;
-			case ("scale.Z") : {
-				scene.animation.scaleZ.value = value;
-				scene.animation.scaleZ.key =key;
-			};break;
-		}	
-		
-		
-	}
-	
-	this.parseAnimationSource=function(samplerNode,animationSingleNode,semanticName){
-		var inputNode = samplerNode.selectNodeSet("//input[@semantic=" + semanticName + "]"); 
-		var inputSourceName = inputNode.item(0).getAttributes().getNamedItem("source").getNodeValue();
-		inputSourceName = this.substringSign(inputSourceName,'#');
-				
-		var sourceNode=animationSingleNode.selectNodeSet("//source[@id=" + inputSourceName + "]").item(0);
-				
-		var sourceId=this.readAccessor(sourceNode);
-		return this.getValueOfSource(sourceNode,sourceId);
-	}
-	
-	
-	this.parseMaterialData=function(docRoot,instanceMaterialNode){
-	
-		var materials={name:"",value:""};
-		var materialId=this.getId(instanceMaterialNode,"target");
-		var materialName=this.getId(instanceMaterialNode,"symbol");
-		var materialEffectsId;
-		var materialNode=docRoot.selectNodeSet("//library_materials/material[@id=" + materialId +"]/instance_effect");
-		if(materialNode.item(0)!=null){
-			materialEffectsId=this.getId(materialNode,"url");
-			materialNode=docRoot.selectNodeSet("//library_effects/effect[@id=" + materialEffectsId + "]");
-			if(materialNode.item(0)!=null){
-				materialNode=materialNode.item(0).selectNodeSet("//profile_COMMON/technique[@sid=common]/phong/diffuse/color");
-				if(materialNode.item(0)!=null){
-					materials.name=materialName;
-					materials.value=materialNode.item(0).getFirstChild().getNodeValue().split(' ');
-					this.knownMaterial.push(materials);
-				}
-			}
-		}
-			
-	}
-	
-	this.parseSceneInformations=function(docRoot){
-		//es wird nur eine scene unterstuetzt
-		var sceneNode = docRoot.selectNodeSet("//scene/instance_visual_scene");
-		var sceneId = sceneNode.item(0).getAttributes().getNamedItem("url").getNodeValue();
-		sceneId=this.substringSign(sceneId,'#');
-		sceneNode = docRoot.selectNodeSet("//library_visual_scenes/visual_scene[@id=" + sceneId + "]");
-		sceneChilds=sceneNode.item(0).getChildNodes();
-		return sceneChilds;
-	}
-	
-	var scene={
-			"animation":{
-				"locationX":{
-					"key":null,
-					"value":null
-				},
-				"locationY":{
-					"key":null,
-					"value":null
-				},
-				"locationZ":{
-					"key":null,
-					"value":null
-				},
-				"rotationXAngle":{
-					"key":null,
-					"value":null
-				},
-				"rotationYAngle":{
-					"key":null,
-					"value":null
-				},
-				"rotationZAngle":{
-					"key":null,
-					"value":null
-				},
-				"scaleX":{
-					"key":null,
-					"value":null
-				},
-				"scaleY":{
-					"key":null,
-					"value":null
-				},
-				"scaleZ":{
-					"key":null,
-					"value":null
-				}
-			},
-			"mesh":{
-				"vert":null,
-				"ind":null,
-				"tex":null,
-				"mat":null,
-				"norm":null
-			}
-		};
-	
-	this.createJSON=function(){		
-			
-		if(this.vertices.length>0){
-			scene.mesh.vert=this.vertices;
-		}
-		if(this.textures.length>0){
-			//JSObject.cube.t=this.textures;
-		}
-		if(this.indicies.length>0){
-			scene.mesh.ind=this.indicies;
-		}
-		if(this.normals.length>0){
-			scene.mesh.norm=this.normals;
-		}
-		if(this.material.length>0){
-			scene.mesh.mat=this.material;
-		}
-		
-		// Das Objekt zu JSON kodieren
-		var jsonCode = JSON.stringify(scene);
-		return jsonCode;
-	}
-	
-	this.numSort = function(a,b){
-	   return a - b;
-	}
-	
-	this.substringSign = function(str,sign){
-		posi=str.indexOf(sign);
-		if(posi!= -1){
-			return str.substring(posi + 1 ,str.length);
-		}
-		return str;
-	}
+                //step 4 read indicies *****************************************************************************
+                //read polylist node p
+                valueOfIndicie = getValueOfIndicies(geometryNode);
+                //iterate thr. indicies
+                offset = allOffsets[0];
+                console.debug("found indicies: " + valueOfIndicie);
+             
+			    do {
+                    indicieValue = valueOfIndicie[0];
+                    offsetStr = offset.toString();
+
+                    switch (offsetStr) {
+                    case vertexOffset: indicies.push(indicieValue); break;
+                    case normalOffset: normals.push(normalsTemp[indicieValue]); break;
+                    case textureOffset: textures.push(texturesTemp[indicieValue]); break;
+                    default: console.error("unknown offset");
+                    }
+
+				    //set next offset,
+                    //iff offest at position end set offset to first again
+                    if (offset === allOffsets.length - 1) {
+                        offset = allOffsets[0];
+                    } else {
+                        offset++;
+                    }
+
+				    //remove first indicies-part
+				    valueOfIndicie.shift();
+
+			    } while (valueOfIndicie.length > 0);
+
+                //read Material
+                if (knownMaterial !== null) {
+                    createMaterial(geometryNode, indicies.length);
+                }
+            }
+	    },
+
+        parseSceneInformations = function (docRoot) {
+            //es wird nur eine scene unterstuetzt
+            var sceneNode,
+                sceneChilds,
+                sceneId;
+
+            sceneNode = docRoot.selectNodeSet("//scene/instance_visual_scene");
+            sceneId = sceneNode.item(0).getAttributes().getNamedItem("url").getNodeValue();
+
+            sceneId = substringSign(sceneId, '#');
+            sceneNode = docRoot.selectNodeSet("//library_visual_scenes/visual_scene[@id=" + sceneId + "]");
+            sceneChilds = sceneNode.item(0).getChildNodes();
+
+            return sceneChilds;
+        },
+
+        parseTransitions = function (p_sceneChildNode) {
+            var translationArray = p_sceneChildNode.selectNodeSet("//translate").item(0).getFirstChild().getNodeValue().split(' ');
+
+            translateX = translationArray[0];
+            translateY = translationArray[1];
+            translateZ = translationArray[2];
+        },
+        setDefaultMaterial = function () {
+            var materials = {name: "", value: ""};
+            material.name = "default";
+            material.value = [1, 1, 1, 1];
+            knownMaterial.push(material);
+        },
+
+        parseMaterialData = function (docRoot, instanceMaterialNode) {
+
+            var materials = {name: "", value: ""},
+                materialId = getId(instanceMaterialNode, "target"),
+                materialName = getId(instanceMaterialNode, "symbol"),
+                materialEffectsId,
+                materialNode = docRoot.selectNodeSet("//library_materials/material[@id=" + materialId + "]/instance_effect");
+
+            if (materialNode.item(0) !== null) {
+                materialEffectsId = getId(materialNode, "url");
+                materialNode = docRoot.selectNodeSet("//library_effects/effect[@id=" + materialEffectsId + "]");
+                if (materialNode.item(0) !== null) {
+                    materialNode = materialNode.item(0).selectNodeSet("//profile_COMMON/technique[@sid=common]/phong/diffuse/color");
+                    if (materialNode.item(0) !== null) {
+                        materials.name = materialName;
+                        materials.value = materialNode.item(0).getFirstChild().getNodeValue().split(' ');
+                        console.debug("found materials: " + materials);
+                        knownMaterial.push(materials);
+                    }
+                }
+            }
+        },
+
+        createJSON = function (scene) {
+            var mesh = {"mesh":
+                {"vert": null,
+                    "ind": null,
+                    "tex": null,
+                    "mat": null,
+                    "norm": null,
+                    "transitions": { "translate": {x: 0, y: 0, z: 0} } }
+                };
+
+
+            if (vertices.length > 0) {
+                mesh.mesh.vert = vertices;
+            }
+            //if (textures.length > 0) {
+                //JSObject.cube.t=this.textures;
+            //}
+            if (indicies.length > 0) {
+                mesh.mesh.ind = indicies;
+            }
+            if (normals.length > 0) {
+                mesh.mesh.norm = normals;
+            }
+            if (material.length > 0) {
+                mesh.mesh.mat = material;
+            }
+            if (translateX.length > 0) {
+                mesh.mesh.transitions.translate.x = translateX;
+            }
+            if (translateY.length > 0) {
+                mesh.mesh.transitions.translate.y = translateY;
+            }
+            if (translateZ.length > 0) {
+                mesh.mesh.transitions.translate.z = translateZ;
+            }
+
+            scene.meshes.push(mesh);
+
+        },
+
+        parseCollada = function (data) {
+
+		    //create xmldocument
+		    var parser = new DOMImplementation(),
+                domDoc = parser.loadXML(data),
+		        //getting rootnode
+		        docRoot = domDoc.getDocumentElement(),
+		        scenechilds = parseSceneInformations(docRoot),
+		        geometryNode,
+                sceneChild,
+		        materialNode,
+                i,
+	            scene = {"meshes": []};
+
+            for (i = 0; i < scenechilds.getLength(); i++) {
+                //search for geometry informations
+                initArrays();
+
+                sceneChild = scenechilds.item(i);
+                geometryNode = sceneChild.selectNodeSet("//instance_geometry");
+                if (geometryNode.item(0) !== null) {
+                    parseTransitions(sceneChild);
+                    //has node material
+                    materialNode = geometryNode.item(0).selectNodeSet("//bind_material/technique_common/instance_material");
+                    if (materialNode.item(0) !== null) {
+                        parseMaterialData(docRoot, materialNode);
+                        hasMaterial = true;
+                    } else {
+                        setDefaultMaterial();
+                        hasMaterial = false;
+                    }
+                    //instance_geometry
+                    parseGeometryData(docRoot, geometryNode);
+                    createJSON(scene);
+                }
+            }
+
+            // Das Objekt zu JSON kodieren
+		    return JSON.stringify(scene);
+	    };
+
+    return {
+        parseCollada: parseCollada
+    };
 
 	
-}
+}());
     
