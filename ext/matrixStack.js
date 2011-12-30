@@ -59,6 +59,23 @@ MatrixStack.prototype.rotateY = function(angle) {
 	mat4.rotateY(this.top, angle);
 };
 
+MatrixStack.prototype.inverse = function(mat) {
+	return mat4.inverse(mat);
+};
+
+MatrixStack.prototype.transpose = function(mat) {
+	return mat4.transpose(mat);
+};
+
+MatrixStack.prototype.flatten = function(array) {
+        var flat = [];
+        for (var i = 0, l = array.length; i < l; i++){
+            var type = Object.prototype.toString.call(array[i]).split(' ').pop().split(']').shift().toLowerCase();
+            if (type) { flat = flat.concat(/^(array|collection|arguments|object)$/.test(type) ? flatten(array[i]) : array[i]); }
+        }
+        return flat;
+};
+
 MatrixStack.prototype.rotateZ = function(angle) {
 	mat4.rotateZ(this.top, angle);
 };
