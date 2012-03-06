@@ -93,13 +93,13 @@ dojox.secure.DOM = function(element){
 		});
 	}
 	function safeURL(url){
-		// test a url to see if it is safe
+		// example a url to see if it is safe
 		if(url.match(/:/) && !url.match(/^(http|ftp|mailto)/)){
 			throw new Error("Unsafe URL " + url);
 		}
 	}
 	function safeElement(el){
-		// test an element to see if it is safe
+		// example an element to see if it is safe
 		if(el && el.nodeType == 1){
 			if(el.tagName.match(/script/i)){
 				var src = el.src;

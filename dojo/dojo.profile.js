@@ -5,7 +5,7 @@ var testResourceRe = /^dojo\/tests\//,
 			"dojo/package.json":1,
 			"dojo/OpenAjax":1,
 			"dojo/tests":1,
-			// these are test modules that are not intended to ever be built
+			// these are example modules that are not intended to ever be built
 			"dojo/tests/_base/loader/requirejs/requirejs-setup":1,
 			"dojo/tests/_base/loader/requirejs/dataMain":1,
 			"dojo/tests/_base/loader/requirejs/depoverlap":1,

@@ -18,14 +18,28 @@ BGE.ModelManager = (function () {
             objectCreator.init(gl);
         },
         setTransitions = function (p_data, o) {
-            var translate = p_data.mesh.transitions.translate;
+            var translate,
+                scale;
 
-            if (translate !== null) {
+            if (p_data.mesh.transitions.translate !== undefined) {
+
+                translate = p_data.mesh.transitions.translate;
                 console.debug("translateX: " + translate.x);
                 console.debug("translateY: " + translate.y);
                 console.debug("translateZ: " + translate.z);
 
                 o.translate({x: translate.x, y: translate.y, z: translate.z});
+
+            }
+
+            if (p_data.mesh.transitions.scale !== undefined) {
+
+                scale = p_data.mesh.transitions.scale;
+                console.debug("scaleX: " + scale.x);
+                console.debug("scaleY: " + scale.y);
+                console.debug("scaleZ: " + scale.z);
+
+                o.scale({x: scale.x, y: scale.y, z: scale.z});
             }
         },
         loadData = function () {

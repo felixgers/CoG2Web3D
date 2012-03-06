@@ -85,12 +85,12 @@ define("dojox/fx/style", ["dojo/_base/kernel","dojo/_base/lang","dojo/_base/fx",
 			//	|
 			//	|	.bar { line-height: 12px; }
 			//	|	.foo { line-height: 40px; }
-			//	|	<div class="bar" id="test">
+			//	|	<div class="bar" id="example">
 			//	|	Multi<br>line<br>text
 			//	|	</div>
 			//	|
 			//	|	// animate to line-height:40px
-			//	|	dojo.fx.addClass("test", "foo").play();
+			//	|	dojo.fx.addClass("example", "foo").play();
 			//
 			node = dom.byId(node);
 

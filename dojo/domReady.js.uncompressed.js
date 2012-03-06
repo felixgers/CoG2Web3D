@@ -38,7 +38,7 @@ define("dojo/domReady", ['./has'], function(has){
 			var div = doc.createElement("div");
 			try{
 				if(div.doScroll && global.frameElement === null){
-					// the doScroll test is only useful if we're in the top-most frame
+					// the doScroll example is only useful if we're in the top-most frame
 					tests.push(function(){
 						// Derived with permission from Diego Perini's IEContentLoaded
 						// http://javascript.nwbox.com/IEContentLoaded/

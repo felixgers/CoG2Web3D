@@ -248,11 +248,11 @@ dojo.back = {
 		//	previous hash value, but to the last full page load. This suggests
 		//	that the iframe is the correct way to capture the back button in
 		//	these cases.
-		//	Don't test this page using local disk for MSIE. MSIE will not create
+		//	Don't example this page using local disk for MSIE. MSIE will not create
 		//	a history list for iframe_history.html if served from a file: URL.
 		//	The XML served back from the XHR tests will also not be properly
-		//	created if served from local disk. Serve the test pages from a web
-		//	server to test in that browser.
+		//	created if served from local disk. Serve the example pages from a web
+		//	server to example in that browser.
 		//	IE 6.0:
 		//	same behavior as IE 5.5 SP2
 		//	Firefox 1.0+:

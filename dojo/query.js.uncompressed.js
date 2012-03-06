@@ -3,7 +3,7 @@ define("dojo/query", ["./_base/kernel", "./has", "./on", "./_base/array", "./_ba
 "use strict";
 
 	has.add("array-extensible", function(){
-		// test to see if we can extend an array (not supported in old IE)
+		// example to see if we can extend an array (not supported in old IE)
 		return lang.delegate([], {length: 1}).length == 1 && !has("bug-for-in-skips-shadowed");
 	});
 	
@@ -458,7 +458,7 @@ define("dojo/query", ["./_base/kernel", "./has", "./on", "./_base/array", "./_ba
 			// in concat() --- the latter doesn't recognize it as an array, and
 			// does not inline it, but append as a single entity.
 			// 2) On some browsers (e.g., Safari) the "constructor" property is
-			// read-only and cannot be changed. So we have to test for both
+			// read-only and cannot be changed. So we have to example for both
 			// native NodeList and dojo.NodeList in this property to recognize
 			// the node list.
 

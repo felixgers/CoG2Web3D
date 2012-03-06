@@ -9,7 +9,7 @@ dojo.registerModulePath("BGE.ColladaParser", "../tools/parser/parser");
 dojo.require("BGE.ColladaParser");
 BGE.ViewerApp = (function () {
     "use strict";
-       //app instance erzeugen
+
     var vertexShaderName = "../../shader/color.vertex",
         fragmentShaderName = "../../shader/color.fragment",
         viewerApp,
@@ -29,45 +29,59 @@ BGE.ViewerApp = (function () {
         buildSceneGraph = function () {
             //declaring dependencies
             var node = BGE.Node,
-                model = BGE.Model,
                 Group = node.Group,
-                translation = node.Translation,
-                rotation = node.Rotate,
                 sceneGraph,
                 camera,
                 objects,
+                translate,
                 i;
 
             setGLOptions();
 
-            // Create some special Nodes.
+            // Create sceneGraph.
             sceneGraph = new Group();
+
+            //create camera
             camera = new BGE.Camera.PositionCamera(45.0, 1, 1, 1000);
             sceneGraph.addChild(camera); // <------- Camera
+
+            translate=new BGE.Node.Translation(0, 0, -20);
+            sceneGraph.addChild(translate);
+
+            //init modelManager
             modelManager.init(gl, sceneGraph);
             objects = modelManager.loadJsonFile('../models/cube.json');
             for (i = 0; i < objects.length; i++) {
                 objects[i].rotate({x: 0, y: 0.5, z: 0});
-                objects[i].translate({x: 0, y: 0, z: -7});
+                //objects[i].translate({x: 0, y: 0, z: -7});
                 sceneGraph.addChild(objects[i].shape);
             }
+
+
             return sceneGraph;
         },
         init = function (p_canvas) {
+            //create and init app
             viewerApp = new BGE.App();
             viewerApp.init(vertexShaderName, fragmentShaderName, p_canvas);
-            viewerApp.setCanvasSize('500', '500');
+            viewerApp.setCanvasSize('450', '450');
+
+            //get access to webgl-context
             gl = viewerApp.getGL();
             aspectRatio = viewerApp.getAspectRatio();
-            //scene erzeugen
+
+            //create and init scene
             firstScene = new BGE.Scene();
-            //scene initialisieren
             firstScene.init(gl, viewerApp.getCanvas(), aspectRatio, viewerApp.getShader());
+
+            //build scenegraph and set at scene
             sceneGraph = buildSceneGraph();
             firstScene.setSceneGraph(sceneGraph);
-            //scene an app zuweisen
+
+            //set scene to app
             viewerApp.setScene(firstScene);
-            //app starten
+
+            //start app
             viewerApp.start();
         },
         setCanvasClear = function () {
@@ -87,17 +101,20 @@ BGE.ViewerApp = (function () {
         },
         addNewModel = function (json) {
             //declaring dependencies
-            var newModel,
-                objects,
-                i;
+            var objects,
+                translate,
+                i,
+                scriptCode;
 
+            translate=new BGE.Node.Translation(0, 0, -20);
+            sceneGraph.addChild(translate);
             objects = modelManager.loadJsonDirect(json);
             for (i = 0; i < objects.length; i++) {
                 objects[i].rotate({x: 0, y: 0.5, z: 0});
-                objects[i].translate({x: 0, y: 0, z: -7});
                 sceneGraph.addChild(objects[i].shape);
             }
             sceneGraph.reload();
+
         };
 
        //revealing public API

@@ -57,7 +57,7 @@ var OpmlStore = declare("dojox.data.OpmlStore", null, {
 		//	summary:
 		//      This function tests whether the item passed in is indeed a valid 'attribute' like type for the store.
 		//	attribute:
-		//		The attribute to test for being contained by the store.
+		//		The attribute to example for being contained by the store.
 		if(!lang.isString(attribute)){
 			throw new Error("dojox.data.OpmlStore: a function was passed an attribute argument that was not an attribute object nor an attribute name string");
 		}

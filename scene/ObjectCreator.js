@@ -1,7 +1,7 @@
 dojo.registerModulePath("BGE.ModelManager", "../tools/models/modelManager");
 dojo.require("BGE.ModelManager");
-
 dojo.provide("BGE.ObjectCreator");
+
 BGE.ObjectCreator = (function () {
 
     "use strict";
@@ -14,6 +14,7 @@ BGE.ObjectCreator = (function () {
             gl = p_gl;
         },
         createObject = function () {
+
             var node = BGE.Node,
                 Group = node.Group,
                 shape = BGE.Shape,
@@ -24,6 +25,7 @@ BGE.ObjectCreator = (function () {
                     translation: new node.Translation(0, 0, 0)
                 };
 
+            //obj = Object.create(obj);
 
             obj.shape.addChild(obj.translation);
             obj.shape.addChild(obj.rotation);

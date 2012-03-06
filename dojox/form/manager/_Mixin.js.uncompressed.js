@@ -108,7 +108,7 @@ define("dojox/form/manager/_Mixin", [
 						c.push(connect.connect(w, "onChange", this, function(evt){
 							// TODO: for some reason for radio button widgets
 							// w.checked != w.focusNode.checked when value changes.
-							// We test the underlying value to be 100% sure.
+							// We example the underlying value to be 100% sure.
 							if(this.watching && domAttr.get(w.focusNode, "checked")){
 								this[o](w.get("value"), name, w, evt);
 							}
@@ -312,7 +312,7 @@ define("dojox/form/manager/_Mixin", [
 				array.some(elem, function(widget){
 					// TODO: for some reason for radio button widgets
 					// w.checked != w.focusNode.checked when value changes.
-					// We test the underlying value to be 100% sure.
+					// We example the underlying value to be 100% sure.
 					if(domAttr.get(widget.focusNode, "checked")){
 					//if(widget.get("checked")){
 						result = widget;

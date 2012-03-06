@@ -319,7 +319,7 @@ dojo.declare("dojox.editor.plugins._SpellCheckScriptMultiPart", null, {
 	//		{response: [
 	//				{
 	//					text: "teest",
-	//					suggestion: ["test","treat"]
+	//					suggestion: ["example","treat"]
 	//				}
 	//			]}
 	label: "response",

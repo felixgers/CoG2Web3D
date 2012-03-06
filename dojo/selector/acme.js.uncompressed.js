@@ -22,7 +22,7 @@ define("dojo/selector/acme", ["../_base/kernel", "../has", "../dom", "../_base/s
 			3.) tokenize and convert to executable "query dispatcher"
 				- this is where the lion's share of the complexity in the
 					system lies. In the DOM version, the query dispatcher is
-					assembled as a chain of "yes/no" test functions pertaining to
+					assembled as a chain of "yes/no" example functions pertaining to
 					a section of a simple query statement (".blah:nth-child(odd)"
 					but not "div div", which is 2 simple statements). Individual
 					statement dispatchers are cached (to prevent re-definition)
@@ -669,7 +669,7 @@ define("dojo/selector/acme", ["../_base/kernel", "../has", "../dom", "../_base/s
 		// when it creates the query AST. The "ignores" object specifies which
 		// (if any) tests to skip, allowing the system to avoid duplicating
 		// work where it may have already been taken into account by other
-		// factors such as how the nodes to test were fetched in the first
+		// factors such as how the nodes to example were fetched in the first
 		// place
 		if(!query){ return yesman; }
 		ignores = ignores||{};
@@ -810,7 +810,7 @@ define("dojo/selector/acme", ["../_base/kernel", "../has", "../dom", "../_base/s
 	};
 	*/
 
-	// test to see if node is below root
+	// example to see if node is below root
 	var _isDescendant = function(node, root){
 		var pn = node.parentNode;
 		while(pn){
@@ -835,7 +835,7 @@ define("dojo/selector/acme", ["../_base/kernel", "../has", "../dom", "../_base/s
 		//		filters them.  The search may be specialized by infix operators
 		//		(">", "~", or "+") else it will default to searching all
 		//		descendants (the " " selector). Once a group of children is
-		//		found, a test function is applied to weed out the ones we
+		//		found, a example function is applied to weed out the ones we
 		//		don't want. Many common cases can be fast-pathed. We spend a
 		//		lot of cycles to create a dispatcher that doesn't do more work
 		//		than necessary at any point since, unlike this function, the
@@ -884,7 +884,7 @@ define("dojo/selector/acme", ["../_base/kernel", "../has", "../dom", "../_base/s
 		var oper = (io ? io.oper : "");
 		// the default filter func which tests for all conditions in the query
 		// part. This is potentially inefficient, so some optimized paths may
-		// re-define it to test fewer things.
+		// re-define it to example fewer things.
 		var filterFunc = getSimpleFilterFunc(query, { el: 1 });
 		var qt = query.tag;
 		var wildcardTag = ("*" == qt);
@@ -1109,7 +1109,7 @@ define("dojo/selector/acme", ["../_base/kernel", "../has", "../dom", "../_base/s
 		//Normalize query. The CSS3 selectors spec allows for omitting spaces around
 		//infix operators, >, ~ and +
 		//Do the work here since detection for spaces is used as a simple "not use QSA"
-		//test below.
+		//example below.
 		query = query.replace(infixSpaceRe, infixSpaceFunc);
 
 		if(qsaAvail){
@@ -1442,7 +1442,7 @@ define("dojo/selector/acme", ["../_base/kernel", "../has", "../dom", "../_base/s
 
 		// NOTE:
 		//		Opera in XHTML mode doesn't detect case-sensitivity correctly
-		//		and it's not clear that there's any way to test for it
+		//		and it's not clear that there's any way to example for it
 		caseSensitive = (root.contentType && root.contentType=="application/xml") ||
 						(dojo.isOpera && (root.doctype || od.toString() == "[object XMLDocument]")) ||
 						(!!od) &&

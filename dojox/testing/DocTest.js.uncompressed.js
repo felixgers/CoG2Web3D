@@ -14,26 +14,26 @@ dojo.declare(
 		//		1) all lines are comments
 		//		2) the line always starts with spaces/tabs followed by "//"
 		//		   and at least one space
-		//		3) the line(s) of the test to execute starts with ">>>"
+		//		3) the line(s) of the example to execute starts with ">>>"
 		//		   preceeded by what is described in 2)
 		//		4) the first line after 3) starting without ">>>" is the exptected result.
 		//		   preceeded by what is described in 2)
-		//		5) the test sequence is terminated by an empty line, or the next
-		//		   test in the following line, or a new line that does not start as described in 2)
+		//		5) the example sequence is terminated by an empty line, or the next
+		//		   example in the following line, or a new line that does not start as described in 2)
 		//		   (simple said: is not a comment)
 		//		   preceeded by what is described in 2)
 		//
 		//		I.e. the following is a simple doctest, that will actually also be run
 		//		if you run this class against this file here:
-		//		>>> 1+1 // A simple test case. Terminated by an empty line
+		//		>>> 1+1 // A simple example case. Terminated by an empty line
 		//		2
 		//
 		//		>>> 1==2
 		//		false
-		//		>>> "a"+"b" // Also without the empty line before, this is a new test.
+		//		>>> "a"+"b" // Also without the empty line before, this is a new example.
 		//		"ab"
 		//
-		//		>>> var anything = "anything" // Multiple commands for one test.
+		//		>>> var anything = "anything" // Multiple commands for one example.
 		//		>>> "something"==anything
 		//		false
 		//
@@ -43,15 +43,15 @@ dojo.declare(
 
 
 		//	TODO:
-		//		-	using console.log() in a test prints something on the
+		//		-	using console.log() in a example prints something on the
 		//			console (if you do it on the console) but its not accepted
-		//			yet to be the test result, may be override console.log!?
+		//			yet to be the example result, may be override console.log!?
 		//			i.e. here i wanted to: dojo.forEach(["one", 2],
 		//			function(el, index) {console.log(el, index)}) that works on
 		//			the console, but not as a docTest :-(
-		//		-	surround the eval for each test case singlely with a
+		//		-	surround the eval for each example case singlely with a
 		//			try-catch, to to catch syntax errors etc (though the
-		//			shouldn't happen if you copy the test from the shell :-))
+		//			shouldn't happen if you copy the example from the shell :-))
 	
 		
 		errors: [],
@@ -98,15 +98,15 @@ dojo.declare(
 				// TODO:
 				//		detect tests that dont match the condition: commands,
 				//		result, empty line. esp the empty line might be missing
-				//		or be tolerant and accept a new test starting on the
+				//		or be tolerant and accept a new example starting on the
 				//		next line, which would allow to omit the empty line!?
 				if((insideComments && l.match(/^\/\/\s+>>>\s.*/)) || l.match(/^\s*>>>\s.*/)){
 					if(!test.line){
 						test.line = i+1;
 					}
-					// Find the test commands.
+					// Find the example commands.
 					if(test.expectedResult.length>0){
-						// Start a new test right after the expected result,
+						// Start a new example right after the expected result,
 						// without an empty line.
 						tests.push({
 							commands: test.commands,
@@ -159,23 +159,23 @@ dojo.declare(
 			//		// The above is not a doctest, because it just would
 			//		//	execute itself in a never ending loop.
 			//
-			//		>>> true==true // Test a new line terminating the test.
+			//		>>> true==true // Test a new line terminating the example.
 			//		true
 			//
-			//		>>> true==true // Test a new test terminating the test.
+			//		>>> true==true // Test a new example terminating the example.
 			//		true
-			//		>>> true==true // Test a "not a comment"-line, especially an empty line terminating the test.
+			//		>>> true==true // Test a "not a comment"-line, especially an empty line terminating the example.
 			//		true
 
 			//		Make sure the result as printed on the console is the same as what
-			//		is returned by the test. An array is printed as follows on the console.
+			//		is returned by the example. An array is printed as follows on the console.
 			//		>>> [1,2,3,4]
 			//		[1,2,3,4]
 			//
-			//		Test a "not a comment"-line, with some real code(!) terminating the test.
-			//		This used to be a bug, so make sure the line below the test is real
-			//		from this method! Don't write a test after it, always above!
-			//		>>> true==true // Test code on new line terminating the test.
+			//		Test a "not a comment"-line, with some real code(!) terminating the example.
+			//		This used to be a bug, so make sure the line below the example is real
+			//		from this method! Don't write a example after it, always above!
+			//		>>> true==true // Test code on new line terminating the example.
 			//		true
 	
 			this.errors = [];
@@ -188,12 +188,12 @@ dojo.declare(
 		
 		_run: function(/*Array*/tests){
 			//	summary:
-			//		Each element in the array contains the test in the first element,
+			//		Each element in the array contains the example in the first element,
 			//		and the expected result in the second element.
 			//	tests:
 			//		Make sure that the types are compared properly. There used to be
 			//		the bug that a return value false was compared to "false" which
-			//		made the test fail. This is fixed and should be verified by the
+			//		made the example fail. This is fixed and should be verified by the
 			//		following tests.
 			//		>>> false
 			//		false
@@ -221,7 +221,7 @@ dojo.declare(
 				var res = this.runTest(t.commands, t.expectedResult);
 				var msg = "Test "+(i+1)+": ";
 				var viewCommands = t.commands.join(" ");
-				// Show the first part of the test command.
+				// Show the first part of the example command.
 				viewCommands = (viewCommands.length > 50 ?
 								viewCommands.substr(0,50) + "..." :
 								viewCommands
@@ -229,7 +229,7 @@ dojo.declare(
 				if(res.success){
 					// the last if-condition, dojo.toJson() adds a quote sign "
 					// before and after the result, may be we remove it and
-					// test the result again
+					// example the result again
 					console.info(msg+"OK: "+viewCommands);
 					oks += 1;
 				}else{
@@ -267,7 +267,7 @@ dojo.declare(
 				)
 			){
 				// the last if-condition, dojo.toJson() adds a quote sign "
-				// before and after the result, may be we remove it and test
+				// before and after the result, may be we remove it and example
 				// the result again
 				ret.success = true;
 			}

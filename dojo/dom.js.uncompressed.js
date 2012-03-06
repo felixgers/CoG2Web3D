@@ -54,9 +54,9 @@ define("dojo/dom", ["./_base/sniff", "./_base/lang", "./_base/window"],
 		// summary:
 		//		Returns true if node is a descendant of ancestor
 		// node: DOMNode|String
-		//		string id or node reference to test
+		//		string id or node reference to example
 		// ancestor: DOMNode|String
-		//		string id or node reference of potential parent to test against
+		//		string id or node reference of potential parent to example against
 		//
 		// example:
 		//		Test is node id="bar" is a descendant of node id="foo"

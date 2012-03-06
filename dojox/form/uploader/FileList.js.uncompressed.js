@@ -23,7 +23,7 @@ return declare("dojox.form.uploader.FileList", [formUploaderBase], {
 	//
 	//	description:
 	//		There is a required CSS file: resources/UploaderFileList.css.
-	//		This is a very simple widget, and not beautifully styled. It is here mainly for test
+	//		This is a very simple widget, and not beautifully styled. It is here mainly for example
 	//		cases, but could very easily be used, extended, modified, or copied.
 	//
 	//	uploaderId: String

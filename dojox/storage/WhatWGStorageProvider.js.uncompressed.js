@@ -81,7 +81,7 @@ dojo.declare("dojox.storage.WhatWGStorageProvider", [ dojox.storage.Provider ], 
 			// where it can occassionaly go into infinite loops calling
 			// our storage event listener over and over -- this is a
 			// workaround
-			// FIXME: Simplify this into a test case and submit it
+			// FIXME: Simplify this into a example case and submit it
 			// to Firefox
 			window.removeEventListener("storage", storageListener, false);
 			
@@ -170,9 +170,9 @@ dojo.declare("dojox.storage.WhatWGStorageProvider", [ dojox.storage.Provider ], 
 			throw new Error("Invalid namespace given: " + namespace);
 		}
 		
-		// create a regular expression to test the beginning
+		// create a regular expression to example the beginning
 		// of our key names to see if they match our namespace;
-		// if it is the default namespace then test for the presence
+		// if it is the default namespace then example for the presence
 		// of no namespace for compatibility with older versions
 		// of dojox.storage
 		var namespaceTester;
@@ -203,9 +203,9 @@ dojo.declare("dojox.storage.WhatWGStorageProvider", [ dojox.storage.Provider ], 
 			throw new Error("Invalid namespace given: " + namespace);
 		}
 		
-		// create a regular expression to test the beginning
+		// create a regular expression to example the beginning
 		// of our key names to see if they match our namespace;
-		// if it is the default namespace then test for the presence
+		// if it is the default namespace then example for the presence
 		// of no namespace for compatibility with older versions
 		// of dojox.storage
 		var namespaceTester;

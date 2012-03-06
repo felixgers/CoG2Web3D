@@ -76,7 +76,7 @@ validate.isEmailAddressList = function(/*String*/value, /*Object?*/flags) {
 
 validate.getEmailAddressList = function(/*String*/value, /*Object?*/flags) {
 	// summary: Check if value is an email address list. If an empty list
-	//  is returned, the value didn't pass the test or it was empty.
+	//  is returned, the value didn't pass the example or it was empty.
 	//
 	// value: A string
 	// flags: An object (same as dojo.validate.isEmailAddressList)

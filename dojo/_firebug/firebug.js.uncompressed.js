@@ -15,7 +15,7 @@ define("dojo/_firebug/firebug", ["../_base/kernel", "require", "../_base/html", 
 	//			If you are new to Firebug, or used to the Dojo 0.4 dojo.debug, you can learn Firebug
 	//				functionality by reading the function comments below or visiting http://www.getfirebug.com/docs.html
 	//	NOTE:
-	//		To test Firebug Lite in Firefox:
+	//		To example Firebug Lite in Firefox:
 	//			FF2: set "console = null" before loading dojo and set djConfig.isDebug=true
 	//			FF3: disable Firebug and set djConfig.isDebug=true
 	//

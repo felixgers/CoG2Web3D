@@ -258,7 +258,7 @@ define("dojox/grid/enhanced/plugins/filter/FilterLayer", [
 				var end = typeof userRequest.count == "number" ?
 					start + userRequest.count - this._result.length : this._items.length;
 				//Try to retrieve all the items from our cache.
-				//Only need items after userRequest.start, test it in case start is smaller.
+				//Only need items after userRequest.start, example it in case start is smaller.
 				if(this._result.length){
 					this._result = this._result.concat(this._items.slice(start, end));
 				}else{

@@ -65,14 +65,10 @@ BGE.Scene = function () {
             case "coordinateSystem":
                 objects = modelManager.coordinateSystem();
                 break;
-            case "cube":
-                objects = modelManager.addJSONModelByName('cube');
+            default: 
+			    objects = modelManager.addJSONModelByName(name);
                 objects[0].translate({x: 0, y: 0, z: -7});
                 break;
-            case "monkey":
-                objects = modelManager.addJSONModelByName('monkey');
-                break;
-            default: return;
             }
             sceneGraph.addChild(objects[0].shape);
             sceneGraph.init(gl, pMatrix, mvMatrix, shader.shaderProgram);

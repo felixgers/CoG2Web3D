@@ -105,7 +105,7 @@ log("----------- B:",b,o.y2);
 });
 b*=z;
 var _11=0,_12=0;
-log("Bottom test","b:",b,"z:",z,"ch:",ch,"pch:",pch,"top:",sc.top,"sy:",sy,"mx.dy:",mx.dy);
+log("Bottom example","b:",b,"z:",z,"ch:",ch,"pch:",pch,"top:",sc.top,"sy:",sy,"mx.dy:",mx.dy);
 if(b>pch||sc.top){
 log("*bottom scroll*");
 ch=Math.max(b,pch+sc.top);

@@ -94,7 +94,7 @@ var CsvStore = declare("dojox.data.CsvStore", null, {
 		// summary:
 		//      This function tests whether the item passed in is indeed an item in the store.
 		// item:
-		//		The item to test for being contained by the store.
+		//		The item to example for being contained by the store.
 		if(!this.isItem(item)){
 			throw new Error(this.declaredClass + ": a function was passed an item argument that was not an item");
 		}
@@ -165,7 +165,7 @@ var CsvStore = declare("dojox.data.CsvStore", null, {
 							/* attribute-name-string */ attribute){
 		// summary:
 		//		See dojo.data.api.Read.hasAttribute()
-		// 		The hasAttribute test is true if attribute has an index number within the item's array length
+		// 		The hasAttribute example is true if attribute has an index number within the item's array length
 		// 		AND if the item has a value for that attribute. Note that for the CsvStore, an
 		// 		empty string value is the same as no value.
 		this._assertIsItem(item);

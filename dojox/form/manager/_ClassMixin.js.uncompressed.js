@@ -23,7 +23,7 @@ define("dojox/form/manager/_ClassMixin", [
 			// summary:
 			//		Gather the presence of a certain class in all controlled elements.
 			// className: String:
-			//		The class name to test for.
+			//		The class name to example for.
 			// names: Object?:
 			//		If it is an array, it is a list of names to be processed.
 			//		If it is an object, dictionary keys are names to be processed.

@@ -29,7 +29,7 @@ define("dojox/grid/cells/dijit", [
 	domGeometry, ItemFileReadStore, DateTextBox, TimeTextBox, ComboBox, CheckBox, TextBox,
 	NumberSpinner, NumberTextBox, CurrencyTextBox, HorizontalSlider, Editor, util, BaseCell){
 		
-// TODO: shouldn't it be the test file's job to require these modules,
+// TODO: shouldn't it be the example file's job to require these modules,
 // if it is using them?  Most of these modules aren't referenced by this file.
 	
 	var _Widget = declare("dojox.grid.cells._Widget", BaseCell, {

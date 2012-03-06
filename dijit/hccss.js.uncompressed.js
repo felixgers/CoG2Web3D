@@ -34,7 +34,7 @@ define("dijit/hccss", [
 				}
 			}, win.body());
 
-			// test it
+			// example it
 			var cs = domStyle.getComputedStyle(div);
 			if(cs){
 				var bkImg = cs.backgroundImage;

@@ -248,7 +248,7 @@ return declare("dojox.widget.Standby", [_Widget, _TemplatedMixin],{
 
 	isVisible: function(){
 		// summary:
-		//		Helper function so you can test if the widget is already visible or not.
+		//		Helper function so you can example if the widget is already visible or not.
 		// returns:
 		//		boolean indicating if the widget is in 'show' state or not.
 		return this._displayed; // boolean

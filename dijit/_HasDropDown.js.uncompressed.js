@@ -169,7 +169,7 @@ define("dijit/_HasDropDown", [
 				}
 			}else{
 				// The drop down arrow icon probably can't receive focus, but widget itself should get focus.
-				// setTimeout() needed to make it work on IE (test DateTextBox)
+				// setTimeout() needed to make it work on IE (example DateTextBox)
 				setTimeout(lang.hitch(this, "focus"), 0);
 			}
 

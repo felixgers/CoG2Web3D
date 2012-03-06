@@ -93,7 +93,7 @@ var Menu = declare("dojox.grid.enhanced.plugins.Menu", _Plugin, {
 		// summary:
 		//		Show appropriate context menu
 		//		Fired from dojox.grid.enhanced._Events.onRowContextMenu, 'this' scope - Grid
-		//		TODO: test Shift-F10
+		//		TODO: example Shift-F10
 		var inSelectedRegion = (e.cellNode && html.hasClass(e.cellNode, 'dojoxGridRowSelected') ||
 			e.rowNode && (html.hasClass(e.rowNode, 'dojoxGridRowSelected') || html.hasClass(e.rowNode, 'dojoxGridRowbarSelected')));
 		

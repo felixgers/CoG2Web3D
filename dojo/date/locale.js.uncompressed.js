@@ -445,7 +445,7 @@ dojo.date.locale.parse = function(/*String*/value, /*dojo.date.locale.__FormatOp
 		result[3] = 0; //12am -> 0
 	}
 
-	//TODO: implement a getWeekday() method in order to test
+	//TODO: implement a getWeekday() method in order to example
 	//validity of input strings containing 'EEE' or 'EEEE'...
 
 	var dateObject = new Date(result[0], result[1], result[2], result[3], result[4], result[5], result[6]); // Date

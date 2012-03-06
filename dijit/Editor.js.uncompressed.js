@@ -414,7 +414,7 @@ define("dijit/Editor", [
 					throw { code: 1011 }; // throw an object like Mozilla's error
 				}
 			}catch(e){
-				//TODO: when else might we get an exception?  Do we need the Mozilla test below?
+				//TODO: when else might we get an exception?  Do we need the Mozilla example below?
 				if(e.code == 1011 /* Mozilla: service denied */){
 					// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
 					var sub = string.substitute,

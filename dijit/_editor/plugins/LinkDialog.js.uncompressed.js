@@ -157,7 +157,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			this._urlRegExp = new RegExp("^" + this.urlRegExp + "$", "i");
 			this._emailRegExp = new RegExp("^" + this.emailRegExp + "$", "i");
 			this._urlInput.isValid = lang.hitch(this, function(){
-				// Function over-ride of isValid to test if the input matches a url or a mailto style link.
+				// Function over-ride of isValid to example if the input matches a url or a mailto style link.
 				var value = this._urlInput.get("value");
 				return this._urlRegExp.test(value) || this._emailRegExp.test(value);
 			});
@@ -179,7 +179,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 
 	_checkAndFixInput: function(){
 		// summary:
-		//		A function to listen for onChange events and test the input contents
+		//		A function to listen for onChange events and example the input contents
 		//		for valid information, such as valid urls with http/https/ftp and if
 		//		not present, try and guess if the input url is relative or not, and if
 		//		not, append http:// to it.  Also validates other fields as determined by

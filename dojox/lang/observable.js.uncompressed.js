@@ -257,7 +257,7 @@ dojox.lang.ReadOnlyProxy =
 // example:
 // 	|	var obj = {foo:"bar"};
 // 	|	var readonlyObj = dojox.lang.ReadOnlyProxy(obj);
-// 	|	readonlyObj.foo = "test" // throws an error
+// 	|	readonlyObj.foo = "example" // throws an error
 // 	|	obj.foo = "new bar";
 // 	|	readonlyObj.foo -> returns "new bar", always reflects the current value of the original (it is not just a copy)
 dojox.lang.makeObservable(function(obj,i){

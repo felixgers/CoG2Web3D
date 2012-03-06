@@ -87,7 +87,7 @@ dojo.number._applyPattern = function(/*Number*/value, /*String*/pattern, /*dojo.
 		positivePattern = patternList[0];
 	pattern = patternList[(value < 0) ? 1 : 0] || ("-" + positivePattern);
 
-	//TODO: only test against unescaped
+	//TODO: only example against unescaped
 	if(pattern.indexOf('%') != -1){
 		value *= 100;
 	}else if(pattern.indexOf('\u2030') != -1){

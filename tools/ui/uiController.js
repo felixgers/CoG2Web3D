@@ -40,17 +40,14 @@ dojo.ready(function () {
         },
         accordionContainer = new dijit.layout.AccordionContainer({
             id: "accordionContainer",
-            style: "height: 100px",
             onClick: function () {
                 setSelectedContentPane();
             }
         }),
         uploadAvailable = BGE.myViewer.checkFileUploadAvailable(),
         bc = new dijit.layout.BorderContainer({
-            style: "height: 550px; width: 1024px;"
+            style: "height: 500px; width: 1024px;"
         }, "markup"),
-
-
 
         txtCollada = new dijit.form.Textarea({
             name: "collada",
@@ -58,14 +55,11 @@ dojo.ready(function () {
             value: "",
             baseClass: "textarea"
         }),
-
         txtJSON = new dijit.form.Textarea({
             name: "collada",
             id: "json_area",
             value: "",
-            baseClass: "textarea",
-            cols: "50",
-            rows: "13"
+            baseClass: "textarea"
         }),
 
         toolbarCollada = new dijit.Toolbar({}),
@@ -103,7 +97,7 @@ dojo.ready(function () {
             }
         }),
         dialogUploadFile = new dijit.Dialog({
-            title: "Collada Datei hochladen",
+            title: "Datei hochladen",
             style: "width: 300px",
             id: 'dialogUploadFile',
             content: dojo.byId('files')
@@ -155,7 +149,8 @@ dojo.ready(function () {
         contentPaneJSON = dijit.layout.ContentPane({
             title: "JSON",
             name: "contentPaneJSON",
-            content: txtJSON
+            content: txtJSON,
+            style: 'padding:0px'
         }),
         contentPaneScene = new dijit.layout.ContentPane({
             region: "right",
@@ -164,7 +159,7 @@ dojo.ready(function () {
         }),
         contentPaneLeft = new dijit.layout.ContentPane({
             region: "left",
-            style: "height: 470px;width:500px",
+            style: "height: 420 px;width:500px",
             content: accordionContainer
         });
 

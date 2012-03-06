@@ -91,7 +91,7 @@ define("dijit/WidgetSet", [
 			//		Works the same as `array.filter` and `NodeList.filter`
 			//
 			// filter:
-			//		Callback function to test truthiness. Is passed the widget
+			//		Callback function to example truthiness. Is passed the widget
 			//		reference and the pseudo-index in the object.
 			//
 			// thisObj: Object?

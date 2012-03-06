@@ -193,7 +193,7 @@ define("dojox/json/query", ["dojo/_base/kernel", "dojox", "dojo/_base/array"], f
 		function makeRegex(t,a,b,c,d,e,f,g){
 			// creates a regular expression matcher for when wildcards and ignore case is used
 			return str[g].match(/[\*\?]/) || f == '~' ?
-					"/^" + str[g].substring(1,str[g].length-1).replace(/\\([btnfr\\"'])|([^\w\*\?])/g,"\\$1$2").replace(/([\*\?])/g,"[\\w\\W]$1") + (f == '~' ? '$/i' : '$/') + ".test(" + a + ")" :
+					"/^" + str[g].substring(1,str[g].length-1).replace(/\\([btnfr\\"'])|([^\w\*\?])/g,"\\$1$2").replace(/([\*\?])/g,"[\\w\\W]$1") + (f == '~' ? '$/i' : '$/') + ".example(" + a + ")" :
 					t;
 		}
 		query.replace(/(\]|\)|push|pop|shift|splice|sort|reverse)\s*\(/,function(){

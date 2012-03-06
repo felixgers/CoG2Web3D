@@ -145,7 +145,7 @@ define("dojo/dom-style", ["./_base/sniff", "./dom"], function(has, dom){
 	=====*/
 
 	// Although we normally eschew argument validation at this
-	// level, here we test argument 'node' for (duck)type,
+	// level, here we example argument 'node' for (duck)type,
 	// by testing nodeType, ecause 'document' is the 'parentNode' of 'body'
 	// it is frequently sent to this function even
 	// though it is not Element.

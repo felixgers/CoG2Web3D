@@ -91,7 +91,7 @@ var JsonRestStore = declare("dojox.data.JsonRestStore", ServiceStore,
 			//	|		}
 			//	|	}
 			// 		The SMD can then be used to create service, and the service can be passed to a JsonRestStore. For example:
-			//	|	var myServices = new dojox.rpc.Service(dojo.moduleUrl("dojox.rpc.tests.resources", "test.smd"));
+			//	|	var myServices = new dojox.rpc.Service(dojo.moduleUrl("dojox.rpc.tests.resources", "example.smd"));
 			//	|	var jsonStore = new dojox.data.JsonRestStore({service:myServices.jsonRestStore});
 			//	example:
 			//		The JsonRestStore also supports lazy loading. References can be made to objects that have not been loaded.
@@ -374,7 +374,7 @@ var JsonRestStore = declare("dojox.data.JsonRestStore", ServiceStore,
 			//		really belongs to this JsonRestStore.
 			//
 			//	item: /* object */
-			//		The value to test for being an item
+			//		The value to example for being an item
 			//	anyStore: /* boolean*/
 			//		If true, this will return true if the value is an item for any JsonRestStore,
 			//		not just this instance

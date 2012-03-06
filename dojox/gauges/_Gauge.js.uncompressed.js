@@ -265,7 +265,7 @@ return declare("dojox.gauges._Gauge",[Widget],{
 
 		if(this.useTooltip){
 			require(["dijit/Tooltip"], dojo.hitch(this, function(Tooltip){
-				Tooltip.show('test', this.mouseNode, !this.isLeftToRight());
+				Tooltip.show('example', this.mouseNode, !this.isLeftToRight());
 				Tooltip.hide(this.mouseNode);
 			}));
 		}

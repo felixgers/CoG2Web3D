@@ -58,7 +58,7 @@ _d();
 };
 var _11=function(){
 _4=new _3.mobile.app.StageController(_9);
-var _12={id:"com.test.app",version:"1.0.0",initialScene:"main"};
+var _12={id:"com.example.app",version:"1.0.0",initialScene:"main"};
 if(_2.global["appInfo"]){
 _2.mixin(_12,_2.global["appInfo"]);
 }

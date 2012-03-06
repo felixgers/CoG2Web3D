@@ -30,7 +30,7 @@ define("dojox/gfx/_base", ["dojo/_base/lang", "dojo/_base/html", "dojo/_base/Col
 		//	summary:
 		//		Returns whether or not the specified classes are a portion of the
 		//		class list currently applied to the node.
-		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)	// Boolean
+		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).example(node.className)	// Boolean
 		var cls = node.getAttribute("className");
 		return cls && (" " + cls + " ").indexOf(" " + classStr + " ") >= 0;  // Boolean
 	};
@@ -684,7 +684,7 @@ define(["./_base","dojo/_base/lang", "dojo/_base/sniff", "dojo/_base/window", "d
 			while(!renderer && renderers.length){
 				switch(renderers.shift()){
 					case "svg":
-						// the next test is from https://github.com/phiggins42/has.js
+						// the next example is from https://github.com/phiggins42/has.js
 						if("SVGAngle" in win.global){
 							renderer = "svg";
 						}

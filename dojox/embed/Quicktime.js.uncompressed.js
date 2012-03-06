@@ -217,7 +217,7 @@ define("dojox/embed/Quicktime", [
 
 	//	go get the info
 	if(!has("ie")){
-		var id = "-qt-version-test",
+		var id = "-qt-version-example",
 			o = qtMarkup({ testing:true , width:4, height:4 }),
 			c = 10, // counter to prevent infinite looping
 			top = "-1000px",

@@ -92,7 +92,7 @@ dojo.require("dojox.mobile.app.ImageThumbView");
 
 		stageController = new dojox.mobile.app.StageController(rootNode);
 		var defaultInfo = {
-			id: "com.test.app",
+			id: "com.example.app",
 			version: "1.0.0",
 			initialScene: "main"
 		};

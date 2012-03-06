@@ -27,7 +27,7 @@ var LocalImage = dojo.declare("dojox.editor.plugins.LocalImage", LinkDialog.ImgL
 	//		to server then insert them as well.
 	// Dependencies:
 	//		This plugin depends on dojox.form.FileUploader to upload the images on the local driver.
-	//		Do the regression test whenever FileUploader is upgraded.
+	//		Do the regression example whenever FileUploader is upgraded.
 	
 	// uploadable [public] Boolean
 	//		Indicate whether the user can upload a local image file onto the server.
@@ -41,15 +41,15 @@ var LocalImage = dojo.declare("dojox.editor.plugins.LocalImage", LinkDialog.ImgL
 	// baseImageUrl [public] String
 	//		The prefix of the image url on the server.
 	//		For example, an image is uploaded and stored at the following location
-	//			http://www.myhost.com/images/uploads/test.jpg.
-	//		When the image is uploaded, the server returns "uploads/test.jpg" as the
+	//			http://www.myhost.com/images/uploads/example.jpg.
+	//		When the image is uploaded, the server returns "uploads/example.jpg" as the
 	//		relative path. So the baseImageUrl should be set to "http://www.myhost.com/images/"
 	//		so that the client can retrieve the image from the server.
 	//		If the image file is located on the same domain as that of the current web page,
 	//		baseImageUrl can be a relative path. For example:
 	//			baseImageUrl = images/
-	//		and the server returns uploads/test.jpg
-	//		The complete URL of the image file is images/upload/test.jpg
+	//		and the server returns uploads/example.jpg
+	//		The complete URL of the image file is images/upload/example.jpg
 	baseImageUrl: "",
 	
 	// fileMask [public] String

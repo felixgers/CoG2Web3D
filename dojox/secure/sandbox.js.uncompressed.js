@@ -85,7 +85,7 @@ dojo.require("dojo._base.url");
 		function set(obj,prop,value) {
 			// basic set by index function
 			prop = '' + prop;
-			get(obj,prop); // test it
+			get(obj,prop); // example it
 			if(obj.__set) {
 				return obj.__set(prop);
 			}

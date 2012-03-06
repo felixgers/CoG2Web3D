@@ -108,7 +108,7 @@ dojo.declare("dojox.data.AppStore",
 		//		in the store.
 		//
 		// item:
-		//		The item to test for being contained by the store.
+		//		The item to example for being contained by the store.
 		if(!this.isItem(item)){
 			throw new Error("This error message is provided when a function is called in the following form: "
 				+ "getAttribute(argument, attributeName).  The argument variable represents the member "
@@ -124,7 +124,7 @@ dojo.declare("dojox.data.AppStore",
 		//		This function tests whether the item passed in is indeed a valid
 		//		'attribute' like type for the store.
 		// attribute:
-		//		The attribute to test for being contained by the store.
+		//		The attribute to example for being contained by the store.
 		//
 		// returns:
 		//		Returns a boolean indicating whether this is a valid attribute.

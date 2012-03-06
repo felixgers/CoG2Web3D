@@ -68,7 +68,7 @@ return declare("dijit.form.MultiSelect", _FormValueWidget, {
 		//		Returns an array of the selected options' values.
 
 		// Don't call getSelect.map() because it doesn't return a real array,
-		// and that messes up dojo.toJson() calls like in the Form.html test
+		// and that messes up dojo.toJson() calls like in the Form.html example
 		return array.map(this.getSelected(), function(n){
 			return n.value;
 		});

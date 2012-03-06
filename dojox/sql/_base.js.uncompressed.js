@@ -318,7 +318,7 @@ dojo.declare("dojox.sql._SQLCrypto", null, {
 		// determine which columns needs decryption; this either
 		// returns the value *, which means all result set columns will
 		// be decrypted, or it will return the column names that need
-		// decryption set on a hashtable so we can quickly test a given
+		// decryption set on a hashtable so we can quickly example a given
 		// column name; the key is the column name that needs
 		// decryption and the value is 'true' (i.e. needsDecrypt["someColumn"]
 		// would return 'true' if it needs decryption, and would be 'undefined'

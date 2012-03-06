@@ -523,7 +523,7 @@ var FontChoice = declare("dijit._editor.plugins.FontChoice", _Plugin,{
 		// summary:
 		//		Overrides _Plugin.updateState().  This controls updating the menu
 		//		options to the right values on state changes in the document (that trigger a
-		//		test of the actions.)
+		//		example of the actions.)
 		//		It set value of drop down in toolbar to reflect font/font size/format block
 		//		of text at current caret position.
 		// tags:
@@ -2043,7 +2043,7 @@ define([
 				}
 			}else{
 				// The drop down arrow icon probably can't receive focus, but widget itself should get focus.
-				// setTimeout() needed to make it work on IE (test DateTextBox)
+				// setTimeout() needed to make it work on IE (example DateTextBox)
 				setTimeout(lang.hitch(this, "focus"), 0);
 			}
 
@@ -13323,7 +13323,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		SHOULD check whether a command is supported before attempting
 		//		to use it, behaviour for unsupported commands is undefined.
 		// command:
-		//		The command to test for
+		//		The command to example for
 		// tags:
 		//		private
 
@@ -14003,7 +14003,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_createlinkEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the create link
+		//		This function implements the example for if the create link
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -14025,7 +14025,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_unlinkEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the unlink
+		//		This function implements the example for if the unlink
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -14042,7 +14042,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_inserttableEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the inserttable
+		//		This function implements the example for if the inserttable
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -14059,7 +14059,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_cutEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the cut
+		//		This function implements the example for if the cut
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -14079,7 +14079,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_copyEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the copy
+		//		This function implements the example for if the copy
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -14099,7 +14099,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_pasteEnabledImpl: function(/*===== argument =====*/){
 		// summary:c
-		//		This function implements the test for if the paste
+		//		This function implements the example for if the paste
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -14453,7 +14453,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_isNodeEmpty: function(node, startOffset){
 		// summary:
-		//		Function to test if a node is devoid of real content.
+		//		Function to example if a node is devoid of real content.
 		// node:
 		//		The node to check.
 		// tags:
@@ -15640,9 +15640,9 @@ return function(query, options){
 	// query: Object
 	//		An object hash with fields that may match fields of items in the store.
 	//		Values in the hash will be compared by normal == operator, but regular expressions
-	//		or any object that provides a test() method are also supported and can be
+	//		or any object that provides a example() method are also supported and can be
 	// 		used to match strings by more complex expressions
-	// 		(and then the regex's or object's test() method will be used to match values).
+	// 		(and then the regex's or object's example() method will be used to match values).
 	//
 	// options: dojo.store.util.SimpleQueryEngine.__queryOptions?
 	//		An object that contains optional information such as sort, start, and count.
@@ -18576,7 +18576,7 @@ define([
 					throw { code: 1011 }; // throw an object like Mozilla's error
 				}
 			}catch(e){
-				//TODO: when else might we get an exception?  Do we need the Mozilla test below?
+				//TODO: when else might we get an exception?  Do we need the Mozilla example below?
 				if(e.code == 1011 /* Mozilla: service denied */){
 					// Warn user of platform limitation.  Cannot programmatically access clipboard. See ticket #4136
 					var sub = string.substitute,
@@ -19305,7 +19305,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 			// ScrollTabController.resize() does need to get called to show/hide
 			// the navigation buttons as appropriate, but that's handled in ScrollingTabController.onAddChild().
 			// If this is updated to not layout [except for initial child added / last child removed], update
-			// "childless startup" test in StackContainer.html to check for no resize event after second addChild()
+			// "childless startup" example in StackContainer.html to check for no resize event after second addChild()
 			this.layout();
 
 			// if this is the first child, then select it
@@ -20246,7 +20246,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 			this._urlRegExp = new RegExp("^" + this.urlRegExp + "$", "i");
 			this._emailRegExp = new RegExp("^" + this.emailRegExp + "$", "i");
 			this._urlInput.isValid = lang.hitch(this, function(){
-				// Function over-ride of isValid to test if the input matches a url or a mailto style link.
+				// Function over-ride of isValid to example if the input matches a url or a mailto style link.
 				var value = this._urlInput.get("value");
 				return this._urlRegExp.test(value) || this._emailRegExp.test(value);
 			});
@@ -20268,7 +20268,7 @@ var LinkDialog = declare("dijit._editor.plugins.LinkDialog", _Plugin, {
 
 	_checkAndFixInput: function(){
 		// summary:
-		//		A function to listen for onChange events and test the input contents
+		//		A function to listen for onChange events and example the input contents
 		//		for valid information, such as valid urls with http/https/ftp and if
 		//		not present, try and guess if the input url is relative or not, and if
 		//		not, append http:// to it.  Also validates other fields as determined by
@@ -23890,7 +23890,7 @@ define([
 					}
 				}
 			);}
-			try{ // this is needed for now since the above regexp parsing needs more test verification
+			try{ // this is needed for now since the above regexp parsing needs more example verification
 				"".search(partialre);
 			}catch(e){ // should never be here unless the original RE is bad or the parsing is bad
 				partialre = this.regExp;
@@ -24591,7 +24591,7 @@ dojo.number._applyPattern = function(/*Number*/value, /*String*/pattern, /*dojo.
 		positivePattern = patternList[0];
 	pattern = patternList[(value < 0) ? 1 : 0] || ("-" + positivePattern);
 
-	//TODO: only test against unescaped
+	//TODO: only example against unescaped
 	if(pattern.indexOf('%') != -1){
 		value *= 100;
 	}else if(pattern.indexOf('\u2030') != -1){
@@ -25405,7 +25405,7 @@ define([
 			// setValue does a synchronous lookup,
 			// so it calls _callbackSetLabel directly,
 			// and so does not pass dataObject
-			// still need to test against _lastQuery in case it came too late
+			// still need to example against _lastQuery in case it came too late
 			if((query && query[this.searchAttr] !== this._lastQuery) || (!query && result.length && this.store.getIdentity(result[0]) != this._lastQuery)){
 				return;
 			}
@@ -26594,7 +26594,7 @@ dojo.date.locale.parse = function(/*String*/value, /*dojo.date.locale.__FormatOp
 		result[3] = 0; //12am -> 0
 	}
 
-	//TODO: implement a getWeekday() method in order to test
+	//TODO: implement a getWeekday() method in order to example
 	//validity of input strings containing 'EEE' or 'EEEE'...
 
 	var dateObject = new Date(result[0], result[1], result[2], result[3], result[4], result[5], result[6]); // Date
@@ -29604,10 +29604,10 @@ define("dijit/Dialog", [
 		//		ContentPane so it supports all the same parameters (href, etc.)
 		//
 		// example:
-		// |	<div data-dojo-type="dijit.Dialog" data-dojo-props="href: 'test.html'"></div>
+		// |	<div data-dojo-type="dijit.Dialog" data-dojo-props="href: 'example.html'"></div>
 		//
 		// example:
-		// |	var foo = new dijit.Dialog({ title: "test dialog", content: "test content" };
+		// |	var foo = new dijit.Dialog({ title: "example dialog", content: "example content" };
 		// |	dojo.body().appendChild(foo.domNode);
 		// |	foo.startup();
 
@@ -30235,7 +30235,7 @@ return declare("dijit.form.MultiSelect", _FormValueWidget, {
 		//		Returns an array of the selected options' values.
 
 		// Don't call getSelect.map() because it doesn't return a real array,
-		// and that messes up dojo.toJson() calls like in the Form.html test
+		// and that messes up dojo.toJson() calls like in the Form.html example
 		return array.map(this.getSelected(), function(n){
 			return n.value;
 		});

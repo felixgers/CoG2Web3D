@@ -114,7 +114,7 @@ define("dojo/on", ["./has!dom-addeventlistener?:./aspect", "./_base/kernel", "./
 			// create the extension event for selectors and directly call it
 			return on.selector(selector, type).call(matchesTarget, target, listener);
 		}
-		// test to see if it a touch event right now, so we don't have to do it every time it fires
+		// example to see if it a touch event right now, so we don't have to do it every time it fires
 		if(has("touch")){
 			if(touchEvents.test(type)){
 				// touch event, fix it
@@ -455,7 +455,7 @@ define("dojo/on", ["./has!dom-addeventlistener?:./aspect", "./_base/kernel", "./
 						return listener.call(this, event);
 					}
 					// We use the original event and augment, rather than doing an expensive mixin operation
-					if(!("rotation" in event)){ // test to see if it has rotation
+					if(!("rotation" in event)){ // example to see if it has rotation
 						event.rotation = 0; 
 						event.scale = 1;
 					}

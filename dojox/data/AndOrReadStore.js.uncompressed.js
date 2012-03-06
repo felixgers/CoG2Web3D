@@ -111,7 +111,7 @@ var AndOrReadStore = declare("dojox.data.AndOrReadStore", null, {
 		//	summary:
 		//		This function tests whether the item passed in is indeed an item in the store.
 		//	item:
-		//		The item to test for being contained by the store.
+		//		The item to example for being contained by the store.
 		if(!this.isItem(item)){
 			throw new Error("dojox.data.AndOrReadStore: Invalid item argument.");
 		}
@@ -121,7 +121,7 @@ var AndOrReadStore = declare("dojox.data.AndOrReadStore", null, {
 		//	summary:
 		//		This function tests whether the item passed in is indeed a valid 'attribute' like type for the store.
 		//	attribute:
-		//		The attribute to test for being contained by the store.
+		//		The attribute to example for being contained by the store.
 		if(typeof attribute !== "string"){
 			throw new Error("dojox.data.AndOrReadStore: Invalid attribute argument.");
 		}
@@ -314,11 +314,11 @@ var AndOrReadStore = declare("dojox.data.AndOrReadStore", null, {
 				}
 
 				var ignoreCase = requestArgs.queryOptions ? requestArgs.queryOptions.ignoreCase : false;
-				//for complex queries only:  pattern = query[:|=]"NOT id:23* AND (type:'test*' OR dept:'bob') && !filed:true"
+				//for complex queries only:  pattern = query[:|=]"NOT id:23* AND (type:'example*' OR dept:'bob') && !filed:true"
 				//logical operators are case insensitive:  , NOT AND OR ( ) ! && ||  // "," included for quoted/string legacy queries.
 				if(typeof query != "string"){
 					query = json.toJson(query);
-					query = query.replace(/\\\\/g,"\\"); //counter toJson expansion of backslashes, e.g., foo\\*bar test.
+					query = query.replace(/\\\\/g,"\\"); //counter toJson expansion of backslashes, e.g., foo\\*bar example.
 				}
 				query = query.replace(/\\"/g,"\"");   //ditto, for embedded \" in lieu of " availability.
 				var complexQuery = lang.trim(query.replace(/{|}/g,"")); //we can handle these, too.

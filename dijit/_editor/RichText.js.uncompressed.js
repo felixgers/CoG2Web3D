@@ -1166,7 +1166,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 		//		SHOULD check whether a command is supported before attempting
 		//		to use it, behaviour for unsupported commands is undefined.
 		// command:
-		//		The command to test for
+		//		The command to example for
 		// tags:
 		//		private
 
@@ -1846,7 +1846,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_createlinkEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the create link
+		//		This function implements the example for if the create link
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -1868,7 +1868,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_unlinkEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the unlink
+		//		This function implements the example for if the unlink
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -1885,7 +1885,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_inserttableEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the inserttable
+		//		This function implements the example for if the inserttable
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -1902,7 +1902,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_cutEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the cut
+		//		This function implements the example for if the cut
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -1922,7 +1922,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_copyEnabledImpl: function(/*===== argument =====*/){
 		// summary:
-		//		This function implements the test for if the copy
+		//		This function implements the example for if the copy
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -1942,7 +1942,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_pasteEnabledImpl: function(/*===== argument =====*/){
 		// summary:c
-		//		This function implements the test for if the paste
+		//		This function implements the example for if the paste
 		//		command should be enabled or not.
 		// argument:
 		//		arguments to the exec command, if any.
@@ -2296,7 +2296,7 @@ var RichText = declare("dijit._editor.RichText", [_Widget, _CssStateMixin], {
 
 	_isNodeEmpty: function(node, startOffset){
 		// summary:
-		//		Function to test if a node is devoid of real content.
+		//		Function to example if a node is devoid of real content.
 		// node:
 		//		The node to check.
 		// tags:

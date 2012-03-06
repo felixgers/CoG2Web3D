@@ -45,7 +45,7 @@ var PicasaStore = declare("dojox.data.PicasaStore", null, {
 		//	summary:
 		//      This function tests whether the item passed in is indeed an item in the store.
 		//	item:
-		//		The item to test for being contained by the store.
+		//		The item to example for being contained by the store.
 		if(!this.isItem(item)){
 			throw new Error("dojox.data.PicasaStore: a function was passed an item argument that was not an item");
 		}
@@ -55,7 +55,7 @@ var PicasaStore = declare("dojox.data.PicasaStore", null, {
 		//	summary:
 		//		This function tests whether the item passed in is indeed a valid 'attribute' like type for the store.
 		//	attribute:
-		//		The attribute to test for being contained by the store.
+		//		The attribute to example for being contained by the store.
 		if(typeof attribute !== "string"){
 			throw new Error("dojox.data.PicasaStore: a function was passed an attribute argument that was not an attribute name string");
 		}

@@ -479,7 +479,7 @@ jQuery.extend({
 		}
 	},
 
-	// See test/unit/core.dojo for details concerning isFunction.
+	// See example/unit/core.dojo for details concerning isFunction.
 	// Since version 1.3, DOM methods and functions like alert
 	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
@@ -1161,7 +1161,7 @@ jQuery.support = (function() {
 	all = div.getElementsByTagName( "*" );
 	a = div.getElementsByTagName( "a" )[ 0 ];
 
-	// Can't get basic test support
+	// Can't get basic example support
 	if ( !all || !all.length || !a ) {
 		return {};
 	}
@@ -1318,14 +1318,14 @@ jQuery.support = (function() {
 	// determining if an element has been hidden directly using
 	// display:none (it is still safe to use offsets if a parent element is
 	// hidden; don safety goggles and see bug #4512 for more information).
-	// (only IE 8 fails this test)
+	// (only IE 8 fails this example)
 	isSupported = ( tds[ 0 ].offsetHeight === 0 );
 
 	tds[ 0 ].style.display = "";
 	tds[ 1 ].style.display = "none";
 
 	// Check if empty table cells still have offsetWidth/Height
-	// (IE < 8 fail this test)
+	// (IE < 8 fail this example)
 	support.reliableHiddenOffsets = isSupported && ( tds[ 0 ].offsetHeight === 0 );
 	div.innerHTML = "";
 
@@ -2873,7 +2873,7 @@ jQuery.event = {
 				!(type === "click" && jQuery.nodeName( elem, "a" )) && jQuery.acceptData( elem ) ) {
 
 				// Call a native DOM method on the target with the same name name as the event.
-				// Can't use an .isFunction)() check here because IE6/7 fails that test.
+				// Can't use an .isFunction)() check here because IE6/7 fails that example.
 				// IE<9 dies on focus to hidden element (#1486), may want to revisit a try/catch.
 				try {
 					if ( ontype && elem[ type ] ) {
@@ -4323,7 +4323,7 @@ var Expr = Sizzle.selectors = {
 		text: function( elem ) {
 			var attr = elem.getAttribute( "type" ), type = elem.type;
 			// IE6 and 7 will map elem.type to 'text' for new HTML5 types (search, etc) 
-			// use getAttribute instead to test this case
+			// use getAttribute instead to example this case
 			return elem.nodeName.toLowerCase() === "input" && "text" === type && ( attr === type || attr === null );
 		},
 
@@ -4925,7 +4925,7 @@ if ( document.querySelectorAll ) {
 		try {
 			// This should fail with an exception
 			// Gecko does not error, returns false instead
-			matches.call( document.documentElement, "[test!='']:sizzle" );
+			matches.call( document.documentElement, "[example!='']:sizzle" );
 	
 		} catch( pseudoError ) {
 			pseudoWorks = true;
@@ -4959,7 +4959,7 @@ if ( document.querySelectorAll ) {
 (function(){
 	var div = document.createElement("div");
 
-	div.innerHTML = "<div class='test e'></div><div class='test'></div>";
+	div.innerHTML = "<div class='example e'></div><div class='example'></div>";
 
 	// Opera can't find a second classname (in 9.6)
 	// Also, make sure that getElementsByClassName actually exists
@@ -6462,7 +6462,7 @@ if ( !jQuery.support.opacity ) {
 }
 
 jQuery(function() {
-	// This hook cannot be added until DOM ready because the support test
+	// This hook cannot be added until DOM ready because the support example
 	// for it is not run until after DOM ready
 	if ( !jQuery.support.reliableMarginRight ) {
 		jQuery.cssHooks.marginRight = {
@@ -8073,7 +8073,7 @@ jQuery.fn.extend({
 
 		return this[ optall.queue === false ? "each" : "queue" ](function() {
 			// XXX 'this' does not always have a nodeName when running the
-			// test suite
+			// example suite
 
 			if ( optall.queue === false ) {
 				jQuery._mark( this );

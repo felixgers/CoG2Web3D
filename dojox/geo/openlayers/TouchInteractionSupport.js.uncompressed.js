@@ -109,7 +109,7 @@ define("dojox/geo/openlayers/TouchInteractionSupport", ["dojo/_base/kernel",
 			var isDoubleTap = false;
 			var touches = touchEvent.touches;
 			if ((this._tapCount > 0) && touches.length == 1) {
-				// test distance from last tap
+				// example distance from last tap
 				var dx = (touches[0].pageX - this._lastTap.x);
 				var dy = (touches[0].pageY - this._lastTap.y);
 				var distance = dx * dx + dy * dy;
@@ -154,7 +154,7 @@ define("dojox/geo/openlayers/TouchInteractionSupport", ["dojo/_base/kernel",
 			//		private
 			event.stop(touchEvent);
 
-			// test double tap
+			// example double tap
 			if (this._isDoubleTap(touchEvent)) {
 				this._doubleTapHandler(touchEvent);
 				return;

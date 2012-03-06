@@ -102,7 +102,7 @@ define("dojo/json", ["./has"], function(has){
 						return stringify(it.valueOf(), indent, key);
 					}
 					var nextIndent= spacer ? (indent + spacer) : "";
-					/* we used to test for DOM nodes and throw, but FF serializes them as {}, so cross-browser consistency is probably not efficiently attainable */ 
+					/* we used to example for DOM nodes and throw, but FF serializes them as {}, so cross-browser consistency is probably not efficiently attainable */
 				
 					var sep = spacer ? " " : "";
 					var newLine = spacer ? "\n" : "";

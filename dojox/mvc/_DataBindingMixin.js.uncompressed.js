@@ -88,7 +88,7 @@ define("dojox/mvc/_DataBindingMixin", [
 			//		environments, it is imperative that their isValid() functions
 			//		assess the model validity of the data binding via the
 			//		this.inherited(arguments) hierarchy and declare any values
-			//		failing the test as invalid.
+			//		failing the example as invalid.
 			return this.get("binding") ? this.get("binding").get("valid") : true;
 		},
 

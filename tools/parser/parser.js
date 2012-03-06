@@ -15,6 +15,12 @@ BGE.ColladaParser = (function () {
         translateX,
         translateY,
         translateZ,
+
+        scaleX,
+        scaleY,
+        scaleZ,
+
+
         debug = true,
         hasMaterial = false,
         //true if one face is not triangulated
@@ -45,7 +51,7 @@ BGE.ColladaParser = (function () {
                     for (i = 0; i < vcount.length; i++) {
                         //if one of faces is not triangulated, we check no more, one message is enough
                         if (!isNoTriangulated) {
-                            if (vcount[i] !== 3) {
+                            if (vcount[i] !== '3') {
                                 console.warn("There are faces with no triangulations. Please control your collada file and use the blender function quads to tris.");
                                 isNoTriangulated = true;
                             }
@@ -157,6 +163,9 @@ BGE.ColladaParser = (function () {
             translateX = [];
             translateY = [];
             translateZ = [];
+            scaleX = [];
+            scaleY = [];
+            scaleZ = [];
         },
 
         numSort = function (a, b) {
@@ -313,11 +322,23 @@ BGE.ColladaParser = (function () {
         },
 
         parseTransitions = function (p_sceneChildNode) {
-            var translationArray = p_sceneChildNode.selectNodeSet("//translate").item(0).getFirstChild().getNodeValue().split(' ');
+            var translationArray,
+                scaleArray;
 
-            translateX = translationArray[0];
-            translateY = translationArray[1];
-            translateZ = translationArray[2];
+            translationArray = p_sceneChildNode.selectNodeSet("//translate").item(0).getFirstChild().getNodeValue().split(' ');
+            if (translationArray !== null) {
+                translateX = translationArray[0];
+                translateY = translationArray[1];
+                translateZ = translationArray[2];
+            }
+
+            scaleArray = p_sceneChildNode.selectNodeSet("//scale").item(0).getFirstChild().getNodeValue().split(' ');
+            if (scaleArray !== null) {
+                scaleX = scaleArray[0];
+                scaleY = scaleArray[1];
+                scaleZ = scaleArray[2];
+            }
+
         },
         setDefaultMaterial = function () {
             var materials = {name: "", value: ""};
@@ -338,7 +359,7 @@ BGE.ColladaParser = (function () {
                 materialEffectsId = getId(materialNode, "url");
                 materialNode = docRoot.selectNodeSet("//library_effects/effect[@id=" + materialEffectsId + "]");
                 if (materialNode.item(0) !== null) {
-                    materialNode = materialNode.item(0).selectNodeSet("//profile_COMMON/technique[@sid=common]/phong/diffuse/color");
+                    materialNode = materialNode.item(0).selectNodeSet("//profile_COMMON/technique[@sid=common]/*/diffuse/color");
                     if (materialNode.item(0) !== null) {
                         materials.name = materialName;
                         materials.value = materialNode.item(0).getFirstChild().getNodeValue().split(' ');
@@ -356,7 +377,9 @@ BGE.ColladaParser = (function () {
                     "tex": null,
                     "mat": null,
                     "norm": null,
-                    "transitions": { "translate": {x: 0, y: 0, z: 0} } }
+                    "transitions": { "translate": {x: 0, y: 0, z: 0} ,
+                                     "scale": {x: 0, y: 0, z: 0}}
+                                    }
                 };
 
 
@@ -383,6 +406,16 @@ BGE.ColladaParser = (function () {
             }
             if (translateZ.length > 0) {
                 mesh.mesh.transitions.translate.z = translateZ;
+            }
+
+            if (translateX.length > 0) {
+                mesh.mesh.transitions.scale.x = scaleX;
+            }
+            if (translateY.length > 0) {
+                mesh.mesh.transitions.scale.y = scaleY;
+            }
+            if (translateZ.length > 0) {
+                mesh.mesh.transitions.scale.z = scaleZ;
             }
 
             scene.meshes.push(mesh);

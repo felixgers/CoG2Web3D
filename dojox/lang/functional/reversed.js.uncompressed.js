@@ -20,7 +20,7 @@ define("dojox/lang/functional/reversed", ["dojo/_base/lang", "dojo/_base/window"
 		// JS 1.6 standard array functions, which can take a lambda as a parameter.
 		// Consider using dojo._base.array functions, if you don't need the lambda support.
 		filterRev: function(/*Array|String*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: creates a new array with all elements that pass the test
+			// summary: creates a new array with all elements that pass the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -47,7 +47,7 @@ define("dojox/lang/functional/reversed", ["dojo/_base/lang", "dojo/_base/window"
 			return t;	// Array
 		},
 		everyRev: function(/*Array|String*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: tests whether all elements in the array pass the test
+			// summary: tests whether all elements in the array pass the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -59,7 +59,7 @@ define("dojox/lang/functional/reversed", ["dojo/_base/lang", "dojo/_base/window"
 			return true;	// Boolean
 		},
 		someRev: function(/*Array|String*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: tests whether some element in the array passes the test
+			// summary: tests whether some element in the array passes the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);

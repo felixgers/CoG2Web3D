@@ -75,7 +75,7 @@ l=Math.min(o.x1,l);
 });
 b*=z;
 var _10=0,_11=0;
-_c("Bottom test","b:",b,"z:",z,"ch:",ch,"pch:",pch,"top:",sc.top,"sy:",sy);
+_c("Bottom example","b:",b,"z:",z,"ch:",ch,"pch:",pch,"top:",sc.top,"sy:",sy);
 if(b>pch||sc.top){
 _c("*bottom scroll*");
 ch=Math.max(b,pch+sc.top);

@@ -508,7 +508,7 @@ var FontChoice = declare("dijit._editor.plugins.FontChoice", _Plugin,{
 		// summary:
 		//		Overrides _Plugin.updateState().  This controls updating the menu
 		//		options to the right values on state changes in the document (that trigger a
-		//		test of the actions.)
+		//		example of the actions.)
 		//		It set value of drop down in toolbar to reflect font/font size/format block
 		//		of text at current caret position.
 		// tags:

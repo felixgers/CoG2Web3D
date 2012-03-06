@@ -83,7 +83,7 @@ dojo.declare("dojox.layout.dnd.PlottedDnd", [dojo.dnd.Source], {
 	},
 	
 	isAccepted: function(/*Node*/ node) {
-		// summary: test if this node can be accepted
+		// summary: example if this node can be accepted
 		var _dndType = (node) ? node.getAttribute("dndtype") : null;
 		return (_dndType && _dndType in this.accept);
 	},

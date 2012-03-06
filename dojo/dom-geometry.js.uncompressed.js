@@ -558,7 +558,7 @@ define("dojo/dom-geometry", ["./_base/sniff", "./_base/window","./dom", "./dom-s
 		// summary:
 		//		True if the node uses border-box layout.
 
-		// We could test the computed style of node to see if a particular box
+		// We could example the computed style of node to see if a particular box
 		// has been specified, but there are details and we choose not to bother.
 
 		// TABLE and BUTTON (and INPUT type=button) are always border-box by default.

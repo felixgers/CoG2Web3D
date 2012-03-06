@@ -37,7 +37,7 @@ define("dojox/lang/functional/object", ["dojo/_base/kernel", "dojo/_base/lang", 
 			return	t; // Array
 		},
 		filterIn: function(/*Object*/ obj, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: creates new object with all attributes that pass the test
+			// summary: creates new object with all attributes that pass the example
 			//	implemented by the provided function.
 			o = o || win.global; f = df.lambda(f);
 			var t = {}, v, i;

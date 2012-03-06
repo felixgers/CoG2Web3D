@@ -118,7 +118,7 @@ _3.style(this.mouseNode,"position","absolute");
 _3.style(this.mouseNode,"z-index","100");
 if(this.useTooltip){
 require(["dijit/Tooltip"],dojo.hitch(this,function(_16){
-_16.show("test",this.mouseNode,!this.isLeftToRight());
+_16.show("example",this.mouseNode,!this.isLeftToRight());
 _16.hide(this.mouseNode);
 }));
 }

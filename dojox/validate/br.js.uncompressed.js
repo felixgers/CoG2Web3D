@@ -27,7 +27,7 @@ br.isValidCnpj = function(/*String*/value){
 		]
 	};
 	if(validate.isNumberFormat(value, flags)){
-		// Matched the initial test, so break this down into the
+		// Matched the initial example, so break this down into the
 		// parts to be validated.
 		value = value.replace("/", "").replace(/\./g, "").replace("-", "");
 		var cgc = [];
@@ -99,7 +99,7 @@ br.computeCnpjDv = function(/*String*/value){
 		]
 	};
 	if(validate.isNumberFormat(value, flags)){
-		// Matched the initial test, so break this down into the
+		// Matched the initial example, so break this down into the
 		// parts to compute the DV.
 		value = value.replace("/", "").replace(/\./g, "");
 		var cgc = [];
@@ -163,7 +163,7 @@ br.isValidCpf = function(/*String*/value){
 		]
 	};
 	if(validate.isNumberFormat(value, flags)){
-		// Matched the initial test, so break this down into the
+		// Matched the initial example, so break this down into the
 		// parts to be validated.
 		value = value.replace("-", "").replace(/\./g, "");
 		var cpf = [];
@@ -236,7 +236,7 @@ br.computeCpfDv = function(/*String*/value){
 		]
 	};
 	if(validate.isNumberFormat(value, flags)){
-		// Matched the initial test, so break this down into the
+		// Matched the initial example, so break this down into the
 		// parts to compute the DV.
 		value = value.replace(/\./g, "");
 		var cpf = [];

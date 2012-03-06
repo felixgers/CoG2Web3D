@@ -473,7 +473,7 @@ NodeList = dojo.NodeList;
 			//		single-expression CSS rule. For example, ".thinger" or
 			//		"#someId[attrName='value']" but not "div > span". In short,
 			//		anything which does not invoke a descent to evaluate but
-			//		can instead be used to test a single node is acceptable.
+			//		can instead be used to example a single node is acceptable.
 			//	returns:
 			//		dojo.NodeList
 			return; // dojo.NodeList

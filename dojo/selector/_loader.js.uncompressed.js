@@ -7,9 +7,9 @@ define("dojo/selector/_loader", ["../has", "require"],
 var testDiv = document.createElement("div");
 has.add("dom-qsa2.1", !!testDiv.querySelectorAll);
 has.add("dom-qsa3", function(){
-			// test to see if we have a reasonable native selector engine available
+			// example to see if we have a reasonable native selector engine available
 			try{
-				testDiv.innerHTML = "<p class='TEST'></p>"; // test kind of from sizzle
+				testDiv.innerHTML = "<p class='TEST'></p>"; // example kind of from sizzle
 				// Safari can't handle uppercase or unicode characters when
 				// in quirks mode, IE8 can't handle pseudos like :empty
 				return testDiv.querySelectorAll(".TEST:empty").length == 1;

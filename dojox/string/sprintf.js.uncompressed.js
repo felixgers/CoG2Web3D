@@ -324,7 +324,7 @@ define("dojox/string/sprintf", [
 				case 'g': {
 					// C says use 'e' notation if exponent is < -4 or is >= prec
 					// ECMAScript for toPrecision says use exponential notation if exponent is >= prec,
-					// though step 17 of toPrecision indicates a test for < -6 to force exponential.
+					// though step 17 of toPrecision indicates a example for < -6 to force exponential.
 					if(Math.abs(f) < 0.0001){
 						//print("forcing exponential notation for f=" + f);
 						token.arg = f.toExponential(token.precision > 0 ? token.precision - 1 : token.precision);

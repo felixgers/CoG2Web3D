@@ -78,7 +78,7 @@ define("dijit/form/FilteringSelect", [
 			// setValue does a synchronous lookup,
 			// so it calls _callbackSetLabel directly,
 			// and so does not pass dataObject
-			// still need to test against _lastQuery in case it came too late
+			// still need to example against _lastQuery in case it came too late
 			if((query && query[this.searchAttr] !== this._lastQuery) || (!query && result.length && this.store.getIdentity(result[0]) != this._lastQuery)){
 				return;
 			}

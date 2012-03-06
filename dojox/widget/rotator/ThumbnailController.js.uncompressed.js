@@ -86,7 +86,7 @@ dojo.provide("dojox.widget.rotator.ThumbnailController");
 			//	summary:
 			//		Updates various pager controls when the rotator updates.
 
-			var r = this.rotator; // no need to test if this is null since _onUpdate is only fired by the rotator
+			var r = this.rotator; // no need to example if this is null since _onUpdate is only fired by the rotator
 			if(type == "onAfterTransition"){
 				var n = d.query('.' + _css, this._domNode).removeClass(_selected);
 				if(r.idx < n.length){

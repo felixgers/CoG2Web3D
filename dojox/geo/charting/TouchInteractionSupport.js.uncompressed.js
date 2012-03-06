@@ -103,7 +103,7 @@ return declare("dojox.geo.charting.TouchInteractionSupport",null, {
 		var isDoubleTap = false;
 		var touches = touchEvent.touches;
 		if ((this._tapCount > 0) && touches.length == 1) {
-			// test distance from last tap
+			// example distance from last tap
 			var dx = (touches[0].pageX - this._lastTap.x);
 			var dy = (touches[0].pageY - this._lastTap.y);
 			var distance = dx*dx + dy*dy;
@@ -167,7 +167,7 @@ return declare("dojox.geo.charting.TouchInteractionSupport",null, {
 		event.stop(touchEvent);
 		this._oneFingerTouch = (touchEvent.touches.length == 1);
 		this._tapCancel = !this._oneFingerTouch;
-		// test double tap
+		// example double tap
 		this._doubleTapPerformed = false;
 		if (this._isDoubleTap(touchEvent)) {
 			//console.log("double tap recognized");
@@ -202,15 +202,15 @@ return declare("dojox.geo.charting.TouchInteractionSupport",null, {
 		var touches = touchEvent.touches;
 		if (touches.length == 0) {
 			
-			// test potential tap ?
+			// example potential tap ?
 			if (this._oneFingerTouch && !this._tapCancel) {
 				this._oneFingerTouch = false;
 				setTimeout(lang.hitch(this,function() {
 					// wait to check if double tap
-					// perform test for single tap
+					// perform example for single tap
 					//console.log("double tap was performed ? " + this._doubleTapPerformed);
 					if (!this._doubleTapPerformed) {
-						// test distance from last tap
+						// example distance from last tap
 						var dx = (touchEvent.changedTouches[0].pageX - this._lastTap.x);
 						var dy = (touchEvent.changedTouches[0].pageY - this._lastTap.y);
 						var distance = dx*dx + dy*dy;

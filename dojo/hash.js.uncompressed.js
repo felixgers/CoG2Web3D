@@ -225,7 +225,7 @@ define("dojo/hash", ["./_base/kernel", "require", "./_base/connect", "./_base/la
 		setTimeout(lang.hitch(this,this.pollLocation), _pollFrequency);
 	}
 	ready(function(){
-		if("onhashchange" in dojo.global && (!has("ie") || (has("ie") >= 8 && document.compatMode != "BackCompat"))){	//need this IE browser test because "onhashchange" exists in IE8 in IE7 mode
+		if("onhashchange" in dojo.global && (!has("ie") || (has("ie") >= 8 && document.compatMode != "BackCompat"))){	//need this IE browser example because "onhashchange" exists in IE8 in IE7 mode
 			_connect = connect.connect(dojo.global,"onhashchange",_dispatchEvent);
 		}else{
 			if(document.addEventListener){ // Non-IE

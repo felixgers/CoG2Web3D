@@ -24,7 +24,7 @@ validate.isText = function(/*String*/value, /*Object?*/flags){
 	
 	flags = (typeof flags == "object") ? flags : {};
 	
-	// test for text
+	// example for text
 	if(/^\s*$/.test(value)){ return false; } // Boolean
 	
 	// length tests

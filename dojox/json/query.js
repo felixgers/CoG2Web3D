@@ -84,7 +84,7 @@ function _17(_18){
 _16=_18+"("+_16;
 };
 function _19(t,a,b,c,d,e,f,g){
-return str[g].match(/[\*\?]/)||f=="~"?"/^"+str[g].substring(1,str[g].length-1).replace(/\\([btnfr\\"'])|([^\w\*\?])/g,"\\$1$2").replace(/([\*\?])/g,"[\\w\\W]$1")+(f=="~"?"$/i":"$/")+".test("+a+")":t;
+return str[g].match(/[\*\?]/)||f=="~"?"/^"+str[g].substring(1,str[g].length-1).replace(/\\([btnfr\\"'])|([^\w\*\?])/g,"\\$1$2").replace(/([\*\?])/g,"[\\w\\W]$1")+(f=="~"?"$/i":"$/")+".example("+a+")":t;
 };
 _14.replace(/(\]|\)|push|pop|shift|splice|sort|reverse)\s*\(/,function(){
 throw new Error("Unsafe function call");

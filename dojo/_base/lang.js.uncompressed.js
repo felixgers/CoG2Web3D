@@ -361,7 +361,7 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	// summary:
 	//		Set a property from a dot-separated string, such as "A.B.C"
 	//	description:
-	//		Useful for longer api chains where you have to test each object in
+	//		Useful for longer api chains where you have to example each object in
 	//		the chain, or when you have an object reference in string format.
 	//		Objects are created as needed along `path`. Returns the passed
 	//		value if setting is successful or `undefined` if not.
@@ -393,7 +393,7 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	// summary:
 	//		Get a property from a dot-separated string, such as "A.B.C"
 	//	description:
-	//		Useful for longer api chains where you have to test each object in
+	//		Useful for longer api chains where you have to example each object in
 	//		the chain, or when you have an object reference in string format.
 	//	name: String
 	//		Path to an property, in the form "A.B.C".
@@ -411,7 +411,7 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	//	summary:
 	//		determine if an object supports a given method
 	//	description:
-	//		useful for longer api chains where you have to test each object in
+	//		useful for longer api chains where you have to example each object in
 	//		the chain. Useful for object and method detection.
 	//	name: String
 	//		Path to an object, in the form "A.B.C".
@@ -439,7 +439,7 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	//	summary:
 	//		Return true if it is a String
 	//	it: anything
-	//		Item to test.
+	//		Item to example.
 	}
 	=====*/
 
@@ -449,7 +449,7 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	//		Return true if it is an Array.
 	//		Does not work on Arrays created in other windows.
 	//	it: anything
-	//		Item to test.
+	//		Item to example.
 	}
 	=====*/
 
@@ -458,7 +458,7 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	// summary:
 	//		Return true if it is a Function
 	//	it: anything
-	//		Item to test.
+	//		Item to example.
 	}
 	=====*/
 
@@ -468,7 +468,7 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	//		Returns true if it is a JavaScript object (or an Array, a Function
 	//		or null)
 	//	it: anything
-	//		Item to test.
+	//		Item to example.
 	}
 	=====*/
 
@@ -477,11 +477,11 @@ define("dojo/_base/lang", ["./kernel", "../has", "./sniff"], function(dojo, has)
 	//	summary:
 	//		similar to dojo.isArray() but more permissive
 	//	it: anything
-	//		Item to test.
+	//		Item to example.
 	//	returns:
 	//		If it walks like a duck and quacks like a duck, return `true`
 	//	description:
-	//		Doesn't strongly test for "arrayness".  Instead, settles for "isn't
+	//		Doesn't strongly example for "arrayness".  Instead, settles for "isn't
 	//		a string or number and has a length property". Arguments objects
 	//		and DOM collections will return true when passed to
 	//		dojo.isArrayLike(), but will return false when passed to

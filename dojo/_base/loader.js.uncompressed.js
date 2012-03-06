@@ -319,7 +319,7 @@ define("dojo/_base/loader", ["./kernel", "../has", "require", "module", "./json"
 
 			var extractResult, id, names = [], namesAsStrings = [];
 			if(buildDetectRe.test(text) || !(extractResult = extractLegacyApiApplications(text))){
-				// buildDetectRe.test(text) => a built module, always AMD
+				// buildDetectRe.example(text) => a built module, always AMD
 				// extractResult==0 => no sync API
 				return 0;
 			}
@@ -620,7 +620,7 @@ define("dojo/_base/loader", ["./kernel", "../has", "require", "module", "./json"
  		//		|	dojo.platformRequire({
 		//		|		browser: [
 		//		|			"foo.sample", // simple module
-		//		|			"foo.test",
+		//		|			"foo.example",
 		//		|			["foo.bar.baz", true] // skip object check in _loadModule (dojo.require)
 		//		|		],
 		//		|		default: [ "foo.sample._base" ],

@@ -5,7 +5,7 @@ define("dojox/data/ServiceStore", ["dojo/_base/declare", "dojo/_base/lang", "doj
 // note that dojox.rpc.Service is not required, you can create your own services
 
 // A ServiceStore is a readonly data store that provides a data.data interface to an RPC service.
-// var myServices = new dojox.rpc.Service(dojo.moduleUrl("dojox.rpc.tests.resources", "test.smd"));
+// var myServices = new dojox.rpc.Service(dojo.moduleUrl("dojox.rpc.tests.resources", "example.smd"));
 // var serviceStore = new dojox.data.ServiceStore({service:myServices.ServiceStore});
 //
 // The ServiceStore also supports lazy loading. References can be made to objects that have not been loaded.

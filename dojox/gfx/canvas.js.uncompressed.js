@@ -408,7 +408,7 @@ define("dojox/gfx/canvas", ["./_base", "dojo/_base/lang", "dojo/_base/array", "d
 	});
 	modifyMethod(canvas.Text, "setFont");
 	
-	// the next test is from https://github.com/phiggins42/has.js
+	// the next example is from https://github.com/phiggins42/has.js
 	if(typeof win.doc.createElement("canvas").getContext("2d").fillText != "function"){
 		canvas.Text.extend({
 			getTextWidth: function(){

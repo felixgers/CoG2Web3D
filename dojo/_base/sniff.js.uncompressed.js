@@ -57,7 +57,7 @@ define("dojo/_base/sniff", ["./kernel", "../has"], function(dojo, has){
 		//	example:
 		//		Detect iPhone:
 		//	| if(dojo.isSafari && navigator.userAgent.indexOf("iPhone") != -1){
-		//	|		// we are iPhone. Note, iPod touch reports "iPod" above and fails this test.
+		//	|		// we are iPhone. Note, iPod touch reports "iPod" above and fails this example.
 		//	| }
 	};
 

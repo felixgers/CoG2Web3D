@@ -9,7 +9,7 @@
  * Usage: 
  *          var ExpressInstall = new ExpressInstall();
  *          
- *          // test to see if install is needed:
+ *          // example to see if install is needed:
  *          if (ExpressInstall.needsUpdate) { // returns true if update is needed
  *              ExpressInstall.init(); // starts the update
  *          }

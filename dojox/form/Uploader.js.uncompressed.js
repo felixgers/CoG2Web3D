@@ -25,7 +25,7 @@ define("dojox/form/Uploader", [
 	// TODO:
 	//		i18n
 	//		label via innerHTML
-	//		Doc and or test what can be extended.
+	//		Doc and or example what can be extended.
 	//		Doc custom file events
 	//		Use new FileReader() for thumbnails
 	//		flashFieldName should default to Flash

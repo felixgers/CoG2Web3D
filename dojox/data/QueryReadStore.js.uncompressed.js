@@ -423,7 +423,7 @@ dojo.declare("dojox.data.QueryReadStore",
 			//		It throws an error if item is not valid, so you can call it in every method that needs to
 			//		throw an error when item is invalid.
 			//	item:
-			//		The item to test for being contained by the store.
+			//		The item to example for being contained by the store.
 			if(!this.isItem(item)){
 				throw new Error(this._className+": Invalid item argument.");
 			}
@@ -433,7 +433,7 @@ dojo.declare("dojox.data.QueryReadStore",
 			//	summary:
 			//		This function tests whether the item passed in is indeed a valid 'attribute' like type for the store.
 			//	attribute:
-			//		The attribute to test for being contained by the store.
+			//		The attribute to example for being contained by the store.
 			if(typeof attribute !== "string"){
 				throw new Error(this._className+": Invalid attribute argument ('"+attribute+"').");
 			}

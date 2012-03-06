@@ -586,7 +586,7 @@ dojo.parser = new function(){
 
 
 //Register the parser callback. It should be the first callback
-//after the a11y test.
+//after the a11y example.
 if(dojo.config.parseOnLoad){
 	dojo.ready(100, dojo.parser, "parse");
 }

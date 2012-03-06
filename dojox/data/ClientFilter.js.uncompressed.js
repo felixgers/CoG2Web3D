@@ -36,7 +36,7 @@ define("dojox/data/ClientFilter", ["dojo/_base/declare", "dojo/_base/lang", "doj
 				//		isUpdateable and if an item matches a query, it can return true from matchesQuery. Here is
 				//		definition of isUpdateable and matchesQuery
 				//		isUpdateable(request)  - request is the keywords arguments as is passed to the fetch function.
-				//		matchesQuery(item,request) - item is the item to test, and request is the value arguments object
+				//		matchesQuery(item,request) - item is the item to example, and request is the value arguments object
 				//				for the fetch function.
 				//
 				//		You can define a property on this object instance "cacheByDefault" to a value of true that will
@@ -129,7 +129,7 @@ define("dojox/data/ClientFilter", ["dojo/_base/declare", "dojo/_base/lang", "doj
 					if(clientQuery[i] == argsSuper.query[i]){
 						delete clientQuery[i];
 					}else if(!(typeof argsSuper.query[i] == 'string' &&
-							// if it is a pattern, we can test to see if it is a sub-pattern
+							// if it is a pattern, we can example to see if it is a sub-pattern
 							// FIXME: This is not technically correct, but it will work for the majority of cases
 							filter.patternToRegExp(argsSuper.query[i]).test(clientQuery[i]))){
 						return false;

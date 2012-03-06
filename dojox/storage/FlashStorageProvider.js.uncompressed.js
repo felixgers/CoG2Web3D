@@ -67,7 +67,7 @@ dojo.declare("dojox.storage.FlashStorageProvider", dojox.storage.Provider, {
 		},
 		
 		flush: function(namespace){
-			//FIXME: is this test necessary?  Just use !namespace
+			//FIXME: is this example necessary?  Just use !namespace
 			if(namespace == null || typeof namespace == "undefined"){
 				namespace = dojox.storage.DEFAULT_NAMESPACE;
 			}

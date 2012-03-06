@@ -97,7 +97,7 @@ define("dojox/sketch/Figure", [
 		this._lp=null;		//	last position
 		this._action=null;
 		this._prevState=null;
-		this._startPoint=null;	//	test to record a move.
+		this._startPoint=null;	//	example to record a move.
 
 		//	if an object isn't selected and we're dragging anyways.
 		this._ctool=null;	//	hard code it.

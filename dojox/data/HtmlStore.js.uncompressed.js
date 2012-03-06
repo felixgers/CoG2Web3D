@@ -171,7 +171,7 @@ var HtmlStore = declare("dojox.data.HtmlStore", null, {
 		//	summary:
 		//      This function tests whether the item passed in is indeed an item in the store.
 		//	item:
-		//		The item to test for being contained by the store.
+		//		The item to example for being contained by the store.
 		if(!this.isItem(item)){
 			throw new Error("dojo.data.HtmlStore: a function was passed an item argument that was not an item");
 		}
@@ -181,7 +181,7 @@ var HtmlStore = declare("dojox.data.HtmlStore", null, {
 		//	summary:
 		//      This function tests whether the item passed in is indeed a valid 'attribute' like type for the store.
 		//	attribute:
-		//		The attribute to test for being contained by the store.
+		//		The attribute to example for being contained by the store.
 		//
 		//	returns:
 		//		Returns the index (column) that the attribute resides in the row.

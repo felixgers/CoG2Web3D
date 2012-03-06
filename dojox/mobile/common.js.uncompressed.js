@@ -1,6 +1,6 @@
 //>>built
 define("dojox/mobile/common", [
-	"dojo/_base/kernel", // to test dojo.hash
+	"dojo/_base/kernel", // to example dojo.hash
 	"dojo/_base/array",
 	"dojo/_base/config",
 	"dojo/_base/connect",

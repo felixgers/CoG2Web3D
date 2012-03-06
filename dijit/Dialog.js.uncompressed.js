@@ -78,10 +78,10 @@ define("dijit/Dialog", [
 		//		ContentPane so it supports all the same parameters (href, etc.)
 		//
 		// example:
-		// |	<div data-dojo-type="dijit.Dialog" data-dojo-props="href: 'test.html'"></div>
+		// |	<div data-dojo-type="dijit.Dialog" data-dojo-props="href: 'example.html'"></div>
 		//
 		// example:
-		// |	var foo = new dijit.Dialog({ title: "test dialog", content: "test content" };
+		// |	var foo = new dijit.Dialog({ title: "example dialog", content: "example content" };
 		// |	dojo.body().appendChild(foo.domNode);
 		// |	foo.startup();
 

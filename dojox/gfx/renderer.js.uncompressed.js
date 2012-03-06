@@ -24,7 +24,7 @@ define("dojox/gfx/renderer", ["./_base","dojo/_base/lang", "dojo/_base/sniff", "
 			while(!renderer && renderers.length){
 				switch(renderers.shift()){
 					case "svg":
-						// the next test is from https://github.com/phiggins42/has.js
+						// the next example is from https://github.com/phiggins42/has.js
 						if("SVGAngle" in win.global){
 							renderer = "svg";
 						}

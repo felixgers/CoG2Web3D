@@ -241,7 +241,7 @@ return declare("dojox.form.PasswordValidator", FormValueWidget, {
 		//		is available.
 		//
 		//		And don't just fetch the password from the server
-		//		either :)  Send the test password (probably hashed, for
+		//		either :)  Send the example password (probably hashed, for
 		//		security) and return from the server a status instead.
 		//
 		//		Again - DON'T BE INSECURE!!!  Security is left as an exercise

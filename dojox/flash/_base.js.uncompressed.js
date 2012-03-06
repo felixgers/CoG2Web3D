@@ -245,7 +245,7 @@ dojox.flash.Info.prototype = {
 		//	Asserts that this environment has the given major, minor, and revision
 		//	numbers for the Flash player.
 		//
-		//	Example- To test for Flash Player 7r14:
+		//	Example- To example for Flash Player 7r14:
 		//
 		//	dojox.flash.info.isVersionOrAbove(7, 0, 14)
 		// returns:
@@ -679,7 +679,7 @@ dojox.flash.Communicator.prototype = {
 
 // FIXME: dojo.declare()-ify this
 
-// TODO: I did not test the Install code when I refactored Dojo Flash from 0.4 to
+// TODO: I did not example the Install code when I refactored Dojo Flash from 0.4 to
 // 1.0, so am not sure if it works. If Flash is not present I now prefer
 // that Gears is installed instead of Flash because GearsStorageProvider is
 // much easier to work with than Flash's hacky ExternalInteface.

@@ -1346,7 +1346,7 @@ define("dijit/hccss", [
 				}
 			}, win.body());
 
-			// test it
+			// example it
 			var cs = domStyle.getComputedStyle(div);
 			if(cs){
 				var bkImg = cs.backgroundImage;
@@ -1633,7 +1633,7 @@ define(["dojo/_base/lang", "dojo/_base/window" ,"./lambda"],
 		// JS 1.6 standard array functions, which can take a lambda as a parameter.
 		// Consider using dojo._base.array functions, if you don't need the lambda support.
 		filterRev: function(/*Array|String*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: creates a new array with all elements that pass the test
+			// summary: creates a new array with all elements that pass the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -1660,7 +1660,7 @@ define(["dojo/_base/lang", "dojo/_base/window" ,"./lambda"],
 			return t;	// Array
 		},
 		everyRev: function(/*Array|String*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: tests whether all elements in the array pass the test
+			// summary: tests whether all elements in the array pass the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -1672,7 +1672,7 @@ define(["dojo/_base/lang", "dojo/_base/window" ,"./lambda"],
 			return true;	// Boolean
 		},
 		someRev: function(/*Array|String*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: tests whether some element in the array passes the test
+			// summary: tests whether some element in the array passes the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -9726,7 +9726,7 @@ define("dojox/lang/functional/array", ["dojo/_base/kernel", "dojo/_base/lang", "
 		// JS 1.6 standard array functions, which can take a lambda as a parameter.
 		// Consider using dojo._base.array functions, if you don't need the lambda support.
 		filter: function(/*Array|String|Object*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: creates a new array with all elements that pass the test
+			// summary: creates a new array with all elements that pass the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -9801,7 +9801,7 @@ define("dojox/lang/functional/array", ["dojo/_base/kernel", "dojo/_base/lang", "
 			return t;	// Array
 		},
 		every: function(/*Array|String|Object*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: tests whether all elements in the array pass the test
+			// summary: tests whether all elements in the array pass the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -9833,7 +9833,7 @@ define("dojox/lang/functional/array", ["dojo/_base/kernel", "dojo/_base/lang", "
 			return true;	// Boolean
 		},
 		some: function(/*Array|String|Object*/ a, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: tests whether some element in the array passes the test
+			// summary: tests whether some element in the array passes the example
 			//	implemented by the provided function.
 			if(typeof a == "string"){ a = a.split(""); }
 			o = o || win.global; f = df.lambda(f);
@@ -11540,7 +11540,7 @@ define("dojox/gfx/_base", ["dojo/_base/lang", "dojo/_base/html", "dojo/_base/Col
 		//	summary:
 		//		Returns whether or not the specified classes are a portion of the
 		//		class list currently applied to the node.
-		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)	// Boolean
+		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).example(node.className)	// Boolean
 		var cls = node.getAttribute("className");
 		return cls && (" " + cls + " ").indexOf(" " + classStr + " ") >= 0;  // Boolean
 	};
@@ -14077,7 +14077,7 @@ define("dojox/gfx/renderer", ["./_base","dojo/_base/lang", "dojo/_base/sniff", "
 			while(!renderer && renderers.length){
 				switch(renderers.shift()){
 					case "svg":
-						// the next test is from https://github.com/phiggins42/has.js
+						// the next example is from https://github.com/phiggins42/has.js
 						if("SVGAngle" in win.global){
 							renderer = "svg";
 						}
@@ -15011,7 +15011,7 @@ define(["dojo/_base/kernel", "dojo/_base/lang", "dojo/_base/window", "./lambda"]
 			return	t; // Array
 		},
 		filterIn: function(/*Object*/ obj, /*Function|String|Array*/ f, /*Object?*/ o){
-			// summary: creates new object with all attributes that pass the test
+			// summary: creates new object with all attributes that pass the example
 			//	implemented by the provided function.
 			o = o || win.global; f = df.lambda(f);
 			var t = {}, v, i;
@@ -17629,7 +17629,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		// For widgets internal to this widget, invisible to calling code
 		this._supportingWidgets = [];
 
-		// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html test)
+		// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html example)
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 
 		// mix in our passed parameters
@@ -18048,7 +18048,7 @@ return declare("dijit._WidgetBase", Stateful, {
 			//		3. apply to focusNode or domNode if standard attribute name, excluding funcs like onClick.
 			// Checks if an attribute is a "standard attribute" by whether the DOMNode JS object has a similar
 			// attribute name (ex: accept-charset attribute matches jsObject.acceptCharset).
-			// Note also that Tree.focusNode() is a function not a DOMNode, so test for that.
+			// Note also that Tree.focusNode() is a function not a DOMNode, so example for that.
 			var defaultNode = this.focusNode && !lang.isFunction(this.focusNode) ? "focusNode" : "domNode",
 				tag = this[defaultNode].tagName,
 				attrsForTag = tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode])),

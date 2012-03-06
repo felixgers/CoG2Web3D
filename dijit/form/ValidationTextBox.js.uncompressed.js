@@ -244,7 +244,7 @@ define("dijit/form/ValidationTextBox", [
 					}
 				}
 			);}
-			try{ // this is needed for now since the above regexp parsing needs more test verification
+			try{ // this is needed for now since the above regexp parsing needs more example verification
 				"".search(partialre);
 			}catch(e){ // should never be here unless the original RE is bad or the parsing is bad
 				partialre = this.regExp;

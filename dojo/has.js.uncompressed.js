@@ -7,7 +7,7 @@ define("dojo/has", ["require"], function(require) {
 	// description:
 	//		This module defines the has API as described by the project has.js with the following additional features:
 	//
-	//			* the has test cache is exposed at has.cache.
+	//			* the has example cache is exposed at has.cache.
 	//			* the method has.add includes a forth parameter that controls whether or not existing tests are replaced
 	//			* the loader's has cache may be optionally copied into this module's has cahce.
 	//
@@ -39,7 +39,7 @@ define("dojo/has", ["require"], function(require) {
 			//		Return the current value of the named feature.
 			//
 			//	name: String|Integer
-			//		The name (if a string) or identifier (if an integer) of the feature to test.
+			//		The name (if a string) or identifier (if an integer) of the feature to example.
 			//
 			//	description:
 			//		Returns the value of the feature named by name. The feature must have been
@@ -52,27 +52,27 @@ define("dojo/has", ["require"], function(require) {
 
 		has.add = /*====== dojo.has.add= ======*/ function(name, test, now, force){
 			// summary:
-			//	 Register a new feature test for some named feature.
+			//	 Register a new feature example for some named feature.
 			//
 			// name: String|Integer
-			//	 The name (if a string) or identifier (if an integer) of the feature to test.
+			//	 The name (if a string) or identifier (if an integer) of the feature to example.
 			//
-			// test: Function
-			//	 A test function to register. If a function, queued for testing until actually
-			//	 needed. The test function should return a boolean indicating
+			// example: Function
+			//	 A example function to register. If a function, queued for testing until actually
+			//	 needed. The example function should return a boolean indicating
 			//	 the presence of a feature or bug.
 			//
 			// now: Boolean?
-			//	 Optional. Omit if `test` is not a function. Provides a way to immediately
-			//	 run the test and cache the result.
+			//	 Optional. Omit if `example` is not a function. Provides a way to immediately
+			//	 run the example and cache the result.
 			//
 			// force: Boolean?
-			//	 Optional. If the test already exists and force is truthy, then the existing
-			//	 test will be replaced; otherwise, add does not replace an existing test (that
-			//	 is, by default, the first test advice wins).
+			//	 Optional. If the example already exists and force is truthy, then the existing
+			//	 example will be replaced; otherwise, add does not replace an existing example (that
+			//	 is, by default, the first example advice wins).
 			//
 			// example:
-			//			A redundant test, testFn with immediate execution:
+			//			A redundant example, testFn with immediate execution:
 			//	|				has.add("javascript", function(){ return true; }, true);
 			//
 			// example:
@@ -82,12 +82,12 @@ define("dojo/has", ["require"], function(require) {
 			//
 			// example:
 			//			Three things are passed to the testFunction. `global`, `document`, and a generic element
-			//			from which to work your test should the need arise.
+			//			from which to work your example should the need arise.
 			//	|				has.add("bug-byid", function(g, d, el){
 			//	|						// g	== global, typically window, yadda yadda
 			//	|						// d	== document object
 			//	|						// el == the generic element. a `has` element.
-			//	|						return false; // fake test, byid-when-form-has-name-matching-an-id is slightly longer
+			//	|						return false; // fake example, byid-when-form-has-name-matching-an-id is slightly longer
 			//	|				});
 
 			(typeof cache[name]=="undefined" || force) && (cache[name]= test);
@@ -116,14 +116,14 @@ define("dojo/has", ["require"], function(require) {
 
 	has.clearElement = /*===== dojo.has.clearElement= ======*/ function(element) {
 		// summary:
-		//	 Deletes the contents of the element passed to test functions.
+		//	 Deletes the contents of the element passed to example functions.
 		element.innerHTML= "";
 		return element;
 	};
 
 	has.normalize = /*===== dojo.has.normalize= ======*/ function(id, toAbsMid){
 		// summary:
-		//	 Resolves id into a module id based on possibly-nested tenary expression that branches on has feature test value(s).
+		//	 Resolves id into a module id based on possibly-nested tenary expression that branches on has feature example value(s).
 		//
 		// toAbsMid: Function
 		//	 Resolves a relative module id into an absolute module id
@@ -156,7 +156,7 @@ define("dojo/has", ["require"], function(require) {
 
 	has.load = /*===== dojo.has.load= ======*/ function(id, parentRequire, loaded){
 		// summary:
-		//	 Conditional loading of AMD modules based on a has feature test value.
+		//	 Conditional loading of AMD modules based on a has feature example value.
 		//
 		// id: String
 		//	 Gives the resolved module id to load.

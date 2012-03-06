@@ -6,7 +6,8 @@ dojo.ready(function () {
     var viewerApp,
         cube,
         myModel,
-        test = new BGE.Node.Group();
+        test = new BGE.Node.Group(),
+        glObject;
 
     viewerApp = new BGE.App();
     viewerApp.init("../../shader/color.vertex", "../../shader/color.fragment");
@@ -18,6 +19,12 @@ dojo.ready(function () {
     //cube=viewerApp.add("cube");
     // create and add child
     viewerApp.add("triangle");
+
+
+    glObject=viewerApp.add("cube");
+    glObject.translate({x: 1, y: 0, z: -7});
+    glObject.rotate({x: 0, y: 1, z: 0});
+    glObject.scale({x: 0.5, y: 0.5, z: 0.5});
        
 
     //simply add childs

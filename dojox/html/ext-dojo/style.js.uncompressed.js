@@ -356,7 +356,7 @@ define("dojox/html/ext-dojo/style", ["dojo/_base/kernel", "dojo/dom-style", "doj
 				}
 				props = [m11, m12, m21, m22, tx, ty];
 			}
-			// test
+			// example
 			var Bx = min(w*m11 + h*m12, min(min(w*m11, h*m12), 0)),
 				By = min(w*m21 + h*m22, min(min(w*m21, h*m22), 0))
 			;

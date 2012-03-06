@@ -91,7 +91,7 @@ return _3("ie")?dom.byId(o.id):document[o.id];
 return null;
 }});
 if(!_3("ie")){
-var id="-qt-version-test",o=_7({testing:true,width:4,height:4}),c=10,top="-1000px",_17="1px";
+var id="-qt-version-example",o=_7({testing:true,width:4,height:4}),c=10,top="-1000px",_17="1px";
 function _18(){
 setTimeout(function(){
 var qt=document[o.id],n=_5.byId(id);

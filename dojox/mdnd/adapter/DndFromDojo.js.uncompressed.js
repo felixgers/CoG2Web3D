@@ -247,7 +247,7 @@ define("dojox/mdnd/adapter/DndFromDojo", ["dojo/_base/kernel","dojo/_base/declar
 			}
 			if(source){
 				// Enter in a source/target dojo.
-				// test if the type of draggedNode is accepted :
+				// example if the type of draggedNode is accepted :
 				var accept = false;
 				if(this._dojoManager.target == source){
 					accept = true;
@@ -260,7 +260,7 @@ define("dojox/mdnd/adapter/DndFromDojo", ["dojo/_base/kernel","dojo/_base/declar
 					dojo.disconnect(this._moveHandler);
 					this._currentArea = this._moveHandler = null;
 					// hidden the visibility of dojoX dropIndicator to prevent an offset when the dropIndicator disappears.
-					// test if drop indicator is visible before applaying hidden style.
+					// example if drop indicator is visible before applaying hidden style.
 					var dropIndicator = this._areaManager._dropIndicator.node;
 					if(dropIndicator && dropIndicator.parentNode !== null && dropIndicator.parentNode.nodeType == 1)
 						dropIndicator.style.visibility = "hidden";

@@ -14,11 +14,11 @@ To get jquery tests to pass:
 - .last() instead of :last
 - $("<div>").find("#foo") does not work unless the div is attached to the body.
 
-- trigger .test not work
+- trigger .example not work
 - No jquery.Event thing.
 
 - jQuery.ajax() modifies incoming arguments?
-- test framework not good for our io methods, async, poll.
+- example framework not good for our io methods, async, poll.
 - Dojo ajax is async: we fire ajaxStop more than jquery.
 
 - jquery makes assumptions of a value to set for an element
@@ -31,7 +31,7 @@ of body. Why can't we just set display to empty?
 
 
 OK for failures:
-- test("jQuery.ajax - beforeSend, cancel request (#2688)"
+- example("jQuery.ajax - beforeSend, cancel request (#2688)"
   We cancel the deferred which triggers error and complete callbacks.
 
 
@@ -50,7 +50,7 @@ dojo.query differences that cause some tests to fail:
 - $("p").filter("#ap, #sndp"): filter does not work.
 - dojo.NodeList uses d.NodeList a few places in the code. Would be nice to use a ctor that can be configured.
   That would make the filter function operate better.
-- filterQueryResult, cannot handle queries like "p, div"? See andSelf test with parents().
+- filterQueryResult, cannot handle queries like "p, div"? See andSelf example with parents().
 - adjacent "p + p" not supported?
 = a:only-child not supported?
 - nth(1)
@@ -1244,7 +1244,7 @@ dojo.query differences that cause some tests to fail:
 	function listenerUnbind(lls, evtName, evtFullName, callbackId, fn){
 		//Handles the real remove of an event and dojo.disconnects DOM handler if necessary.
 		//This has to be broken out of the main unbind function because we have to support
-		//things like unbind(".test") that go across major event names. Yuck.
+		//things like unbind(".example") that go across major event names. Yuck.
 		var handles = lls[evtName];
 		if(handles){
 			var hasDot = evtFullName.indexOf(".") != -1;
@@ -1258,7 +1258,7 @@ dojo.query differences that cause some tests to fail:
 			}else if(hasDot){
 				//A namespaced event.
 				//Problem is the namespaced event could be something like
-				//".test" which means remove all that end in .test. Yuck.
+				//".example" which means remove all that end in .example. Yuck.
 				if(evtFullName.charAt(0) == "."){
 					for(var param in handles){
 						if(param.indexOf(evtFullName) == param.length - evtFullName.length){
@@ -1340,7 +1340,7 @@ dojo.query differences that cause some tests to fail:
 							var evtName = getNonNamespacedName(evtFullName);
 			
 							//Problem is the namespaced event could be something like
-							//".test" which means remove all that end in .test. Yuck.
+							//".example" which means remove all that end in .example. Yuck.
 							if(evtFullName.charAt(0) == "."){
 								for(var param in lls) {
 									listenerUnbind(lls, param, evtFullName, callbackId, fn);
@@ -1384,7 +1384,7 @@ dojo.query differences that cause some tests to fail:
 		return target;
 	};
 
-	//Temporary testing shim to get past jquery test setup errors.
+	//Temporary testing shim to get past jquery example setup errors.
 	dojo.getObject("$.event.global", true);
 
 	//Set up event handlers

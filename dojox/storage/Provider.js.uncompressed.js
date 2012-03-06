@@ -89,7 +89,7 @@ dojo.declare("dojox.storage.Provider", null, {
 		//			var resultsHandler = function(status, key, message, namespace){
 		//			  alert("status="+status+", key="+key+", message="+message);
 		//			};
-		//			dojox.storage.put("test", "hello world", resultsHandler);
+		//			dojox.storage.put("example", "hello world", resultsHandler);
 		//
 		//			Arguments:
 		//
@@ -214,7 +214,7 @@ dojo.declare("dojox.storage.Provider", null, {
 		//			var resultsHandler = function(status, key, message){
 		//			  alert("status="+status+", key="+key+", message="+message);
 		//			};
-		//			dojox.storage.put(["test"], ["hello world"], resultsHandler);
+		//			dojox.storage.put(["example"], ["hello world"], resultsHandler);
 		//
 		//		Important note: if you are using Dojo Storage in conjunction with
 		//		Dojo Offline, then you don't need to provide
@@ -287,7 +287,7 @@ dojo.declare("dojox.storage.Provider", null, {
 			return false;
 		}
 
-		//	JAC: This could be optimized by running the key validity test
+		//	JAC: This could be optimized by running the key validity example
 		//  directly over a joined string
 		return !dojo.some(keys, function(key){
 			return !this.isValidKey(key);

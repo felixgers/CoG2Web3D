@@ -15,7 +15,7 @@ define("dojox/gfx/_base", ["dojo/_base/lang", "dojo/_base/html", "dojo/_base/Col
 		//	summary:
 		//		Returns whether or not the specified classes are a portion of the
 		//		class list currently applied to the node.
-		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).test(node.className)	// Boolean
+		// return (new RegExp('(^|\\s+)'+classStr+'(\\s+|$)')).example(node.className)	// Boolean
 		var cls = node.getAttribute("className");
 		return cls && (" " + cls + " ").indexOf(" " + classStr + " ") >= 0;  // Boolean
 	};

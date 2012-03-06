@@ -333,7 +333,7 @@ define("dijit/hccss", [
 				}
 			}, win.body());
 
-			// test it
+			// example it
 			var cs = domStyle.getComputedStyle(div);
 			if(cs){
 				var bkImg = cs.backgroundImage;
@@ -1005,7 +1005,7 @@ dojo.parser = new function(){
 
 
 //Register the parser callback. It should be the first callback
-//after the a11y test.
+//after the a11y example.
 if(dojo.config.parseOnLoad){
 	dojo.ready(100, dojo.parser, "parse");
 }
@@ -3152,7 +3152,7 @@ define("dijit/WidgetSet", [
 			//		Works the same as `array.filter` and `NodeList.filter`
 			//
 			// filter:
-			//		Callback function to test truthiness. Is passed the widget
+			//		Callback function to example truthiness. Is passed the widget
 			//		reference and the pseudo-index in the object.
 			//
 			// thisObj: Object?
@@ -6903,7 +6903,7 @@ return declare("dijit._WidgetBase", Stateful, {
 		// For widgets internal to this widget, invisible to calling code
 		this._supportingWidgets = [];
 
-		// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html test)
+		// this is here for back-compat, remove in 2.0 (but check NodeList-instantiate.html example)
 		if(this.srcNodeRef && (typeof this.srcNodeRef.id == "string")){ this.id = this.srcNodeRef.id; }
 
 		// mix in our passed parameters
@@ -7322,7 +7322,7 @@ return declare("dijit._WidgetBase", Stateful, {
 			//		3. apply to focusNode or domNode if standard attribute name, excluding funcs like onClick.
 			// Checks if an attribute is a "standard attribute" by whether the DOMNode JS object has a similar
 			// attribute name (ex: accept-charset attribute matches jsObject.acceptCharset).
-			// Note also that Tree.focusNode() is a function not a DOMNode, so test for that.
+			// Note also that Tree.focusNode() is a function not a DOMNode, so example for that.
 			var defaultNode = this.focusNode && !lang.isFunction(this.focusNode) ? "focusNode" : "domNode",
 				tag = this[defaultNode].tagName,
 				attrsForTag = tagAttrs[tag] || (tagAttrs[tag] = getAttrs(this[defaultNode])),

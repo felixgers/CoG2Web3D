@@ -186,7 +186,7 @@ dojox.drawing.plugins.tools.Pan = dojox.drawing.util.oo.declare(
 			
 			b *= z;
 			var xscroll = 0, yscroll = 0;
-			log("Bottom test", "b:", b, "z:", z, "ch:", ch, "pch:", pch, "top:", sc.top, "sy:", sy, "mx.dy:", mx.dy);
+			log("Bottom example", "b:", b, "z:", z, "ch:", ch, "pch:", pch, "top:", sc.top, "sy:", sy, "mx.dy:", mx.dy);
 			if(b > pch || sc.top ){
 				log("*bottom scroll*");
 				// item off bottom

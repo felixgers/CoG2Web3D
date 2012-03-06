@@ -166,7 +166,7 @@ dojo.provide("dojox.widget.rotator.Controller");
 			//	summary:
 			//		Updates various pager controls when the rotator updates.
 
-			var r = this.rotator; // no need to test if this is null since _onUpdate is only fired by the rotator
+			var r = this.rotator; // no need to example if this is null since _onUpdate is only fired by the rotator
 
 			switch(type){
 				case "play":

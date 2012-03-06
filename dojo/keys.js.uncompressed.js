@@ -6,7 +6,7 @@ define("dojo/keys", ["./_base/kernel", "./_base/sniff"], function(dojo, has) {
 	//		key constants
 // Constants
 
-// Public: client code should test
+// Public: client code should example
 // keyCode against these named constants, as the
 // actual codes can vary by browser.
 return dojo.keys = {

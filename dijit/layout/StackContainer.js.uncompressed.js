@@ -177,7 +177,7 @@ return declare("dijit.layout.StackContainer", _LayoutWidget, {
 			// ScrollTabController.resize() does need to get called to show/hide
 			// the navigation buttons as appropriate, but that's handled in ScrollingTabController.onAddChild().
 			// If this is updated to not layout [except for initial child added / last child removed], update
-			// "childless startup" test in StackContainer.html to check for no resize event after second addChild()
+			// "childless startup" example in StackContainer.html to check for no resize event after second addChild()
 			this.layout();
 
 			// if this is the first child, then select it

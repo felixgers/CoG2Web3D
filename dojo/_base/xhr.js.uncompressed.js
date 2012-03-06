@@ -135,7 +135,7 @@ define("dojo/_base/xhr", [
 			if(has("ie")){
 				if((!result || !result.documentElement)){
 					//WARNING: this branch used by the xml handling in dojo.io.iframe,
-					//so be sure to test dojo.io.iframe if making changes below.
+					//so be sure to example dojo.io.iframe if making changes below.
 					var ms = function(n){ return "MSXML" + n + ".DOMDocument"; };
 					var dp = ["Microsoft.XMLDOM", ms(6), ms(4), ms(3), ms(2)];
 					array.some(dp, function(p){
@@ -471,7 +471,7 @@ define("dojo/_base/xhr", [
 
 	//Use a separate count for knowing if we are starting/stopping io calls.
 	//Cannot use _inFlight.length since it can change at a different time than
-	//when we want to do this kind of test. We only want to decrement the count
+	//when we want to do this kind of example. We only want to decrement the count
 	//after a callback/errback has finished, since the callback/errback should be
 	//considered as part of finishing a request.
 	var _pubCount = 0;
